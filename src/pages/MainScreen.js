@@ -1,4 +1,3 @@
-
 import { useEffect, useState } from "react";
 import { Offcanvas, Spinner } from "react-bootstrap";
 import { AiOutlineMenu } from "react-icons/ai";
@@ -6,23 +5,23 @@ import { Link, Route, Routes } from "react-router-dom";
 import CaregivingScreen from "./CaregivingScreen";
 import HomeMonitoringScreen from "./HomeMonitoringScreen";
 
+const userName = "iCgfe1IHSfDNRC3hfgxF";
 
 export default function MainScreen({ database }) {
 	const [screenIndex, setScreenIndex] = useState(0);
 
 	return (
-		
 		<div className="synopsisPage">
 			<SideNavBar
 				screenIndex={screenIndex}
 				setScreenIndex={setScreenIndex}
 			/>
 			<div className="content">
-			<Routes>
-				{/* <Route path="/" element={<MainScreen/>} />   */}
-				<Route path="caregiving" element={<CaregivingScreen />} />
-				<Route path="/" element={<HomeMonitoringScreen />} />
-			</Routes>
+				<Routes>
+					{/* <Route path="/" element={<MainScreen/>} />   */}
+					<Route path="caregiving" element={<CaregivingScreen />} />
+					<Route path="/" element={<HomeMonitoringScreen />} />
+				</Routes>
 			</div>
 			<TopNavBar
 				screenIndex={screenIndex}
@@ -32,12 +31,16 @@ export default function MainScreen({ database }) {
 	);
 }
 
-var screenNames = [{
-	name: "Home Monitoring", path: ""
-}, 
-{
-	name: "Caregiving", path: "caregiving"
-}];
+var screenNames = [
+	{
+		name: "Home Monitoring",
+		path: "",
+	},
+	{
+		name: "Caregiving",
+		path: "caregiving",
+	},
+];
 
 function TopNavBar({ screenIndex, setScreenIndex }) {
 	const [showOffCanvas, setShowOffCanvas] = useState(false);
@@ -100,15 +103,10 @@ function SideNavBar({ screenIndex, setScreenIndex }) {
 	var toggles = [];
 	for (let i = 0; i < screenNames.length; i++) {
 		toggles.push(
-			<Link to = {screenNames[i].path}
-				className="sideNavText"
-				key={i}
-			>
+			<Link to={screenNames[i].path} className="sideNavText" key={i}>
 				{screenNames[i].name}
 			</Link>
 		);
 	}
 	return <div className="hide-if-small sideNav">{toggles}</div>;
 }
-
-
