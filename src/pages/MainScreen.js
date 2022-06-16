@@ -2,6 +2,7 @@
 import { useEffect, useState } from "react";
 import { Offcanvas, Spinner } from "react-bootstrap";
 import { AiOutlineMenu } from "react-icons/ai";
+import { Link, Route, Routes } from "react-router-dom";
 import CaregivingScreen from "./CaregivingScreen";
 import HomeMonitoringScreen from "./HomeMonitoringScreen";
 
@@ -9,23 +10,19 @@ import HomeMonitoringScreen from "./HomeMonitoringScreen";
 export default function MainScreen({ database }) {
 	const [screenIndex, setScreenIndex] = useState(0);
 
-	function Content() {
-		switch (screenIndex) {
-                case 0: 
-                return <HomeMonitoringScreen />; 
-                default: 
-                return <CaregivingScreen />;
-		}
-	}
-
 	return (
+		
 		<div className="synopsisPage">
 			<SideNavBar
 				screenIndex={screenIndex}
 				setScreenIndex={setScreenIndex}
 			/>
 			<div className="content">
-				<Content />
+			<Routes>
+				{/* <Route path="/" element={<MainScreen/>} />   */}
+				<Route path="caregiving" element={<CaregivingScreen />} />
+				<Route path="/" element={<HomeMonitoringScreen />} />
+			</Routes>
 			</div>
 			<TopNavBar
 				screenIndex={screenIndex}
@@ -35,10 +32,12 @@ export default function MainScreen({ database }) {
 	);
 }
 
-var screenNames = [
-	"Home Monitoring",
-	"Caregiving",
-];
+var screenNames = [{
+	name: "Home Monitoring", path: ""
+}, 
+{
+	name: "Caregiving", path: "caregiving"
+}];
 
 function TopNavBar({ screenIndex, setScreenIndex }) {
 	const [showOffCanvas, setShowOffCanvas] = useState(false);
@@ -47,7 +46,7 @@ function TopNavBar({ screenIndex, setScreenIndex }) {
 		if (i === screenIndex) {
 			toggles.push(
 				<div className="topNavToggle active" key={"Option" + i}>
-					<p className="topNavText">{screenNames[i]}</p>
+					<p className="topNavText">{screenNames[i].name}</p>
 				</div>
 			);
 		} else {
@@ -60,7 +59,7 @@ function TopNavBar({ screenIndex, setScreenIndex }) {
 						setScreenIndex(i);
 					}}
 				>
-					<p className="topNavText">{screenNames[i]}</p>
+					<p className="topNavText">{screenNames[i].name}</p>
 				</div>
 			);
 		}
@@ -100,25 +99,14 @@ function TopNavBar({ screenIndex, setScreenIndex }) {
 function SideNavBar({ screenIndex, setScreenIndex }) {
 	var toggles = [];
 	for (let i = 0; i < screenNames.length; i++) {
-		if (i === screenIndex) {
-			toggles.push(
-				<p className="sideNavText active" key={i}>
-					{screenNames[i]}
-				</p>
-			);
-		} else {
-			toggles.push(
-				<p
-					className="sideNavText"
-					onClick={() => {
-						setScreenIndex(i);
-					}}
-					key={i}
-				>
-					{screenNames[i]}
-				</p>
-			);
-		}
+		toggles.push(
+			<Link to = {screenNames[i].path}
+				className="sideNavText"
+				key={i}
+			>
+				{screenNames[i].name}
+			</Link>
+		);
 	}
 	return <div className="hide-if-small sideNav">{toggles}</div>;
 }

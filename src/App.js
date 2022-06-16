@@ -11,11 +11,7 @@ export default function App() {
 
 	return (
 		<BrowserRouter>
-			<Routes>
-				<Route path="/" element={<MainScreen/>} />
-        <Route path="caergiving" element={<CaregivingScreen />} />
-				<Route path="homemonitoring" element={<HomeMonitoringScreen />} />
-			</Routes>
+		<MainScreen></MainScreen>
 		</BrowserRouter>
 	);
 }
