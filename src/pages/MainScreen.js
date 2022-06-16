@@ -2,8 +2,11 @@ import { useEffect, useState } from "react";
 import { Offcanvas, Spinner } from "react-bootstrap";
 import { AiOutlineMenu } from "react-icons/ai";
 import { Link, Route, Routes } from "react-router-dom";
+import AdditionalNotesScreen from "./AdditionalNotes";
 import CaregivingScreen from "./CaregivingScreen";
 import HomeMonitoringScreen from "./HomeMonitoringScreen";
+import LabResultsScreen from "./LabResultsScreen";
+import MedicationScreen from "./MedicationScreen";
 
 const userName = "iCgfe1IHSfDNRC3hfgxF";
 
@@ -18,9 +21,11 @@ export default function MainScreen({ database }) {
 			/>
 			<div className="content">
 				<Routes>
-					{/* <Route path="/" element={<MainScreen/>} />   */}
+					<Route path = "/" element={<MedicationScreen />} />
+					<Route path="homemonitoring" element={<HomeMonitoringScreen />} />
+					<Route path = "labresults" element = {<LabResultsScreen />}/>
 					<Route path="caregiving" element={<CaregivingScreen />} />
-					<Route path="/" element={<HomeMonitoringScreen />} />
+					<Route path = "additionalnotes" element = {<AdditionalNotesScreen />} />
 				</Routes>
 			</div>
 			<TopNavBar
@@ -33,13 +38,25 @@ export default function MainScreen({ database }) {
 
 var screenNames = [
 	{
+		name: "Medication", 
+		path: ""
+	},
+	{
 		name: "Home Monitoring",
-		path: "",
+		path: "homemonitoring"
+	},
+	{
+		name: "Lab Results", 
+		path: "labresults"
 	},
 	{
 		name: "Caregiving",
-		path: "caregiving",
+		path: "caregiving"
 	},
+	{
+		name: "Care Staff's Comment",
+		path: "additionalnotes"
+	}
 ];
 
 function TopNavBar({ screenIndex, setScreenIndex }) {

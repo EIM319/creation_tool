@@ -1,9 +1,8 @@
 import "./App.css";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
-import CaregivingScreen from "./pages/CaregivingScreen";
-import HomeMonitoringScreen from "./pages/HomeMonitoringScreen";
 import MainScreen from "./pages/MainScreen";
-import { initializeApp } from "firebase/app";
+import { initializeApp} from "firebase/app";
+import {getFirestore} from "firebase/firestore/lite"
 
 const firebaseConfig = {
 	apiKey: "AIzaSyDl4oBi9R0lWDIj8Uk2GrjzK3D-XB36xOM",
