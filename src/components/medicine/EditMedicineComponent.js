@@ -11,11 +11,13 @@ export default function EditMedicineComponent({
 }) {
 	const [purpose, setPurpose] = useState("");
 	const [sideEffects, setSideEffects] = useState([]);
+	const [extras, setExtras] = useState([]);
 
 	useEffect(() => {
 		if (selectedMedicine === undefined) return;
 		setPurpose(selectedMedicine.purpose);
 		setSideEffects(selectedMedicine.side_effects);
+		setExtras(selectedMedicine.extras);
 	}, [selectedMedicine]);
 
 	async function save() {
@@ -23,6 +25,7 @@ export default function EditMedicineComponent({
 		const newMedicine = new Object(selectedMedicine);
 		newMedicine.purpose = purpose;
 		newMedicine.side_effects = sideEffects;
+		newMedicine.extras = extras;
 		const newMedicationList = [...medication];
 		newMedicationList.forEach((medicine) => {
 			if (medicine.name === newMedicine) {
@@ -52,11 +55,15 @@ export default function EditMedicineComponent({
 					/>
 				</InputGroup>
 				<br />
+				<b>Dosage:</b>
+				<p>{selectedMedicine.dosage}</p>
 				<b>Side Effects</b>
 				<SideEffects
 					sideEffects={sideEffects}
 					setSideEffects={setSideEffects}
 				/>
+				<b>Extra Notes</b>
+				<Extras extras={extras} setExtras={setExtras} />
 				<br />
 				<Button onClick={save}>Save</Button>
 			</div>
@@ -99,6 +106,63 @@ function SideEffects({ sideEffects, setSideEffects }) {
 				const newSideEffects = [...sideEffects];
 				newSideEffects.push("");
 				setSideEffects(newSideEffects);
+			}}
+			variant="secondary"
+		>
+			Add
+		</Button>
+	);
+	return array;
+}
+
+function Extras({ extras, setExtras }) {
+	if (extras === undefined) return null;
+	const array = [];
+	for (let i = 0; i < extras.length; i++) {
+		array.push(
+			<div>
+				<InputGroup style={{ marginBottom: 5 }}>
+					<Button
+						onClick={() => {
+							const newExtras = [...extras];
+							newExtras.splice(i, 1);
+							setExtras(newExtras);
+						}}
+					>
+						X
+					</Button>
+					<FormControl
+						value={extras[i].header}
+						onChange={(event) => {
+							const newExtras = [...extras];
+							const newExtra = new Object(newExtras[i]);
+							newExtra.header = event.target.value;
+							newExtras[i] = newExtra;
+							setExtras(newExtras);
+						}}
+					/>
+				</InputGroup>
+				<FormControl
+					style={{ marginBottom: 10 }}
+					value={extras[i].content}
+					onChange={(event) => {
+						const newExtras = [...extras];
+						const newExtra = new Object(newExtras[i]);
+						newExtra.content = event.target.value;
+						newExtras[i] = newExtra;
+						setExtras(newExtras);
+					}}
+				/>
+			</div>
+		);
+	}
+	array.push(
+		<Button
+			style={{ marginBottom: 10 }}
+			onClick={() => {
+				const newExtras = [...extras];
+				newExtras.push({ header: "", content: "" });
+				setExtras(newExtras);
 			}}
 			variant="secondary"
 		>
