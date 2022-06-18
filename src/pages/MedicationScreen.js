@@ -5,7 +5,7 @@ import EditMedicineComponent from "../components/medicine/EditMedicineComponent"
 
 export default function MedicationScreen({ database, userName }) {
 	const [medication, setMedication] = useState();
-	const [selectedMedicine, setSelectedMedicine] = useState(0);
+	const [selectedMedicine, setSelectedMedicine] = useState();
 
 	useEffect(() => {
 		getMedication(database, userName, setMedication);
