@@ -100,6 +100,7 @@ function SideEffects({ sideEffects, setSideEffects }) {
 				newSideEffects.push("");
 				setSideEffects(newSideEffects);
 			}}
+			variant="secondary"
 		>
 			Add
 		</Button>
