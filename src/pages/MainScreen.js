@@ -13,7 +13,15 @@ export default function MainScreen({ database }) {
 			<SideNavBar />
 			<div className="content">
 				<Routes>
-					<Route path="/" element={<MedicationScreen />} />
+					<Route
+						path="/"
+						element={
+							<MedicationScreen
+								database={database}
+								userName={userName}
+							/>
+						}
+					/>
 					<Route
 						path="homemonitoring"
 						element={<HomeMonitoringScreen />}
