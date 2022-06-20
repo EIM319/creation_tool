@@ -37,7 +37,10 @@ export default function MainScreen({ database }) {
 					<Route path="caregiving" element={<CaregivingScreen />} />
 					<Route
 						path="additionalnotes"
-						element={<AdditionalNotesScreen />}
+						element={<AdditionalNotesScreen 
+						database={database}
+						userName={userName}/>
+					}
 					/>
 				</Routes>
 			</div>
