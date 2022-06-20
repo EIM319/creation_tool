@@ -1,15 +1,18 @@
 import { useState, useEffect } from "react";
-import { doc, getDoc } from "firebase/firestore/lite";
-import { Col, Row } from "react-bootstrap";
+import { updateDoc, doc, getDoc } from "firebase/firestore/lite";
+import { Col, Row, Button } from "react-bootstrap";
+import EditAnalysisComponent from "../components/lab/EditAnalysisComponent";
 import EditLabComponent from "../components/lab/EditLabComponent";
 
 export default function LabResultsScreen({database, userName}) {
 	const [lab, setLab] = useState(); 
-  const [selectedLab, setSelectedLab] = useState();
+	const [selectedLab, setSelectedLab] = useState();
+	const [content] = useState([]); 
+	const [solution] = useState([]);
 
-  useEffect(() =>{
-    getLab(database, userName, setLab);
-  }, []);
+	useEffect(() =>{
+		getLab(database, userName, setLab);
+	}, []);
 
   if (lab === undefined) return <></>;
   const labList = []; 
@@ -33,6 +36,26 @@ export default function LabResultsScreen({database, userName}) {
     );
   }
 
+  async function save(){
+	if (selectedLab === undefined) return;
+	const newLab = new Object(selectedLab); 
+	newLab.content = content; 
+	newLab.solution = solution; 
+
+	const newLabList = [...lab]; 
+	newLabList.forEach((analysis) =>{
+		if(analysis.title === newLab){
+			analysis = newLab;
+		}
+	});
+	const ref = doc(database, "users", userName);
+	await updateDoc(ref, {
+		lab: newLabList, 
+	}).then(() =>{
+		setLab(newLabList);
+	})
+}
+
   return (
     <div className="content">
 			<Row style={{ width: "100%" }}>
@@ -40,8 +63,14 @@ export default function LabResultsScreen({database, userName}) {
 					{labList}
 				</Col>
 				<Col xs={9} style={{ padding: 30 }}>
-					<EditLabComponent
-						selectedLab={selectedLab}
+					<EditAnalysisComponent
+						selectedLab= {
+							<EditLabComponent 
+							selectedLab = {selectedLab} 
+							setSelectedLab = {setSelectedLab}
+							/>
+						}
+						setSelectedLab = {setSelectedLab}
 						lab={lab}
 						setLab={setLab}
 						database={database}
@@ -49,6 +78,7 @@ export default function LabResultsScreen({database, userName}) {
 					/>
 				</Col>
 			</Row>
+			<Button onClick={save}>Save</Button>
 		</div>
   )
 }
