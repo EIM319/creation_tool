@@ -1,62 +1,55 @@
-import { doc, updateDoc } from "firebase/firestore/lite";
-import { useState, useEffect } from "react";
-import { Button, FormControl, InputGroup } from "react-bootstrap";
+import {Row, Col, FormControl, Button} from "react-bootstrap";
+import {useState, useEffect} from "react";
 
-export default function EditNotesComponent({
-    selectedNote,
-    note, 
-    setNote, 
-    database, 
-    userName,
+export default function EditNotesComponent(
+    {note_check, note, setNote, index})
+{
+    const [title, setTitle] = useState(""); 
+    const [value, setValue] = useState("");
 
-}) {
-    const [content, setContent] = useState([]); 
-    const [solution, setSolution] = useState([]);
+    useEffect(()=> {
+        if (note_check === undefined) return;
+		setTitle(note_check.title);
+		setValue(note_check.value);
+    }, [note_check])
 
-    useEffect(() => {
-        if (selectedNote === undefined) return;
-        setContent(selectedNote.content);
-        setSolution(selectedNote.solution);
-    }, [selectedNote]); 
+    function deleteNote(){
+            const newNote = [...note];
+            newNote.splice(index, 1);
+            setNote(newNote);
+        }
 
-    async function save(){
-        if (selectedNote === undefined) return;
-        const newNote = new Object(selectedNote); 
-        newNote.content = content; 
-        newNote.solution = solution; 
+    return (
+        <Row >
+            <Col>
+                <Button onClick = {deleteNote}> 
+                    X
+                </Button>
+            </Col>
+            <Col>
+                <FormControl 
+                    value = {title}
+                    onChange = {event => 
+                        {note_check.title = event.target.value
+                        setTitle(event.target.value)}
+                    }
+                >
+                </FormControl>
+            </Col>
+        
+            <Col>
+                <FormControl 
+                    value = {value}
+                    onChange = {event => 
+                        {note_check.value = event.target.value
+                        setValue(event.target.value)}
+                    }
+                >
+                </FormControl>
+            </Col>
 
-        const newNoteList = [...note]; 
-        newNoteList.forEach((explanation) =>{
-            if(explanation.title === newNote){
-                explanation = newNote;
-            }
-        });
-        const ref = doc(database, "users", userName);
-        await updateDoc(ref, {
-            note: newNoteList, 
-        }).then(() =>{
-            setNote(newNoteList);
-        })
-    }
-
-    if (selectedNote !== undefined){
-        return (
-            <div style={{ display: "flex", flexDirection: "column" }}>
-				<b>Title</b>
-				<p>{selectedNote.title}</p>
-				<b>Explanation</b>
-				<InputGroup>
-					<FormControl
-						value={content}
-						onChange={(event) => {
-							setContent(event.target.value);
-						}}
-					/>
-				</InputGroup>
-				<Button onClick={save}>Save</Button>
-			</div>
-		);
-    } else{
-        return null;
-    }
+        </Row>
+     );
+ 
 }
+   
