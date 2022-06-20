@@ -1,71 +1,67 @@
-import { doc, updateDoc } from "firebase/firestore/lite";
-import { useState, useEffect } from "react";
-import { Button, FormControl, InputGroup } from "react-bootstrap";
+import {Row, Col, FormControl, Button} from "react-bootstrap";
+import {useState, useEffect} from "react";
 
-export default function EditLabComponent({
-    selectedLab,
-    lab, 
-    setLab, 
-    database, 
-    userName,
+export default function EditLabComponent(
+    {labResult, lab, setLab, index})
+{
+    const [title, setTitle] = useState(""); 
+    const [content, setContent] = useState("");
+    const [solution, setSolution] = useState("");
 
-}) {
-    const [content, setContent] = useState([]); 
-    const [solution, setSolution] = useState([]);
+    useEffect(()=> {
+        if (labResult === undefined) return;
+		setTitle(labResult.title);
+		setContent(labResult.content);
+		setSolution(labResult.solution);
+    }, [labResult])
 
-    useEffect(() => {
-        if (selectedLab === undefined) return;
-        setContent(selectedLab.content);
-        setSolution(selectedLab.solution);
-    }, [selectedLab]); 
+    function deleteLab(){
+            const newLab = [...lab];
+            newLab.splice(index, 1);
+            setLab(newLab);
+        }
 
-    async function save(){
-        if (selectedLab === undefined) return;
-        const newLab = new Object(selectedLab); 
-        newLab.content = content; 
-        newLab.solution = solution; 
+    return (
+        <Row >
+            <Col>
+                <Button onClick = {deleteLab}> 
+                    X
+                </Button>
+            </Col>
+            <Col>
+                <FormControl 
+                    value = {title}
+                    onChange = {event => 
+                        {labResult.title = event.target.value
+                        setTitle(event.target.value)}
+                    }
+                >
+                </FormControl>
+            </Col>
+        
+            <Col>
+                <FormControl 
+                    value = {content}
+                    onChange = {event => 
+                        {labResult.content = event.target.value
+                        setContent(event.target.value)}
+                    }
+                >
+                </FormControl>
+            </Col>
 
-        const newLabList = [...lab]; 
-        newLabList.forEach((analysis) =>{
-            if(analysis.title === newLab){
-                analysis = newLab;
-            }
-        });
-        const ref = doc(database, "users", userName);
-        await updateDoc(ref, {
-            lab: newLabList, 
-        }).then(() =>{
-            setLab(newLabList);
-        })
-    }
-
-    if (selectedLab !== undefined){
-        return (
-            <div style={{ display: "flex", flexDirection: "column" }}>
-				<b>Title</b>
-				<p>{selectedLab.title}</p>
-				<b>Analysis</b>
-				<InputGroup>
-					<FormControl
-						value={content}
-						onChange={(event) => {
-							setContent(event.target.value);
-						}}
-					/>
-				</InputGroup>
-                <b>Recommendation</b>
-				<InputGroup>
-					<FormControl
-						value={solution}
-						onChange={(event) => {
-							setContent(event.target.value);
-						}}
-					/>
-				</InputGroup>
-				<Button onClick={save}>Save</Button>
-			</div>
-		);
-    } else{
-        return null;
-    }
+            <Col>
+            <FormControl 
+                    value = {solution}
+                    onChange = {event => 
+                        {labResult.solution = event.target.value
+                        setSolution(event.target.value)}
+                    }
+                >
+                </FormControl>
+            </Col>
+        </Row>
+     );
+ 
 }
+   
