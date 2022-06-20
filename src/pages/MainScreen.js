@@ -26,7 +26,14 @@ export default function MainScreen({ database }) {
 						path="homemonitoring"
 						element={<HomeMonitoringScreen />}
 					/>
-					<Route path="labresults" element={<LabResultsScreen />} />
+					<Route path="labresults" 
+					element={
+						<LabResultsScreen 
+						database={database}
+						userName={userName}
+						/>
+					}
+					/>
 					<Route path="caregiving" element={<CaregivingScreen />} />
 					<Route
 						path="additionalnotes"
