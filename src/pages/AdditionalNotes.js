@@ -18,7 +18,7 @@ export default function AdditionalNotes({database, userName}) {
 
 	for (let i=0; i<note.length; i++){
 		noteList.push(
-			<EditNotesComponent note_check = {note[i]} note = {note} setNote = {setNote} index = {i}>
+			<EditNotesComponent additional_notes= {note[i]} note = {note} setNote = {setNote} index = {i}>
 			</EditNotesComponent>
 		)
 	}
@@ -30,7 +30,7 @@ export default function AdditionalNotes({database, userName}) {
 	async function save(){
 		const ref = doc(database, "users", userName);
 		await updateDoc(ref, {
-			note_check: note
+			additional_notes: note
 		});
 	}
 
@@ -56,6 +56,7 @@ async function getNote(database, userName, setNote) {
 	const ref = doc(database, "users", userName);
 	const result = await getDoc(ref);
 	const data = result.data();
-	setNote(data.note_check);
+	setNote(data.additional_notes);
+	console.log(data.additional_notes);
 }
 

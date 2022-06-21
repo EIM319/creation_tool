@@ -2,16 +2,17 @@ import {Row, Col, FormControl, Button} from "react-bootstrap";
 import {useState, useEffect} from "react";
 
 export default function EditNotesComponent(
-    {note_check, note, setNote, index})
+    {additional_notes, note, setNote, index})
 {
     const [title, setTitle] = useState(""); 
     const [value, setValue] = useState("");
 
     useEffect(()=> {
-        if (note_check === undefined) return;
-		setTitle(note_check.title);
-		setValue(note_check.value);
-    }, [note_check])
+        console.log(additional_notes);
+        if (additional_notes === undefined) return;
+		setTitle(additional_notes.title);
+		setValue(additional_notes.value);
+    }, [additional_notes])
 
     function deleteNote(){
             const newNote = [...note];
@@ -30,7 +31,7 @@ export default function EditNotesComponent(
                 <FormControl 
                     value = {title}
                     onChange = {event => 
-                        {note_check.title = event.target.value
+                        {additional_notes.title = event.target.value
                         setTitle(event.target.value)}
                     }
                 >
@@ -41,7 +42,7 @@ export default function EditNotesComponent(
                 <FormControl 
                     value = {value}
                     onChange = {event => 
-                        {note_check.value = event.target.value
+                        {additional_notes.value = event.target.value
                         setValue(event.target.value)}
                     }
                 >
