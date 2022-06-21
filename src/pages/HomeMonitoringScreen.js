@@ -13,9 +13,8 @@ export default function HomeMonitoringScreen({ database, userName }) {
 		getMonitoring(database, userName, setMonitoring);
 	}, []);
 
-	const homeMonitoringList = [];
-
 	if (monitoring === undefined) return <></>;
+	const homeMonitoringList = [];
 	for (let i = 0; i < monitoring.length; i++) {
 		const article = monitoring[i];
 		homeMonitoringList.push(

@@ -70,6 +70,11 @@ async function getDefaultArticles(type, database, setDefaultArticles) {
 			array.push(doc.data());
 		});
 	} else if (type === "caregiving") {
+		const ref = collection(database, "caregiving");
+		const documents = await getDocs(ref);
+		documents.forEach((doc) => {
+			array.push(doc.data());
+		});
 	}
 	setDefaultArticles(array);
 }
