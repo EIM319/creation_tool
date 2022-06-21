@@ -24,23 +24,31 @@ export default function MainScreen({ database }) {
 					/>
 					<Route
 						path="homemonitoring"
-						element={<HomeMonitoringScreen />}
+						element={
+							<HomeMonitoringScreen
+								database={database}
+								userName={userName}
+							/>
+						}
 					/>
-					<Route path="labresults" 
-					element={
-						<LabResultsScreen 
-						database={database}
-						userName={userName}
-						/>
-					}
+					<Route
+						path="labresults"
+						element={
+							<LabResultsScreen
+								database={database}
+								userName={userName}
+							/>
+						}
 					/>
 					<Route path="caregiving" element={<CaregivingScreen />} />
 					<Route
 						path="additionalnotes"
-						element={<AdditionalNotesScreen 
-						database={database}
-						userName={userName}/>
-					}
+						element={
+							<AdditionalNotesScreen
+								database={database}
+								userName={userName}
+							/>
+						}
 					/>
 				</Routes>
 			</div>
