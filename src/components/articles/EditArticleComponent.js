@@ -33,6 +33,12 @@ export default function EditArticleComponent({
 			}).then(() => {
 				setArticles(newArticles);
 			});
+		} else if (type === "caregiving") {
+			await updateDoc(ref, {
+				caregiving: newArticles,
+			}).then(() => {
+				setArticles(newArticles);
+			});
 		}
 	}
 

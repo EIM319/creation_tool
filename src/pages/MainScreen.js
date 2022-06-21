@@ -40,7 +40,15 @@ export default function MainScreen({ database }) {
 							/>
 						}
 					/>
-					<Route path="caregiving" element={<CaregivingScreen />} />
+					<Route
+						path="caregiving"
+						element={
+							<CaregivingScreen
+								database={database}
+								userName={userName}
+							/>
+						}
+					/>
 					<Route
 						path="additionalnotes"
 						element={
