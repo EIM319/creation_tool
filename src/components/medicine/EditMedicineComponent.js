@@ -28,7 +28,7 @@ export default function EditMedicineComponent({
 		newMedicine.extras = extras;
 		const newMedicationList = [...medication];
 		newMedicationList.forEach((medicine) => {
-			if (medicine.name === newMedicine) {
+			if (medicine.name === newMedicine.name) {
 				medicine = newMedicine;
 			}
 		});

@@ -18,7 +18,7 @@ export default function EditArticleComponent({
 	const [modifiedArticle, setModifiedArticle] = useState();
 
 	useEffect(() => {
-		setModifiedArticle(article);
+		setModifiedArticle(Object.assign({}, article));
 	}, [article]);
 
 	if (modifiedArticle === undefined) return <></>;
