@@ -7,6 +7,7 @@ export default function AdditionalNotes({database, userName}) {
 	const [note, setNote] = useState(); 
 	const [selectedNote, setSelectedNote] = useState();
 	
+	const [title] = useState([]);
 	const [value] = useState([]);
 
   useEffect(() =>{
@@ -37,6 +38,9 @@ export default function AdditionalNotes({database, userName}) {
   return (
     <div className="value">
 		<Row>
+			<Col>
+			<b>Keep/Remove</b>
+			</Col>
 			<Col>
 			<b>Section</b>
 			</Col>
