@@ -2,8 +2,10 @@ import { doc, updateDoc } from "firebase/firestore/lite";
 import { useState, useEffect } from "react";
 import { Button } from "react-bootstrap";
 import ContentListComponent from "./ContentListComponent";
+import DaySelectorComponent from "./DaySelectorComponent";
 import HeaderComponent from "./HeaderComponent";
 import PurposeComponent from "./PurposeComponent";
+import TimeSelectorComponent from "./TimeSelectorComponent";
 
 export default function EditArticleComponent({
 	articles,
@@ -50,6 +52,17 @@ export default function EditArticleComponent({
 			<b>Purpose</b>
 			<PurposeComponent article={modifiedArticle} />
 			<br />
+			{type === "monitoring" ? (
+				<>
+					<b>Day</b>
+					<DaySelectorComponent article={modifiedArticle} />
+					<br />
+					<b>Time</b>
+					<TimeSelectorComponent article={modifiedArticle} />
+					<br />
+				</>
+			) : null}
+
 			<b>Content</b>
 			<ContentListComponent
 				article={modifiedArticle}
