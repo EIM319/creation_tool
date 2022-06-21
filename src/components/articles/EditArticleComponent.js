@@ -1,10 +1,18 @@
+import { doc, updateDoc } from "firebase/firestore/lite";
 import { useState, useEffect } from "react";
 import { Button } from "react-bootstrap";
 import ContentListComponent from "./ContentListComponent";
 import HeaderComponent from "./HeaderComponent";
 import PurposeComponent from "./PurposeComponent";
 
-export default function EditArticleComponent({ article }) {
+export default function EditArticleComponent({
+	articles,
+	setArticles,
+	article,
+	database,
+	userName,
+	type,
+}) {
 	const [modifiedArticle, setModifiedArticle] = useState();
 
 	useEffect(() => {
@@ -13,8 +21,19 @@ export default function EditArticleComponent({ article }) {
 
 	if (modifiedArticle === undefined) return <></>;
 
-	function save() {
-		console.log(modifiedArticle);
+	async function save() {
+		if (modifiedArticle === undefined) return;
+		const index = articles.indexOf(article);
+		const newArticles = new Object(articles);
+		newArticles[index] = modifiedArticle;
+		const ref = doc(database, "users", userName);
+		if (type === "monitoring") {
+			await updateDoc(ref, {
+				monitoring: newArticles,
+			}).then(() => {
+				setArticles(newArticles);
+			});
+		}
 	}
 
 	return (
@@ -30,20 +49,6 @@ export default function EditArticleComponent({ article }) {
 				article={modifiedArticle}
 				setArticle={setModifiedArticle}
 			/>
-			<Button
-				variant="secondary"
-				style={{ marginBottom: 10 }}
-				onClick={() => {
-					const newArticle = new Object(modifiedArticle);
-					newArticle.content = [
-						...modifiedArticle.content,
-						{ type: "instruction", content: "" },
-					];
-					setModifiedArticle(newArticle);
-				}}
-			>
-				Add
-			</Button>
 			<Button onClick={save}>Save</Button>
 		</div>
 	);

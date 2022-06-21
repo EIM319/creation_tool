@@ -44,7 +44,14 @@ export default function HomeMonitoringScreen({ database, userName }) {
 					</Button>
 				</Col>
 				<Col xs={9} style={{ padding: 30 }}>
-					<EditArticleComponent article={selectedMonitoring} />
+					<EditArticleComponent
+						articles={monitoring}
+						setArticles={setMonitoring}
+						article={selectedMonitoring}
+						database={database}
+						userName={userName}
+						type="monitoring"
+					/>
 				</Col>
 			</Row>
 		</div>
