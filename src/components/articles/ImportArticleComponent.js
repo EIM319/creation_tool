@@ -1,6 +1,7 @@
 import { Modal } from "react-bootstrap";
 import { collection, doc, getDocs, updateDoc } from "firebase/firestore/lite";
 import { useEffect, useState } from "react";
+import { toast } from "react-toastify";
 
 export default function ImportArticleComponent({
 	type,
@@ -10,6 +11,7 @@ export default function ImportArticleComponent({
 	userName,
 	articles,
 	setArticles,
+	setArticle,
 }) {
 	const [defaultArticles, setDefaultArticles] = useState();
 
@@ -26,20 +28,18 @@ export default function ImportArticleComponent({
 					onClick={async () => {
 						setOpen(false);
 						const ref = doc(database, "users", userName);
-						const newArticles = [...articles, defaultArticles[i]];
-						if (type === "monitoring") {
-							await updateDoc(ref, {
-								monitoring: newArticles,
-							}).then(() => {
+						const newArticle = Object.assign(
+							{},
+							defaultArticles[i]
+						);
+						const newArticles = [...articles, newArticle];
+						await updateDatabase(ref, type, newArticles).then(
+							() => {
 								setArticles(newArticles);
-							});
-						} else if (type === "caregiving") {
-							await updateDoc(ref, {
-								caregiving: newArticles,
-							}).then(() => {
-								setArticles(newArticles);
-							});
-						}
+								setArticle(newArticle);
+								toast.success("Import Successful");
+							}
+						);
 					}}
 				>
 					<b>{defaultArticles[i].name}</b>
@@ -57,7 +57,7 @@ export default function ImportArticleComponent({
 				setOpen(false);
 			}}
 		>
-			<Modal.Header>
+			<Modal.Header closeButton>
 				<Modal.Title>Get {getHeaderText(type)}</Modal.Title>
 			</Modal.Header>
 			<Modal.Body>{items}</Modal.Body>
@@ -91,4 +91,16 @@ async function getDefaultArticles(type, database, setDefaultArticles) {
 		});
 	}
 	setDefaultArticles(array);
+}
+
+async function updateDatabase(ref, type, newArticles) {
+	if (type === "monitoring") {
+		await updateDoc(ref, {
+			monitoring: newArticles,
+		});
+	} else if (type === "caregiving") {
+		await updateDoc(ref, {
+			caregiving: newArticles,
+		});
+	}
 }

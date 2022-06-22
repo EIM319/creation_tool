@@ -7,16 +7,20 @@ import HeaderComponent from "./HeaderComponent";
 import PurposeComponent from "./PurposeComponent";
 import TimeSelectorComponent from "./TimeSelectorComponent";
 import { FaSave } from "react-icons/fa";
+import ConfirmDeleteModal from "./ConfirmDeleteModal";
+import { toast } from "react-toastify";
 
 export default function EditArticleComponent({
 	articles,
 	setArticles,
 	article,
+	setArticle,
 	database,
 	userName,
 	type,
 }) {
 	const [modifiedArticle, setModifiedArticle] = useState();
+	const [showDeleteModal, setShowDeleteModal] = useState(false);
 
 	useEffect(() => {
 		setModifiedArticle(Object.assign({}, article));
@@ -27,7 +31,7 @@ export default function EditArticleComponent({
 	async function save() {
 		if (modifiedArticle === undefined) return;
 		const index = articles.indexOf(article);
-		const newArticles = new Object(articles);
+		const newArticles = [...articles];
 		newArticles[index] = modifiedArticle;
 		const ref = doc(database, "users", userName);
 		if (type === "monitoring") {
@@ -35,12 +39,16 @@ export default function EditArticleComponent({
 				monitoring: newArticles,
 			}).then(() => {
 				setArticles(newArticles);
+				setArticle(modifiedArticle);
+				toast.success("Save Successful");
 			});
 		} else if (type === "caregiving") {
 			await updateDoc(ref, {
 				caregiving: newArticles,
 			}).then(() => {
 				setArticles(newArticles);
+				setArticle(modifiedArticle);
+				toast.success("Save Successful");
 			});
 		}
 	}
@@ -95,7 +103,32 @@ export default function EditArticleComponent({
 					article={modifiedArticle}
 					setArticle={setModifiedArticle}
 				/>
+				<br />
+				<div className="line" />
+				<br />
+				<b style={{ paddingBottom: 10, fontSize: 20 }}>Controls</b>
+				<Button
+					style={{ width: "fit-content" }}
+					variant="danger"
+					onClick={() => {
+						setShowDeleteModal(true);
+					}}
+				>
+					Delete Article
+				</Button>
+				<br />
 			</div>
+			<ConfirmDeleteModal
+				show={showDeleteModal}
+				setShow={setShowDeleteModal}
+				database={database}
+				userName={userName}
+				articles={articles}
+				setArticles={setArticles}
+				article={article}
+				setArticle={setArticle}
+				type={type}
+			/>
 		</div>
 	);
 }

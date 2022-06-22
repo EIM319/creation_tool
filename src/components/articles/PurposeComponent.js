@@ -8,6 +8,8 @@ export default function PurposeComponent({ article }) {
 		setPurpose(article.purpose);
 	}, [article]);
 
+	if (article.purpose === undefined) return <></>;
+
 	return (
 		<FormControl
 			value={purpose}

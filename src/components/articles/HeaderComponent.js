@@ -8,6 +8,8 @@ export default function HeaderComponent({ article }) {
 		setName(article.name);
 	}, [article]);
 
+	if (article.name === undefined) return <></>;
+
 	return (
 		<FormControl
 			value={name}

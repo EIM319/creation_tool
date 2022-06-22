@@ -61,6 +61,7 @@ export default function HomeMonitoringScreen({ database, userName }) {
 						articles={monitoring}
 						setArticles={setMonitoring}
 						article={selectedMonitoring}
+						setArticle={setSelectedMonitoring}
 						database={database}
 						userName={userName}
 						type="monitoring"
@@ -75,6 +76,7 @@ export default function HomeMonitoringScreen({ database, userName }) {
 				userName={userName}
 				articles={monitoring}
 				setArticles={setMonitoring}
+				setArticle={setSelectedMonitoring}
 			/>
 		</div>
 	);

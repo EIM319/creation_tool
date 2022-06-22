@@ -4,6 +4,7 @@ import { Col, Row, Button } from "react-bootstrap";
 import EditNotesComponent from "../components/notes/EditNotesComponent";
 import LoadingComponent from "../components/LoadingComponent";
 import { FaSave } from "react-icons/fa";
+import { toast } from "react-toastify";
 
 export default function AdditionalNotesScreen({ database, userName }) {
 	const [note, setNote] = useState();
@@ -34,6 +35,8 @@ export default function AdditionalNotesScreen({ database, userName }) {
 		const ref = doc(database, "users", userName);
 		await updateDoc(ref, {
 			additional_notes: note,
+		}).then(() => {
+			toast.success("Save Successful");
 		});
 	}
 
@@ -92,5 +95,4 @@ async function getNote(database, userName, setNote) {
 	const result = await getDoc(ref);
 	const data = result.data();
 	setNote(data.additional_notes);
-	console.log(data.additional_notes);
 }
