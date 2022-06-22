@@ -6,6 +6,7 @@ import HeaderComponent from "./HeaderComponent";
 import PurposeComponent from "./PurposeComponent";
 import TimeSelectorComponent from "./TimeSelectorComponent";
 import ImageComponent from "./ImageComponent";
+import ConfirmDeleteDefaultModel from "./ConfirmDeleteDefaultModal";
 import { FaSave } from "react-icons/fa";
 import { updateDoc } from "firebase/firestore/lite";
 import { toast } from "react-toastify";
@@ -18,6 +19,7 @@ export default function EditDefaultArticleComponent({
 	type,
 }) {
 	const [modifiedArticle, setModifiedArticle] = useState();
+	const [showDeleteModal, setShowDeleteModal] = useState(false);
 
 	useEffect(() => {
 		if (article === undefined) return;
@@ -102,12 +104,22 @@ export default function EditDefaultArticleComponent({
 				<Button
 					style={{ width: "fit-content" }}
 					variant="danger"
-					onClick={() => {}}
+					onClick={() => {
+						setShowDeleteModal(true);
+					}}
 				>
 					Delete Article
 				</Button>
 				<br />
 			</div>
+			<ConfirmDeleteDefaultModel
+				show={showDeleteModal}
+				setShow={setShowDeleteModal}
+				articles={articles}
+				setArticles={setArticles}
+				article={article}
+				setArticle={setArticle}
+			/>
 		</div>
 	);
 }

@@ -1,7 +1,8 @@
-import { collection, getDocs } from "firebase/firestore/lite";
+import { addDoc, collection, getDocs } from "firebase/firestore/lite";
 import { useState, useEffect } from "react";
 import { Col, Row, Button } from "react-bootstrap";
 import EditDefaultArticleComponent from "../components/articles/EditDefaultArticleComponent";
+import { toast } from "react-toastify";
 
 export default function DefaultArticleScreen({ database }) {
 	const [monitoring, setMonitoring] = useState();
@@ -63,6 +64,34 @@ export default function DefaultArticleScreen({ database }) {
 		}
 	}
 
+	async function addArticle() {
+		if (viewingMonitoring) {
+			const ref = await addDoc(
+				collection(database, "homemonitoring"),
+				defaultMonitoring
+			);
+			const newArticle = {
+				ref: ref,
+				data: Object.assign({}, defaultMonitoring),
+			};
+			setSelectedArticle(newArticle);
+			setMonitoring([...monitoring, newArticle]);
+			toast.success("Added New Article");
+		} else {
+			const ref = await addDoc(
+				collection(database, "caregiving"),
+				defaultCaregiving
+			);
+			const newArticle = {
+				ref: ref,
+				data: Object.assign({}, defaultCaregiving),
+			};
+			setSelectedArticle(newArticle);
+			setCaregiving([...caregiving, newArticle]);
+			toast.success("Added New Article");
+		}
+	}
+
 	return (
 		<div>
 			<Row style={{ width: "100%", margin: 0 }}>
@@ -102,7 +131,7 @@ export default function DefaultArticleScreen({ database }) {
 						<Button
 							variant="secondary"
 							style={{ width: "100%" }}
-							onClick={() => {}}
+							onClick={addArticle}
 						>
 							Add Article
 						</Button>
@@ -149,6 +178,20 @@ async function getCaregiving(database, setCaregiving) {
 	documents.forEach((doc) => {
 		array.push({ data: doc.data(), ref: doc.ref });
 	});
-	console.log(array);
 	setCaregiving(array);
 }
+
+const defaultMonitoring = {
+	content: [],
+	image: "",
+	name: "",
+	purpose: "",
+	time: [false, false, false, false, false, false, false],
+	days: [false, false, false, false, false, false, false],
+};
+const defaultCaregiving = {
+	content: [],
+	image: "",
+	name: "",
+	purpose: "",
+};
