@@ -76,14 +76,14 @@ p {
 
 /** Medication Screen **/
 
-.medicationListPanel {
+.listPanel {
 	height: 100vh;
 	padding: 10px;
 	width: 100%;
 	background-color: var(--content-background);
 }
 
-.medicationListItem {
+.listItem {
 	padding: 20px;
 	margin: 10px;
 	font-weight: 500;
@@ -91,9 +91,33 @@ p {
 	background-color: var(--nav-background);
 }
 
-.medicationListItemSelected {
+.listItemSelected {
 	background-color: var(--accent);
 	color: white;
+}
+
+/** Article Screen **/
+
+.tableHeader {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	border-width: 1px;
+	border-color: #c5c5c5;
+	border-style: solid;
+	background: #212121;
+}
+
+.tableBody {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	border-width: 1px;
+	border-color: #c5c5c5;
+	border-style: solid;
+	padding: 10px;
 }
 
 /** Misc **/

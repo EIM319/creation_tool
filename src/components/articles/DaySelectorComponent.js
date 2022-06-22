@@ -10,24 +10,36 @@ export default function DaySelectorComponent({ article }) {
 	if (selection === undefined) return <></>;
 
 	const selectors = [];
+	const headers = [];
 	for (let i = 0; i < 7; i++) {
+		headers.push(
+			<Col className="tableHeader">
+				<p style={{ color: "white", margin: 10, fontWeight: 500 }}>
+					{days[i]}
+				</p>
+			</Col>
+		);
 		selectors.push(
-			<Col style={{ display: "flex", flexDirection: "row" }}>
-				<p style={{ marginRight: 10 }}>{days[i]}</p>
-				<Form.Check
-					checked={selection[i]}
-					onClick={() => {
-						const newSelection = [...selection];
-						newSelection[i] = !newSelection[i];
-						setSelection(newSelection);
-						article.days = newSelection;
-					}}
-				/>
+			<Col
+				className="tableBody"
+				onClick={() => {
+					const newSelection = [...selection];
+					newSelection[i] = !newSelection[i];
+					setSelection(newSelection);
+					article.days = newSelection;
+				}}
+			>
+				<Form.Check checked={selection[i]} />
 			</Col>
 		);
 	}
 
-	return <Row>{selectors}</Row>;
+	return (
+		<div style={{ margin: 10 }}>
+			<Row>{headers}</Row>
+			<Row>{selectors}</Row>
+		</div>
+	);
 }
 
 const days = ["SUN", "MON", "TUE", "WED", "THU", "FRI", "SAT"];

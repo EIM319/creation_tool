@@ -10,24 +10,43 @@ export default function TimeSelectorComponent({ article }) {
 	if (selection === undefined) return <></>;
 
 	const selectors = [];
+	const headers = [];
 	for (let i = 0; i < 7; i++) {
-		selectors.push(
-			<Col style={{ display: "flex", flexDirection: "row" }}>
-				<p style={{ marginRight: 10 }}>{timeText[i]}</p>
-				<Form.Check
-					checked={selection[i]}
-					onClick={() => {
-						const newSelection = [...selection];
-						newSelection[i] = !newSelection[i];
-						setSelection(newSelection);
-						article.time = newSelection;
+		headers.push(
+			<Col className="tableHeader">
+				<p
+					style={{
+						color: "white",
+						margin: 10,
+						fontWeight: 500,
+						textAlign: "center",
 					}}
-				/>
+				>
+					{timeText[i]}
+				</p>
+			</Col>
+		);
+		selectors.push(
+			<Col
+				className="tableBody"
+				onClick={() => {
+					const newSelection = [...selection];
+					newSelection[i] = !newSelection[i];
+					setSelection(newSelection);
+					article.time = newSelection;
+				}}
+			>
+				<Form.Check checked={selection[i]} />
 			</Col>
 		);
 	}
 
-	return <Row>{selectors}</Row>;
+	return (
+		<div style={{ margin: 10 }}>
+			<Row>{headers}</Row>
+			<Row>{selectors}</Row>
+		</div>
+	);
 }
 
 const timeText = [

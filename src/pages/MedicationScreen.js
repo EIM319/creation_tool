@@ -26,8 +26,8 @@ export default function MedicationScreen({ database, userName }) {
 				<p
 					className={
 						selectedMedicine === medicine
-							? "medicationListItem medicationListItemSelected"
-							: "medicationListItem"
+							? "listItem listItemSelected"
+							: "listItem"
 					}
 				>
 					{medicine.name}
@@ -39,7 +39,7 @@ export default function MedicationScreen({ database, userName }) {
 	return (
 		<div className="content">
 			<Row style={{ width: "100%", margin: 0 }}>
-				<Col xs={3} className="medicationListPanel">
+				<Col xs={3} className="listPanel">
 					{medicationList}
 				</Col>
 				<Col xs={9}>

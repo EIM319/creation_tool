@@ -59,6 +59,7 @@ export default function ContentComponent({
 				</Dropdown.Item>
 			</DropdownButton>
 			<FormControl
+				as="textarea"
 				value={value}
 				onChange={(event) => {
 					setValue(event.target.value);

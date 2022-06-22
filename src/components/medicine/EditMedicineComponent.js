@@ -74,7 +74,6 @@ export default function EditMedicineComponent({
 					<b style={{ paddingBottom: 10, fontSize: 20 }}>Purpose</b>
 					<InputGroup>
 						<FormControl
-							as="textarea"
 							value={purpose}
 							onChange={(event) => {
 								setPurpose(event.target.value);

@@ -10,7 +10,7 @@ export default function HomeMonitoringScreen({ database, userName }) {
 	const [openModal, setOpenModal] = useState(false);
 
 	useEffect(() => {
-		getMonitoring(database, userName, setMonitoring);
+		getMonitoring(database, userName, setMonitoring, setSelectedMonitoring);
 	}, []);
 
 	if (monitoring === undefined) return <></>;
@@ -20,37 +20,42 @@ export default function HomeMonitoringScreen({ database, userName }) {
 		homeMonitoringList.push(
 			<div
 				className="toggle"
-				style={{
-					width: "100%",
-					paddingLeft: 30,
-					paddingRight: 30,
-				}}
 				onClick={() => {
 					setSelectedMonitoring(article);
 				}}
 				key={i}
 			>
-				<p>{article.name}</p>
+				<p
+					className={
+						selectedMonitoring === article
+							? "listItem listItemSelected"
+							: "listItem"
+					}
+				>
+					{article.name}
+				</p>
 			</div>
 		);
 	}
 
 	return (
 		<div>
-			<Row style={{ width: "100%" }}>
-				<Col xs={3} style={{ padding: 30 }}>
+			<Row style={{ width: "100%", margin: 0 }}>
+				<Col xs={3} className="listPanel">
 					{homeMonitoringList}
-					<Button
-						variant="secondary"
-						style={{ width: "100%" }}
-						onClick={() => {
-							setOpenModal(true);
-						}}
-					>
-						Add
-					</Button>
+					<div style={{ margin: 10 }}>
+						<Button
+							variant="secondary"
+							style={{ width: "100%" }}
+							onClick={() => {
+								setOpenModal(true);
+							}}
+						>
+							Add Article
+						</Button>
+					</div>
 				</Col>
-				<Col xs={9} style={{ padding: 30 }}>
+				<Col xs={9}>
 					<EditArticleComponent
 						articles={monitoring}
 						setArticles={setMonitoring}
@@ -73,9 +78,17 @@ export default function HomeMonitoringScreen({ database, userName }) {
 	);
 }
 
-async function getMonitoring(database, userName, setMonitoring) {
+async function getMonitoring(
+	database,
+	userName,
+	setMonitoring,
+	setSelectedMonitoring
+) {
 	const ref = doc(database, "users", userName);
 	const result = await getDoc(ref);
 	const data = result.data();
 	setMonitoring(data.monitoring);
+	if (data.monitoring.length > 0) {
+		setSelectedMonitoring(data.monitoring[0]);
+	}
 }
