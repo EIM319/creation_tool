@@ -74,6 +74,28 @@ p {
 	color: white;
 }
 
+/** Medication Screen **/
+
+.medicationListPanel {
+	height: 100vh;
+	padding: 10px;
+	width: 100%;
+	background-color: var(--content-background);
+}
+
+.medicationListItem {
+	padding: 20px;
+	margin: 10px;
+	font-weight: 500;
+	border-radius: 10px;
+	background-color: var(--nav-background);
+}
+
+.medicationListItemSelected {
+	background-color: var(--accent);
+	color: white;
+}
+
 /** Misc **/
 
 .toggle {

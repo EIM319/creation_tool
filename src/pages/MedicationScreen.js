@@ -18,28 +18,31 @@ export default function MedicationScreen({ database, userName }) {
 		medicationList.push(
 			<div
 				className="toggle"
-				style={{
-					width: "100%",
-					paddingLeft: 30,
-					paddingRight: 30,
-				}}
 				onClick={() => {
 					setSelectedMedicine(medicine);
 				}}
 				key={i}
 			>
-				<p>{medicine.name}</p>
+				<p
+					className={
+						selectedMedicine === medicine
+							? "medicationListItem medicationListItemSelected"
+							: "medicationListItem"
+					}
+				>
+					{medicine.name}
+				</p>
 			</div>
 		);
 	}
 
 	return (
 		<div className="content">
-			<Row style={{ width: "100%" }}>
-				<Col xs={3} style={{ padding: 30 }}>
+			<Row style={{ width: "100%", margin: 0 }}>
+				<Col xs={3} className="medicationListPanel">
 					{medicationList}
 				</Col>
-				<Col xs={9} style={{ padding: 30 }}>
+				<Col xs={9}>
 					<EditMedicineComponent
 						selectedMedicine={selectedMedicine}
 						medication={medication}
