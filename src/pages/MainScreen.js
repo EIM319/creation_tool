@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { Link, Route, Routes, useLocation } from "react-router-dom";
 import AdditionalNotesScreen from "./AdditionalNotesScreen";
 import CaregivingScreen from "./CaregivingScreen";
+import DefaultArticleScreen from "./DefaultArticlesScreen";
 import HomeMonitoringScreen from "./HomeMonitoringScreen";
 import LabResultsScreen from "./LabResultsScreen";
 import MedicationScreen from "./MedicationScreen";
@@ -68,6 +69,10 @@ export default function MainScreen({ database }) {
 								userName={userName}
 							/>
 						}
+					/>
+					<Route
+						path="tool"
+						element={<DefaultArticleScreen database={database} />}
 					/>
 				</Routes>
 			</div>
