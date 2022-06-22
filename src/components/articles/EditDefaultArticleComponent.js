@@ -1,4 +1,3 @@
-import { doc, updateDoc } from "firebase/firestore/lite";
 import { useState, useEffect } from "react";
 import { Button } from "react-bootstrap";
 import ContentListComponent from "./ContentListComponent";
@@ -6,52 +5,43 @@ import DaySelectorComponent from "./DaySelectorComponent";
 import HeaderComponent from "./HeaderComponent";
 import PurposeComponent from "./PurposeComponent";
 import TimeSelectorComponent from "./TimeSelectorComponent";
-import { FaSave } from "react-icons/fa";
-import ConfirmDeleteModal from "./ConfirmDeleteModal";
-import { toast } from "react-toastify";
 import ImageComponent from "./ImageComponent";
+import ConfirmDeleteDefaultModel from "./ConfirmDeleteDefaultModal";
+import { FaSave } from "react-icons/fa";
+import { updateDoc } from "firebase/firestore/lite";
+import { toast } from "react-toastify";
 
-export default function EditArticleComponent({
+export default function EditDefaultArticleComponent({
 	articles,
 	setArticles,
 	article,
 	setArticle,
-	database,
-	userName,
 	type,
 }) {
 	const [modifiedArticle, setModifiedArticle] = useState();
 	const [showDeleteModal, setShowDeleteModal] = useState(false);
 
 	useEffect(() => {
-		setModifiedArticle(Object.assign({}, article));
+		if (article === undefined) return;
+		setModifiedArticle(Object.assign({}, article.data));
 	}, [article]);
 
 	if (modifiedArticle === undefined) return <></>;
 
 	async function save() {
 		if (modifiedArticle === undefined) return;
-		const index = articles.indexOf(article);
-		const newArticles = [...articles];
-		newArticles[index] = modifiedArticle;
-		const ref = doc(database, "users", userName);
-		if (type === "monitoring") {
-			await updateDoc(ref, {
-				monitoring: newArticles,
-			}).then(() => {
-				setArticles(newArticles);
-				setArticle(modifiedArticle);
-				toast.success("Save Successful");
-			});
-		} else if (type === "caregiving") {
-			await updateDoc(ref, {
-				caregiving: newArticles,
-			}).then(() => {
-				setArticles(newArticles);
-				setArticle(modifiedArticle);
-				toast.success("Save Successful");
-			});
-		}
+		const ref = article.ref;
+		updateDoc(ref, modifiedArticle).then(() => {
+			const index = articles.indexOf(article);
+			if (index < 0) return;
+			const newArticle = new Object(article);
+			newArticle.data = modifiedArticle;
+			setArticle(newArticle);
+			const newArticles = [...articles];
+			newArticles[index] = newArticle;
+			setArticles(newArticles);
+			toast.success("Article Updated");
+		});
 	}
 
 	return (
@@ -122,16 +112,13 @@ export default function EditArticleComponent({
 				</Button>
 				<br />
 			</div>
-			<ConfirmDeleteModal
+			<ConfirmDeleteDefaultModel
 				show={showDeleteModal}
 				setShow={setShowDeleteModal}
-				database={database}
-				userName={userName}
 				articles={articles}
 				setArticles={setArticles}
 				article={article}
 				setArticle={setArticle}
-				type={type}
 			/>
 		</div>
 	);
