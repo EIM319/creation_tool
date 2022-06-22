@@ -1,39 +1,39 @@
 import { useState, useEffect } from "react";
 import { updateDoc, doc, getDoc } from "firebase/firestore/lite";
 import { Col, Row, Button } from "react-bootstrap";
-import EditLabComponent from "../components/lab/EditLabComponent";
+import EditNotesComponent from "../components/notes/EditNotesComponent";
 import LoadingComponent from "../components/LoadingComponent";
 import { FaSave } from "react-icons/fa";
 
-export default function LabResultsScreen({ database, userName }) {
-	const [lab, setLab] = useState();
+export default function AdditionalNotesScreen({ database, userName }) {
+	const [note, setNote] = useState();
 
 	useEffect(() => {
-		getLab(database, userName, setLab);
+		getNote(database, userName, setNote);
 	}, []);
 
-	if (lab === undefined) return <LoadingComponent />;
-	const labList = [];
+	if (note === undefined) return <LoadingComponent />;
+	const noteList = [];
 
-	for (let i = 0; i < lab.length; i++) {
-		labList.push(
-			<EditLabComponent
-				labResult={lab[i]}
-				lab={lab}
-				setLab={setLab}
+	for (let i = 0; i < note.length; i++) {
+		noteList.push(
+			<EditNotesComponent
+				additional_notes={note[i]}
+				note={note}
+				setNote={setNote}
 				index={i}
-			/>
+			></EditNotesComponent>
 		);
 	}
 
-	function addLab() {
-		setLab([...lab, { title: "", content: "", solution: "" }]);
+	function addNote() {
+		setNote([...note, { title: "", value: "" }]);
 	}
 
 	async function save() {
 		const ref = doc(database, "users", userName);
 		await updateDoc(ref, {
-			lab_result: lab,
+			additional_notes: note,
 		});
 	}
 
@@ -53,7 +53,7 @@ export default function LabResultsScreen({ database, userName }) {
 					padding: 30,
 				}}
 			>
-				<p style={{ fontSize: 30, margin: 0 }}>Lab Results Analysis</p>
+				<p style={{ fontSize: 30, margin: 0 }}>Care Staff's Comments</p>
 				<FaSave size={30} onClick={save} className="toggle" />
 			</div>
 			<div
@@ -68,33 +68,29 @@ export default function LabResultsScreen({ database, userName }) {
 					style={{ marginBottom: 10, marginLeft: 0, marginRight: 0 }}
 				>
 					<Col xs={2} style={{ padding: 5 }}>
-						<b>Result Profile</b>
+						<b>Title</b>
 					</Col>
-					<Col xs={4} style={{ padding: 5 }}>
-						<b>Result Explanation</b>
-					</Col>
-					<Col xs={4} style={{ padding: 5 }}>
-						<b>Changes Based on Result</b>
+					<Col xs={9} style={{ padding: 5 }}>
+						<b>Content</b>
 					</Col>
 				</Row>
-				{labList}
-				<br />
+				{noteList}
 				<Button
 					style={{ width: "fit-content" }}
 					variant="secondary"
-					onClick={addLab}
+					onClick={addNote}
 				>
 					Add Row
 				</Button>
-				<br />
 			</div>
 		</div>
 	);
 }
 
-async function getLab(database, userName, setLab) {
+async function getNote(database, userName, setNote) {
 	const ref = doc(database, "users", userName);
 	const result = await getDoc(ref);
 	const data = result.data();
-	setLab(data.lab_result);
+	setNote(data.additional_notes);
+	console.log(data.additional_notes);
 }

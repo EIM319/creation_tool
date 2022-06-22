@@ -1,6 +1,7 @@
 import { doc, updateDoc } from "firebase/firestore/lite";
 import { useState, useEffect } from "react";
 import { Button, FormControl, InputGroup } from "react-bootstrap";
+import { FaSave } from "react-icons/fa";
 
 export default function EditMedicineComponent({
 	selectedMedicine,
@@ -42,30 +43,62 @@ export default function EditMedicineComponent({
 
 	if (selectedMedicine !== undefined) {
 		return (
-			<div style={{ display: "flex", flexDirection: "column" }}>
-				<b>Name:</b>
-				<p>{selectedMedicine.name}</p>
-				<b>Purpose</b>
-				<InputGroup>
-					<FormControl
-						value={purpose}
-						onChange={(event) => {
-							setPurpose(event.target.value);
-						}}
+			<div
+				style={{
+					display: "flex",
+					flexDirection: "column",
+					height: "100vh",
+				}}
+			>
+				<div
+					style={{
+						display: "flex",
+						flexDirection: "row",
+						justifyContent: "space-between",
+						padding: 30,
+					}}
+				>
+					<p style={{ fontSize: 30, margin: 0 }}>
+						{selectedMedicine.name}
+					</p>
+					<FaSave size={30} onClick={save} className="toggle" />
+				</div>
+				<div
+					style={{
+						display: "flex",
+						flexDirection: "column",
+						overflowY: "auto",
+						padding: "0px 30px 0px 30px",
+					}}
+				>
+					<b style={{ paddingBottom: 10, fontSize: 20 }}>Purpose</b>
+					<InputGroup>
+						<FormControl
+							value={purpose}
+							onChange={(event) => {
+								setPurpose(event.target.value);
+							}}
+						/>
+					</InputGroup>
+					<br />
+					<b style={{ paddingBottom: 5, fontSize: 20 }}>Dosage</b>
+					<p>{selectedMedicine.dosage}</p>
+					<br />
+					<b style={{ paddingBottom: 10, fontSize: 20 }}>
+						Side Effects
+					</b>
+					<SideEffects
+						sideEffects={sideEffects}
+						setSideEffects={setSideEffects}
 					/>
-				</InputGroup>
-				<br />
-				<b>Dosage:</b>
-				<p>{selectedMedicine.dosage}</p>
-				<b>Side Effects</b>
-				<SideEffects
-					sideEffects={sideEffects}
-					setSideEffects={setSideEffects}
-				/>
-				<b>Extra Notes</b>
-				<Extras extras={extras} setExtras={setExtras} />
-				<br />
-				<Button onClick={save}>Save</Button>
+					<br />
+
+					<b style={{ paddingBottom: 10, fontSize: 20 }}>
+						Extra Notes
+					</b>
+					<Extras extras={extras} setExtras={setExtras} />
+					<br />
+				</div>
 			</div>
 		);
 	} else {
@@ -79,7 +112,17 @@ function SideEffects({ sideEffects, setSideEffects }) {
 	for (let i = 0; i < sideEffects.length; i++) {
 		array.push(
 			<InputGroup style={{ marginBottom: 10 }}>
+				<FormControl
+					as="textarea"
+					value={sideEffects[i]}
+					onChange={(event) => {
+						const newSideEffects = [...sideEffects];
+						newSideEffects[i] = event.target.value;
+						setSideEffects(newSideEffects);
+					}}
+				/>
 				<Button
+					variant="danger"
 					onClick={() => {
 						const newSideEffects = [...sideEffects];
 						newSideEffects.splice(i, 1);
@@ -88,28 +131,20 @@ function SideEffects({ sideEffects, setSideEffects }) {
 				>
 					X
 				</Button>
-				<FormControl
-					value={sideEffects[i]}
-					onChange={(event) => {
-						const newSideEffects = [...sideEffects];
-						newSideEffects[i] = event.target.value;
-						setSideEffects(newSideEffects);
-					}}
-				/>
 			</InputGroup>
 		);
 	}
 	array.push(
 		<Button
-			style={{ marginBottom: 10 }}
+			style={{ width: "fit-content" }}
+			variant="secondary"
 			onClick={() => {
 				const newSideEffects = [...sideEffects];
 				newSideEffects.push("");
 				setSideEffects(newSideEffects);
 			}}
-			variant="secondary"
 		>
-			Add
+			Add Side Effect
 		</Button>
 	);
 	return array;
@@ -122,15 +157,7 @@ function Extras({ extras, setExtras }) {
 		array.push(
 			<div>
 				<InputGroup style={{ marginBottom: 5 }}>
-					<Button
-						onClick={() => {
-							const newExtras = [...extras];
-							newExtras.splice(i, 1);
-							setExtras(newExtras);
-						}}
-					>
-						X
-					</Button>
+					<InputGroup.Text>Title</InputGroup.Text>
 					<FormControl
 						value={extras[i].header}
 						onChange={(event) => {
@@ -141,9 +168,20 @@ function Extras({ extras, setExtras }) {
 							setExtras(newExtras);
 						}}
 					/>
+					<Button
+						variant="danger"
+						onClick={() => {
+							const newExtras = [...extras];
+							newExtras.splice(i, 1);
+							setExtras(newExtras);
+						}}
+					>
+						X
+					</Button>
 				</InputGroup>
 				<FormControl
-					style={{ marginBottom: 10 }}
+					as="textarea"
+					style={{ marginBottom: 20 }}
 					value={extras[i].content}
 					onChange={(event) => {
 						const newExtras = [...extras];
@@ -158,7 +196,7 @@ function Extras({ extras, setExtras }) {
 	}
 	array.push(
 		<Button
-			style={{ marginBottom: 10 }}
+			style={{ width: "fit-content" }}
 			onClick={() => {
 				const newExtras = [...extras];
 				newExtras.push({ header: "", content: "" });
@@ -166,7 +204,7 @@ function Extras({ extras, setExtras }) {
 			}}
 			variant="secondary"
 		>
-			Add
+			Add Extra Notes
 		</Button>
 	);
 	return array;

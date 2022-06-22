@@ -25,8 +25,8 @@ export default function ContentListComponent({ article, setArticle }) {
 	}
 	contentList.push(
 		<Button
+			style={{ width: "fit-content" }}
 			variant="secondary"
-			style={{ marginBottom: 10 }}
 			onClick={() => {
 				const newContent = [
 					...content,
@@ -38,7 +38,7 @@ export default function ContentListComponent({ article, setArticle }) {
 				setArticle(newArticle);
 			}}
 		>
-			Add
+			Add Content
 		</Button>
 	);
 	return contentList;

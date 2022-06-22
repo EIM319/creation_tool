@@ -1,5 +1,5 @@
 import { Modal } from "react-bootstrap";
-import { collection, getDocs } from "firebase/firestore/lite";
+import { collection, doc, getDocs, updateDoc } from "firebase/firestore/lite";
 import { useEffect, useState } from "react";
 
 export default function ImportArticleComponent({
@@ -7,6 +7,7 @@ export default function ImportArticleComponent({
 	open,
 	setOpen,
 	database,
+	userName,
 	articles,
 	setArticles,
 }) {
@@ -22,10 +23,23 @@ export default function ImportArticleComponent({
 			items.push(
 				<div
 					className="toggle"
-					onClick={() => {
-						const newArticles = [...articles, defaultArticles[i]];
-						setArticles(newArticles);
+					onClick={async () => {
 						setOpen(false);
+						const ref = doc(database, "users", userName);
+						const newArticles = [...articles, defaultArticles[i]];
+						if (type === "monitoring") {
+							await updateDoc(ref, {
+								monitoring: newArticles,
+							}).then(() => {
+								setArticles(newArticles);
+							});
+						} else if (type === "caregiving") {
+							await updateDoc(ref, {
+								caregiving: newArticles,
+							}).then(() => {
+								setArticles(newArticles);
+							});
+						}
 					}}
 				>
 					<b>{defaultArticles[i].name}</b>
