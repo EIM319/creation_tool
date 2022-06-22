@@ -37,7 +37,7 @@ export default function EditDefaultArticleComponent({
 			const newArticle = new Object(article);
 			newArticle.data = modifiedArticle;
 			setArticle(newArticle);
-			const newArticles = new Object(articles);
+			const newArticles = [...articles];
 			newArticles[index] = newArticle;
 			setArticles(newArticles);
 			toast.success("Article Updated");
