@@ -9,6 +9,7 @@ import TimeSelectorComponent from "./TimeSelectorComponent";
 import { FaSave } from "react-icons/fa";
 import ConfirmDeleteModal from "./ConfirmDeleteModal";
 import { toast } from "react-toastify";
+import ImageComponent from "./ImageComponent";
 
 export default function EditArticleComponent({
 	articles,
@@ -87,6 +88,9 @@ export default function EditArticleComponent({
 				<br />
 				<b style={{ paddingBottom: 10, fontSize: 20 }}>Purpose</b>
 				<PurposeComponent article={modifiedArticle} />
+				<br />
+				<b style={{ paddingBottom: 10, fontSize: 20 }}>Banner Image</b>
+				<ImageComponent article={modifiedArticle} />
 				<br />
 				{type === "monitoring" ? (
 					<>

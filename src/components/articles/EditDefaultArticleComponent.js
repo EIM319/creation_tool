@@ -5,8 +5,9 @@ import DaySelectorComponent from "./DaySelectorComponent";
 import HeaderComponent from "./HeaderComponent";
 import PurposeComponent from "./PurposeComponent";
 import TimeSelectorComponent from "./TimeSelectorComponent";
+import ImageComponent from "./ImageComponent";
 import { FaSave } from "react-icons/fa";
-import { collection, updateDoc } from "firebase/firestore/lite";
+import { updateDoc } from "firebase/firestore/lite";
 import { toast } from "react-toastify";
 
 export default function EditDefaultArticleComponent({
@@ -14,7 +15,6 @@ export default function EditDefaultArticleComponent({
 	setArticles,
 	article,
 	setArticle,
-	database,
 	type,
 }) {
 	const [modifiedArticle, setModifiedArticle] = useState();
@@ -76,6 +76,9 @@ export default function EditDefaultArticleComponent({
 				<br />
 				<b style={{ paddingBottom: 10, fontSize: 20 }}>Purpose</b>
 				<PurposeComponent article={modifiedArticle} />
+				<br />
+				<b style={{ paddingBottom: 10, fontSize: 20 }}>Banner Image</b>
+				<ImageComponent article={modifiedArticle} />
 				<br />
 				{type === "monitoring" ? (
 					<>

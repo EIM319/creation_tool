@@ -115,7 +115,6 @@ export default function DefaultArticleScreen({ database }) {
 							setArticles={setMonitoring}
 							article={selectedArticle}
 							setArticle={setSelectedArticle}
-							database={database}
 							type="monitoring"
 						/>
 					) : (
@@ -124,7 +123,6 @@ export default function DefaultArticleScreen({ database }) {
 							setArticles={setCaregiving}
 							article={selectedArticle}
 							setArticle={setSelectedArticle}
-							database={database}
 							type="caregiving"
 						/>
 					)}
