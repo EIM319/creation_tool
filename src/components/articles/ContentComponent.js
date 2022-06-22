@@ -43,6 +43,14 @@ export default function ContentComponent({
 				</Dropdown.Item>
 				<Dropdown.Item
 					onClick={() => {
+						setType("note");
+						content[index].type = "note";
+					}}
+				>
+					Note
+				</Dropdown.Item>
+				<Dropdown.Item
+					onClick={() => {
 						setType("image");
 						content[index].type = "image";
 					}}
@@ -89,6 +97,8 @@ function getTypeString(type) {
 			return "Text";
 		case "section":
 			return "Header";
+		case "note":
+			return "Note";
 		case "image":
 			return "Image";
 		case "video":
