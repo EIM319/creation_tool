@@ -3,6 +3,7 @@ import { Button, Col, Row } from "react-bootstrap";
 import { doc, getDoc } from "firebase/firestore/lite";
 import EditArticleComponent from "../components/articles/EditArticleComponent";
 import ImportArticleComponent from "../components/articles/ImportArticleComponent";
+import LoadingComponent from "../components/LoadingComponent";
 
 export default function CaregivingScreen({ database, userName }) {
 	const [caregiving, setCaregiving] = useState();
@@ -13,7 +14,7 @@ export default function CaregivingScreen({ database, userName }) {
 		getCaregiving(database, userName, setCaregiving, setSelectedCaregiving);
 	}, []);
 
-	if (caregiving === undefined) return <></>;
+	if (caregiving === undefined) return <LoadingComponent />;
 	const caregivingList = [];
 	for (let i = 0; i < caregiving.length; i++) {
 		const article = caregiving[i];

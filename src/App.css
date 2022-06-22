@@ -125,3 +125,7 @@ p {
 .toggle {
 	cursor: pointer;
 }
+
+.toggle:hover {
+	opacity: 0.7;
+}

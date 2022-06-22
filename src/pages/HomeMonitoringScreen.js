@@ -3,6 +3,7 @@ import { doc, getDoc } from "firebase/firestore/lite";
 import { Button, Col, Row } from "react-bootstrap";
 import EditArticleComponent from "../components/articles/EditArticleComponent";
 import ImportArticleComponent from "../components/articles/ImportArticleComponent";
+import LoadingComponent from "../components/LoadingComponent";
 
 export default function HomeMonitoringScreen({ database, userName }) {
 	const [monitoring, setMonitoring] = useState();
@@ -13,7 +14,7 @@ export default function HomeMonitoringScreen({ database, userName }) {
 		getMonitoring(database, userName, setMonitoring, setSelectedMonitoring);
 	}, []);
 
-	if (monitoring === undefined) return <></>;
+	if (monitoring === undefined) return <LoadingComponent />;
 	const homeMonitoringList = [];
 	for (let i = 0; i < monitoring.length; i++) {
 		const article = monitoring[i];

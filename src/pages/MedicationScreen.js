@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { doc, getDoc } from "firebase/firestore/lite";
 import { Col, Row } from "react-bootstrap";
 import EditMedicineComponent from "../components/medicine/EditMedicineComponent";
+import LoadingComponent from "../components/LoadingComponent";
 
 export default function MedicationScreen({ database, userName }) {
 	const [medication, setMedication] = useState();
@@ -11,7 +12,7 @@ export default function MedicationScreen({ database, userName }) {
 		getMedication(database, userName, setMedication, setSelectedMedicine);
 	}, []);
 
-	if (medication === undefined) return <></>;
+	if (medication === undefined) return <LoadingComponent />;
 	const medicationList = [];
 	for (let i = 0; i < medication.length; i++) {
 		const medicine = medication[i];

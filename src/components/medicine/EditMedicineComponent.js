@@ -137,12 +137,12 @@ function SideEffects({ sideEffects, setSideEffects }) {
 	array.push(
 		<Button
 			style={{ width: "fit-content" }}
+			variant="secondary"
 			onClick={() => {
 				const newSideEffects = [...sideEffects];
 				newSideEffects.push("");
 				setSideEffects(newSideEffects);
 			}}
-			variant="secondary"
 		>
 			Add Side Effect
 		</Button>
