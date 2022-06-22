@@ -8,7 +8,7 @@ export default function MedicationScreen({ database, userName }) {
 	const [selectedMedicine, setSelectedMedicine] = useState();
 
 	useEffect(() => {
-		getMedication(database, userName, setMedication);
+		getMedication(database, userName, setMedication, setSelectedMedicine);
 	}, []);
 
 	if (medication === undefined) return <></>;
@@ -56,9 +56,17 @@ export default function MedicationScreen({ database, userName }) {
 	);
 }
 
-async function getMedication(database, userName, setMedication) {
+async function getMedication(
+	database,
+	userName,
+	setMedication,
+	setSelectedMedicine
+) {
 	const ref = doc(database, "users", userName);
 	const result = await getDoc(ref);
 	const data = result.data();
 	setMedication(data.medication);
+	if (data.medication.length > 0) {
+		setSelectedMedicine(data.medication[0]);
+	}
 }
