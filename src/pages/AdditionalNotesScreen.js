@@ -92,5 +92,4 @@ async function getNote(database, userName, setNote) {
 	const result = await getDoc(ref);
 	const data = result.data();
 	setNote(data.additional_notes);
-	console.log(data.additional_notes);
 }

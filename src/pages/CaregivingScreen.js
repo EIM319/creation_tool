@@ -61,6 +61,7 @@ export default function CaregivingScreen({ database, userName }) {
 						articles={caregiving}
 						setArticles={setCaregiving}
 						article={selectedCaregiving}
+						setArticle={setSelectedCaregiving}
 						database={database}
 						userName={userName}
 						type="caregiving"
@@ -75,6 +76,7 @@ export default function CaregivingScreen({ database, userName }) {
 				userName={userName}
 				articles={caregiving}
 				setArticles={setCaregiving}
+				setArticle={setSelectedCaregiving}
 			/>
 		</div>
 	);

@@ -10,6 +10,7 @@ export default function ImportArticleComponent({
 	userName,
 	articles,
 	setArticles,
+	setArticle,
 }) {
 	const [defaultArticles, setDefaultArticles] = useState();
 
@@ -26,18 +27,24 @@ export default function ImportArticleComponent({
 					onClick={async () => {
 						setOpen(false);
 						const ref = doc(database, "users", userName);
-						const newArticles = [...articles, defaultArticles[i]];
+						const newArticle = Object.assign(
+							{},
+							defaultArticles[i]
+						);
+						const newArticles = [...articles, newArticle];
 						if (type === "monitoring") {
 							await updateDoc(ref, {
 								monitoring: newArticles,
 							}).then(() => {
 								setArticles(newArticles);
+								setArticle(newArticle);
 							});
 						} else if (type === "caregiving") {
 							await updateDoc(ref, {
 								caregiving: newArticles,
 							}).then(() => {
 								setArticles(newArticles);
+								setArticle(newArticle);
 							});
 						}
 					}}
@@ -57,7 +64,7 @@ export default function ImportArticleComponent({
 				setOpen(false);
 			}}
 		>
-			<Modal.Header>
+			<Modal.Header closeButton>
 				<Modal.Title>Get {getHeaderText(type)}</Modal.Title>
 			</Modal.Header>
 			<Modal.Body>{items}</Modal.Body>

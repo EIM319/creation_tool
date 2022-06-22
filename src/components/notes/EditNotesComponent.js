@@ -11,7 +11,6 @@ export default function EditNotesComponent({
 	const [value, setValue] = useState("");
 
 	useEffect(() => {
-		console.log(additional_notes);
 		if (additional_notes === undefined) return;
 		setTitle(additional_notes.title);
 		setValue(additional_notes.value);
