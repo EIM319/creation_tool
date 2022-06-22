@@ -2,6 +2,7 @@ import { doc, updateDoc } from "firebase/firestore/lite";
 import { useState, useEffect } from "react";
 import { Button, FormControl, InputGroup } from "react-bootstrap";
 import { FaSave } from "react-icons/fa";
+import { toast } from "react-toastify";
 
 export default function EditMedicineComponent({
 	selectedMedicine,
@@ -38,6 +39,7 @@ export default function EditMedicineComponent({
 			medication: newMedicationList,
 		}).then(() => {
 			setMedication(newMedicationList);
+			toast.success("Save Successful");
 		});
 	}
 

@@ -4,6 +4,7 @@ import { Col, Row, Button } from "react-bootstrap";
 import EditLabComponent from "../components/lab/EditLabComponent";
 import LoadingComponent from "../components/LoadingComponent";
 import { FaSave } from "react-icons/fa";
+import { toast } from "react-toastify";
 
 export default function LabResultsScreen({ database, userName }) {
 	const [lab, setLab] = useState();
@@ -34,6 +35,8 @@ export default function LabResultsScreen({ database, userName }) {
 		const ref = doc(database, "users", userName);
 		await updateDoc(ref, {
 			lab_result: lab,
+		}).then(() => {
+			toast.success("Save Successful");
 		});
 	}
 

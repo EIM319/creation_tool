@@ -8,6 +8,7 @@ import PurposeComponent from "./PurposeComponent";
 import TimeSelectorComponent from "./TimeSelectorComponent";
 import { FaSave } from "react-icons/fa";
 import ConfirmDeleteModal from "./ConfirmDeleteModal";
+import { toast } from "react-toastify";
 
 export default function EditArticleComponent({
 	articles,
@@ -39,6 +40,7 @@ export default function EditArticleComponent({
 			}).then(() => {
 				setArticles(newArticles);
 				setArticle(modifiedArticle);
+				toast.success("Save Successful");
 			});
 		} else if (type === "caregiving") {
 			await updateDoc(ref, {
@@ -46,6 +48,7 @@ export default function EditArticleComponent({
 			}).then(() => {
 				setArticles(newArticles);
 				setArticle(modifiedArticle);
+				toast.success("Save Successful");
 			});
 		}
 	}

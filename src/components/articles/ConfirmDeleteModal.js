@@ -1,5 +1,6 @@
 import { Button, Modal } from "react-bootstrap";
 import { doc, updateDoc } from "firebase/firestore/lite";
+import { toast } from "react-toastify";
 
 export default function ConfirmDeleteModal({
 	show,
@@ -46,6 +47,7 @@ export default function ConfirmDeleteModal({
 								} else {
 									setArticle(undefined);
 								}
+								toast.success("Delete Successful");
 							}
 						);
 					}}

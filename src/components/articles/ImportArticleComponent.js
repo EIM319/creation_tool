@@ -1,6 +1,7 @@
 import { Modal } from "react-bootstrap";
 import { collection, doc, getDocs, updateDoc } from "firebase/firestore/lite";
 import { useEffect, useState } from "react";
+import { toast } from "react-toastify";
 
 export default function ImportArticleComponent({
 	type,
@@ -32,21 +33,13 @@ export default function ImportArticleComponent({
 							defaultArticles[i]
 						);
 						const newArticles = [...articles, newArticle];
-						if (type === "monitoring") {
-							await updateDoc(ref, {
-								monitoring: newArticles,
-							}).then(() => {
+						await updateDatabase(ref, type, newArticles).then(
+							() => {
 								setArticles(newArticles);
 								setArticle(newArticle);
-							});
-						} else if (type === "caregiving") {
-							await updateDoc(ref, {
-								caregiving: newArticles,
-							}).then(() => {
-								setArticles(newArticles);
-								setArticle(newArticle);
-							});
-						}
+								toast.success("Import Successful");
+							}
+						);
 					}}
 				>
 					<b>{defaultArticles[i].name}</b>
@@ -98,4 +91,16 @@ async function getDefaultArticles(type, database, setDefaultArticles) {
 		});
 	}
 	setDefaultArticles(array);
+}
+
+async function updateDatabase(ref, type, newArticles) {
+	if (type === "monitoring") {
+		await updateDoc(ref, {
+			monitoring: newArticles,
+		});
+	} else if (type === "caregiving") {
+		await updateDoc(ref, {
+			caregiving: newArticles,
+		});
+	}
 }
