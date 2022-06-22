@@ -3,6 +3,7 @@ import { useState, useEffect } from "react";
 import { Col, Row, Button } from "react-bootstrap";
 import EditDefaultArticleComponent from "../components/articles/EditDefaultArticleComponent";
 import { toast } from "react-toastify";
+import LoadingComponent from "../components/LoadingComponent";
 
 export default function DefaultArticleScreen({ database }) {
 	const [monitoring, setMonitoring] = useState();
@@ -14,6 +15,8 @@ export default function DefaultArticleScreen({ database }) {
 		getMonitoring(database, setMonitoring);
 		getCaregiving(database, setCaregiving);
 	}, []);
+
+	if (monitoring === undefined) return <LoadingComponent />;
 
 	const listComponents = [];
 	if (viewingMonitoring) {
