@@ -72,6 +72,7 @@ export default function HomeMonitoringScreen({ database, userName }) {
 				open={openModal}
 				setOpen={setOpenModal}
 				database={database}
+				userName={userName}
 				articles={monitoring}
 				setArticles={setMonitoring}
 			/>

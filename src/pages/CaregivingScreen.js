@@ -72,6 +72,7 @@ export default function CaregivingScreen({ database, userName }) {
 				open={openModal}
 				setOpen={setOpenModal}
 				database={database}
+				userName={userName}
 				articles={caregiving}
 				setArticles={setCaregiving}
 			/>
