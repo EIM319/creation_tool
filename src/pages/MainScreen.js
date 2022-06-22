@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { Link, Route, Routes, useLocation } from "react-router-dom";
-import AdditionalNotesScreen from "./AdditionalNotes";
+import AdditionalNotesScreen from "./AdditionalNotesScreen";
 import CaregivingScreen from "./CaregivingScreen";
 import HomeMonitoringScreen from "./HomeMonitoringScreen";
 import LabResultsScreen from "./LabResultsScreen";

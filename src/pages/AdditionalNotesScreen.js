@@ -3,8 +3,9 @@ import { updateDoc, doc, getDoc } from "firebase/firestore/lite";
 import { Col, Row, Button } from "react-bootstrap";
 import EditNotesComponent from "../components/notes/EditNotesComponent";
 import LoadingComponent from "../components/LoadingComponent";
+import { FaSave } from "react-icons/fa";
 
-export default function AdditionalNotes({ database, userName }) {
+export default function AdditionalNotesScreen({ database, userName }) {
 	const [note, setNote] = useState();
 
 	useEffect(() => {
@@ -37,21 +38,51 @@ export default function AdditionalNotes({ database, userName }) {
 	}
 
 	return (
-		<div className="value">
-			<Row>
-				<Col>
-					<b>Keep/Remove</b>
-				</Col>
-				<Col>
-					<b>Section</b>
-				</Col>
-				<Col>
-					<b>Explanation</b>
-				</Col>
-			</Row>
-			{noteList}
-			<Button onClick={addNote}>Add</Button>
-			<Button onClick={save}>Save</Button>
+		<div
+			style={{
+				display: "flex",
+				flexDirection: "column",
+				height: "100vh",
+			}}
+		>
+			<div
+				style={{
+					display: "flex",
+					flexDirection: "row",
+					justifyContent: "space-between",
+					padding: 30,
+				}}
+			>
+				<p style={{ fontSize: 30, margin: 0 }}>Care Staff's Comments</p>
+				<FaSave size={30} onClick={save} className="toggle" />
+			</div>
+			<div
+				style={{
+					display: "flex",
+					flexDirection: "column",
+					overflowY: "auto",
+					padding: "0px 30px 0px 30px",
+				}}
+			>
+				<Row
+					style={{ marginBottom: 10, marginLeft: 0, marginRight: 0 }}
+				>
+					<Col xs={2} style={{ padding: 5 }}>
+						<b>Title</b>
+					</Col>
+					<Col xs={9} style={{ padding: 5 }}>
+						<b>Content</b>
+					</Col>
+				</Row>
+				{noteList}
+				<Button
+					style={{ width: "fit-content" }}
+					variant="secondary"
+					onClick={addNote}
+				>
+					Add Row
+				</Button>
+			</div>
 		</div>
 	);
 }
