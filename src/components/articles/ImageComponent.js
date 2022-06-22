@@ -7,6 +7,8 @@ export default function ImageComponent({ article }) {
 		setLink(article.image);
 	}, [article]);
 
+	if (article.image === undefined) return <></>;
+
 	return (
 		<>
 			<FormControl
