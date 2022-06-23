@@ -1,6 +1,6 @@
 import { doc, updateDoc } from "firebase/firestore/lite";
 import { useState, useEffect } from "react";
-import { Button } from "react-bootstrap";
+import { Button, Spinner } from "react-bootstrap";
 import ContentListComponent from "./ContentListComponent";
 import DaySelectorComponent from "./DaySelectorComponent";
 import HeaderComponent from "./HeaderComponent";
@@ -24,6 +24,7 @@ export default function EditArticleComponent({
 	const [modifiedArticle, setModifiedArticle] = useState();
 	const [showDeleteModal, setShowDeleteModal] = useState(false);
 	const [showPreviewModal, setShowPreviewModal] = useState(false);
+	const [isSaving, setSaving] = useState(false);
 
 	useEffect(() => {
 		setModifiedArticle(Object.assign({}, article));
@@ -33,6 +34,7 @@ export default function EditArticleComponent({
 
 	async function save() {
 		if (modifiedArticle === undefined) return;
+		setSaving(true);
 		const index = articles.indexOf(article);
 		const newArticles = [...articles];
 		newArticles[index] = modifiedArticle;
@@ -41,6 +43,7 @@ export default function EditArticleComponent({
 			await updateDoc(ref, {
 				monitoring: newArticles,
 			}).then(() => {
+				setSaving(false);
 				setArticles(newArticles);
 				setArticle(modifiedArticle);
 				toast.success("Save Successful");
@@ -49,6 +52,7 @@ export default function EditArticleComponent({
 			await updateDoc(ref, {
 				caregiving: newArticles,
 			}).then(() => {
+				setSaving(false);
 				setArticles(newArticles);
 				setArticle(modifiedArticle);
 				toast.success("Save Successful");
@@ -84,7 +88,11 @@ export default function EditArticleComponent({
 						className="toggle"
 						style={{ marginRight: 20 }}
 					/>
-					<FaSave size={30} onClick={save} className="toggle" />
+					{isSaving ? (
+						<Spinner animation="border" role="status" />
+					) : (
+						<FaSave size={30} onClick={save} className="toggle" />
+					)}
 				</div>
 			</div>
 			<div

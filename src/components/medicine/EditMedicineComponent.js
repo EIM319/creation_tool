@@ -1,6 +1,6 @@
 import { doc, updateDoc } from "firebase/firestore/lite";
 import { useState, useEffect } from "react";
-import { Button, FormControl, InputGroup } from "react-bootstrap";
+import { Button, FormControl, InputGroup, Spinner } from "react-bootstrap";
 import { FaSave } from "react-icons/fa";
 import { toast } from "react-toastify";
 
@@ -14,6 +14,7 @@ export default function EditMedicineComponent({
 	const [purpose, setPurpose] = useState("");
 	const [sideEffects, setSideEffects] = useState([]);
 	const [extras, setExtras] = useState([]);
+	const [isSaving, setSaving] = useState(false);
 
 	useEffect(() => {
 		if (selectedMedicine === undefined) return;
@@ -24,6 +25,7 @@ export default function EditMedicineComponent({
 
 	async function save() {
 		if (selectedMedicine === undefined) return;
+		setSaving(true);
 		const newMedicine = new Object(selectedMedicine);
 		newMedicine.purpose = purpose;
 		newMedicine.side_effects = sideEffects;
@@ -38,6 +40,7 @@ export default function EditMedicineComponent({
 		await updateDoc(ref, {
 			medication: newMedicationList,
 		}).then(() => {
+			setSaving(false);
 			setMedication(newMedicationList);
 			toast.success("Save Successful");
 		});
@@ -63,7 +66,11 @@ export default function EditMedicineComponent({
 					<p style={{ fontSize: 30, margin: 0 }}>
 						{selectedMedicine.name}
 					</p>
-					<FaSave size={30} onClick={save} className="toggle" />
+					{isSaving ? (
+						<Spinner animation="border" role="status" />
+					) : (
+						<FaSave size={30} onClick={save} className="toggle" />
+					)}
 				</div>
 				<div
 					style={{

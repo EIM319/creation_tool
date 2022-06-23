@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { updateDoc, doc, getDoc } from "firebase/firestore/lite";
-import { Col, Row, Button } from "react-bootstrap";
+import { Col, Row, Button, Spinner } from "react-bootstrap";
 import EditNotesComponent from "../components/notes/EditNotesComponent";
 import LoadingComponent from "../components/LoadingComponent";
 import { FaSave } from "react-icons/fa";
@@ -8,6 +8,7 @@ import { toast } from "react-toastify";
 
 export default function AdditionalNotesScreen({ database, userName }) {
 	const [note, setNote] = useState();
+	const [isSaving, setSaving] = useState(false);
 
 	useEffect(() => {
 		getNote(database, userName, setNote);
@@ -23,7 +24,7 @@ export default function AdditionalNotesScreen({ database, userName }) {
 				note={note}
 				setNote={setNote}
 				index={i}
-			></EditNotesComponent>
+			/>
 		);
 	}
 
@@ -32,10 +33,12 @@ export default function AdditionalNotesScreen({ database, userName }) {
 	}
 
 	async function save() {
+		setSaving(true);
 		const ref = doc(database, "users", userName);
 		await updateDoc(ref, {
 			additional_notes: note,
 		}).then(() => {
+			setSaving(false);
 			toast.success("Save Successful");
 		});
 	}
@@ -57,7 +60,11 @@ export default function AdditionalNotesScreen({ database, userName }) {
 				}}
 			>
 				<p style={{ fontSize: 30, margin: 0 }}>Care Staff's Comments</p>
-				<FaSave size={30} onClick={save} className="toggle" />
+				{isSaving ? (
+					<Spinner animation="border" role="status" />
+				) : (
+					<FaSave size={30} onClick={save} className="toggle" />
+				)}
 			</div>
 			<div
 				style={{

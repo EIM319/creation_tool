@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { updateDoc, doc, getDoc } from "firebase/firestore/lite";
-import { Col, Row, Button } from "react-bootstrap";
+import { Col, Row, Button, Spinner } from "react-bootstrap";
 import EditLabComponent from "../components/lab/EditLabComponent";
 import LoadingComponent from "../components/LoadingComponent";
 import { FaSave } from "react-icons/fa";
@@ -8,6 +8,7 @@ import { toast } from "react-toastify";
 
 export default function LabResultsScreen({ database, userName }) {
 	const [lab, setLab] = useState();
+	const [isSaving, setSaving] = useState(false);
 
 	useEffect(() => {
 		getLab(database, userName, setLab);
@@ -32,10 +33,12 @@ export default function LabResultsScreen({ database, userName }) {
 	}
 
 	async function save() {
+		setSaving(true);
 		const ref = doc(database, "users", userName);
 		await updateDoc(ref, {
 			lab_result: lab,
 		}).then(() => {
+			setSaving(false);
 			toast.success("Save Successful");
 		});
 	}
@@ -57,7 +60,11 @@ export default function LabResultsScreen({ database, userName }) {
 				}}
 			>
 				<p style={{ fontSize: 30, margin: 0 }}>Lab Results Analysis</p>
-				<FaSave size={30} onClick={save} className="toggle" />
+				{isSaving ? (
+					<Spinner animation="border" role="status" />
+				) : (
+					<FaSave size={30} onClick={save} className="toggle" />
+				)}
 			</div>
 			<div
 				style={{
