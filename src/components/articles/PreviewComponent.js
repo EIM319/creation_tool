@@ -2,7 +2,7 @@ import { Image, Row, Modal } from "react-bootstrap";
 import YouTube from "./Youtube";
 
 export default function PreviewComponent({ show, setShow, article }) {
-	if (article === undefined || article.components === undefined) return null;
+	if (article === undefined || article.content === undefined) return null;
 
 	const components = [];
 	article.content.forEach((item) => {
