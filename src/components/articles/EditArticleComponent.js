@@ -6,10 +6,11 @@ import DaySelectorComponent from "./DaySelectorComponent";
 import HeaderComponent from "./HeaderComponent";
 import PurposeComponent from "./PurposeComponent";
 import TimeSelectorComponent from "./TimeSelectorComponent";
-import { FaSave } from "react-icons/fa";
-import ConfirmDeleteModal from "./ConfirmDeleteModal";
+import { FaSave, FaEye } from "react-icons/fa";
+import ConfirmDeleteComponent from "./ConfirmDeleteComponent";
 import { toast } from "react-toastify";
 import ImageComponent from "./ImageComponent";
+import PreviewComponent from "./PreviewComponent";
 
 export default function EditArticleComponent({
 	articles,
@@ -22,6 +23,7 @@ export default function EditArticleComponent({
 }) {
 	const [modifiedArticle, setModifiedArticle] = useState();
 	const [showDeleteModal, setShowDeleteModal] = useState(false);
+	const [showPreviewModal, setShowPreviewModal] = useState(false);
 
 	useEffect(() => {
 		setModifiedArticle(Object.assign({}, article));
@@ -73,7 +75,17 @@ export default function EditArticleComponent({
 				<p style={{ fontSize: 30, margin: 0 }}>
 					{modifiedArticle.name}
 				</p>
-				<FaSave size={30} onClick={save} className="toggle" />
+				<div style={{ display: "flex", flexDirection: "row" }}>
+					<FaEye
+						size={30}
+						onClick={() => {
+							setShowPreviewModal(true);
+						}}
+						className="toggle"
+						style={{ marginRight: 20 }}
+					/>
+					<FaSave size={30} onClick={save} className="toggle" />
+				</div>
 			</div>
 			<div
 				style={{
@@ -122,7 +134,7 @@ export default function EditArticleComponent({
 				</Button>
 				<br />
 			</div>
-			<ConfirmDeleteModal
+			<ConfirmDeleteComponent
 				show={showDeleteModal}
 				setShow={setShowDeleteModal}
 				database={database}
@@ -132,6 +144,11 @@ export default function EditArticleComponent({
 				article={article}
 				setArticle={setArticle}
 				type={type}
+			/>
+			<PreviewComponent
+				show={showPreviewModal}
+				setShow={setShowPreviewModal}
+				article={modifiedArticle}
 			/>
 		</div>
 	);
