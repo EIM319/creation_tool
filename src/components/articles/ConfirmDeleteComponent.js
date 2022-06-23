@@ -2,7 +2,7 @@ import { Button, Modal } from "react-bootstrap";
 import { doc, updateDoc } from "firebase/firestore/lite";
 import { toast } from "react-toastify";
 
-export default function ConfirmDeleteModal({
+export default function ConfirmDeleteComponent({
 	show,
 	setShow,
 	database,

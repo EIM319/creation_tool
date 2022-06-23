@@ -6,7 +6,7 @@ import HeaderComponent from "./HeaderComponent";
 import PurposeComponent from "./PurposeComponent";
 import TimeSelectorComponent from "./TimeSelectorComponent";
 import ImageComponent from "./ImageComponent";
-import ConfirmDeleteDefaultModel from "./ConfirmDeleteDefaultModal";
+import ConfirmDeleteDefaultComponent from "./ConfirmDeleteDefaultComponent";
 import { FaSave, FaEye } from "react-icons/fa";
 import { updateDoc } from "firebase/firestore/lite";
 import { toast } from "react-toastify";
@@ -124,7 +124,7 @@ export default function EditDefaultArticleComponent({
 				</Button>
 				<br />
 			</div>
-			<ConfirmDeleteDefaultModel
+			<ConfirmDeleteDefaultComponent
 				show={showDeleteModal}
 				setShow={setShowDeleteModal}
 				articles={articles}

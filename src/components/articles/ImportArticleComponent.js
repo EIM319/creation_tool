@@ -2,6 +2,7 @@ import { Modal } from "react-bootstrap";
 import { collection, doc, getDocs, updateDoc } from "firebase/firestore/lite";
 import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
+import { Link } from "react-router-dom";
 
 export default function ImportArticleComponent({
 	type,
@@ -61,6 +62,10 @@ export default function ImportArticleComponent({
 				<Modal.Title>Get {getHeaderText(type)}</Modal.Title>
 			</Modal.Header>
 			<Modal.Body>{items}</Modal.Body>
+			<Modal.Footer>
+				<p>Unable to find what you need?</p>
+				<Link to="/tool">Click Here</Link>
+			</Modal.Footer>
 		</Modal>
 	);
 }

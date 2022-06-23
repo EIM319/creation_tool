@@ -7,7 +7,7 @@ import HeaderComponent from "./HeaderComponent";
 import PurposeComponent from "./PurposeComponent";
 import TimeSelectorComponent from "./TimeSelectorComponent";
 import { FaSave, FaEye } from "react-icons/fa";
-import ConfirmDeleteModal from "./ConfirmDeleteModal";
+import ConfirmDeleteComponent from "./ConfirmDeleteComponent";
 import { toast } from "react-toastify";
 import ImageComponent from "./ImageComponent";
 import PreviewComponent from "./PreviewComponent";
@@ -134,7 +134,7 @@ export default function EditArticleComponent({
 				</Button>
 				<br />
 			</div>
-			<ConfirmDeleteModal
+			<ConfirmDeleteComponent
 				show={showDeleteModal}
 				setShow={setShowDeleteModal}
 				database={database}
