@@ -7,9 +7,10 @@ import PurposeComponent from "./PurposeComponent";
 import TimeSelectorComponent from "./TimeSelectorComponent";
 import ImageComponent from "./ImageComponent";
 import ConfirmDeleteDefaultModel from "./ConfirmDeleteDefaultModal";
-import { FaSave } from "react-icons/fa";
+import { FaSave, FaEye } from "react-icons/fa";
 import { updateDoc } from "firebase/firestore/lite";
 import { toast } from "react-toastify";
+import PreviewComponent from "./PreviewComponent";
 
 export default function EditDefaultArticleComponent({
 	articles,
@@ -20,6 +21,7 @@ export default function EditDefaultArticleComponent({
 }) {
 	const [modifiedArticle, setModifiedArticle] = useState();
 	const [showDeleteModal, setShowDeleteModal] = useState(false);
+	const [showPreviewModal, setShowPreviewModal] = useState(false);
 
 	useEffect(() => {
 		if (article === undefined) return;
@@ -63,7 +65,17 @@ export default function EditDefaultArticleComponent({
 				<p style={{ fontSize: 30, margin: 0 }}>
 					{modifiedArticle.name}
 				</p>
-				<FaSave size={30} onClick={save} className="toggle" />
+				<div style={{ display: "flex", flexDirection: "row" }}>
+					<FaEye
+						size={30}
+						onClick={() => {
+							setShowPreviewModal(true);
+						}}
+						className="toggle"
+						style={{ marginRight: 20 }}
+					/>
+					<FaSave size={30} onClick={save} className="toggle" />
+				</div>
 			</div>
 			<div
 				style={{
@@ -119,6 +131,11 @@ export default function EditDefaultArticleComponent({
 				setArticles={setArticles}
 				article={article}
 				setArticle={setArticle}
+			/>
+			<PreviewComponent
+				show={showPreviewModal}
+				setShow={setShowPreviewModal}
+				article={modifiedArticle}
 			/>
 		</div>
 	);
