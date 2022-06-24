@@ -12,7 +12,7 @@ export default function DefaultArticleScreen({ database }) {
 	const [selectedArticle, setSelectedArticle] = useState();
 
 	useEffect(() => {
-		getMonitoring(database, setMonitoring);
+		getMonitoring(database, setMonitoring, setSelectedArticle);
 		getCaregiving(database, setCaregiving);
 	}, []);
 
@@ -164,7 +164,7 @@ export default function DefaultArticleScreen({ database }) {
 	);
 }
 
-async function getMonitoring(database, setMonitoring) {
+async function getMonitoring(database, setMonitoring, setSelectedArticle) {
 	const array = [];
 	const ref = collection(database, "homemonitoring");
 	const documents = await getDocs(ref);
@@ -172,6 +172,9 @@ async function getMonitoring(database, setMonitoring) {
 		array.push({ data: doc.data(), ref: doc.ref });
 	});
 	setMonitoring(array);
+	if (array.length > 0) {
+		setSelectedArticle(array[0]);
+	}
 }
 
 async function getCaregiving(database, setCaregiving) {

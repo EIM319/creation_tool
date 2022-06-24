@@ -6,7 +6,7 @@ import DaySelectorComponent from "./DaySelectorComponent";
 import HeaderComponent from "./HeaderComponent";
 import PurposeComponent from "./PurposeComponent";
 import TimeSelectorComponent from "./TimeSelectorComponent";
-import { FaSave, FaEye } from "react-icons/fa";
+import { FaSave, FaEdit } from "react-icons/fa";
 import ConfirmDeleteComponent from "./ConfirmDeleteComponent";
 import { toast } from "react-toastify";
 import ImageComponent from "./ImageComponent";
@@ -23,11 +23,13 @@ export default function EditArticleComponent({
 }) {
 	const [modifiedArticle, setModifiedArticle] = useState();
 	const [showDeleteModal, setShowDeleteModal] = useState(false);
-	const [showPreviewModal, setShowPreviewModal] = useState(false);
 	const [isSaving, setSaving] = useState(false);
+	const [isEditing, setEditing] = useState(false);
 
 	useEffect(() => {
+		if (article === undefined) return;
 		setModifiedArticle(Object.assign({}, article));
+		setEditing(false);
 	}, [article]);
 
 	if (modifiedArticle === undefined) return <></>;
@@ -44,6 +46,7 @@ export default function EditArticleComponent({
 				monitoring: newArticles,
 			}).then(() => {
 				setSaving(false);
+				setEditing(false);
 				setArticles(newArticles);
 				setArticle(modifiedArticle);
 				toast.success("Save Successful");
@@ -53,6 +56,7 @@ export default function EditArticleComponent({
 				caregiving: newArticles,
 			}).then(() => {
 				setSaving(false);
+				setEditing(false);
 				setArticles(newArticles);
 				setArticle(modifiedArticle);
 				toast.success("Save Successful");
@@ -60,41 +64,8 @@ export default function EditArticleComponent({
 		}
 	}
 
-	return (
-		<div
-			style={{
-				display: "flex",
-				flexDirection: "column",
-				height: "100vh",
-			}}
-		>
-			<div
-				style={{
-					display: "flex",
-					flexDirection: "row",
-					justifyContent: "space-between",
-					padding: 30,
-				}}
-			>
-				<p style={{ fontSize: 30, margin: 0 }}>
-					{modifiedArticle.name}
-				</p>
-				<div style={{ display: "flex", flexDirection: "row" }}>
-					<FaEye
-						size={30}
-						onClick={() => {
-							setShowPreviewModal(true);
-						}}
-						className="toggle"
-						style={{ marginRight: 20 }}
-					/>
-					{isSaving ? (
-						<Spinner animation="border" role="status" />
-					) : (
-						<FaSave size={30} onClick={save} className="toggle" />
-					)}
-				</div>
-			</div>
+	function EditComponent() {
+		return (
 			<div
 				style={{
 					display: "flex",
@@ -142,6 +113,55 @@ export default function EditArticleComponent({
 				</Button>
 				<br />
 			</div>
+		);
+	}
+
+	return (
+		<div
+			style={{
+				display: "flex",
+				flexDirection: "column",
+				height: "100vh",
+			}}
+		>
+			<div
+				style={{
+					display: "flex",
+					flexDirection: "row",
+					justifyContent: "space-between",
+					padding: 30,
+				}}
+			>
+				<p style={{ fontSize: 30, margin: 0 }}>
+					{modifiedArticle.name}
+				</p>
+				<div style={{ display: "flex", flexDirection: "row" }}>
+					{isEditing ? (
+						isSaving ? (
+							<Spinner animation="border" role="status" />
+						) : (
+							<FaSave
+								size={30}
+								onClick={save}
+								className="toggle"
+							/>
+						)
+					) : (
+						<FaEdit
+							size={30}
+							className="toggle"
+							onClick={() => {
+								setEditing(true);
+							}}
+						/>
+					)}
+				</div>
+			</div>
+			{isEditing ? (
+				<EditComponent />
+			) : (
+				<PreviewComponent article={article} />
+			)}
 			<ConfirmDeleteComponent
 				show={showDeleteModal}
 				setShow={setShowDeleteModal}
@@ -152,11 +172,6 @@ export default function EditArticleComponent({
 				article={article}
 				setArticle={setArticle}
 				type={type}
-			/>
-			<PreviewComponent
-				show={showPreviewModal}
-				setShow={setShowPreviewModal}
-				article={modifiedArticle}
 			/>
 		</div>
 	);

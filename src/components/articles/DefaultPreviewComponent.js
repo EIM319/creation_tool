@@ -1,7 +1,7 @@
-import { Image } from "react-bootstrap";
+import { Image, Row, Modal } from "react-bootstrap";
 import YouTube from "./Youtube";
 
-export default function PreviewComponent({ article }) {
+export default function DefaultPreviewComponent({ show, setShow, article }) {
 	if (article === undefined || article.content === undefined) return null;
 
 	const components = [];
@@ -52,13 +52,11 @@ export default function PreviewComponent({ article }) {
 	});
 
 	return (
-		<div
-			style={{
-				padding: 30,
-				overflowY: "auto",
-			}}
-		>
-			<div style={{ maxWidth: 700 }}>{components}</div>
-		</div>
+		<Modal show={show} onHide={() => setShow(false)} centered>
+			<Modal.Header closeButton>
+				<Modal.Title>{article.name}</Modal.Title>
+			</Modal.Header>
+			<Row style={{ padding: 20 }}>{components}</Row>
+		</Modal>
 	);
 }

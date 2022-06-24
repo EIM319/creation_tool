@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Button } from "react-bootstrap";
+import { Button, Spinner } from "react-bootstrap";
 import ContentListComponent from "./ContentListComponent";
 import DaySelectorComponent from "./DaySelectorComponent";
 import HeaderComponent from "./HeaderComponent";
@@ -10,7 +10,7 @@ import ConfirmDeleteDefaultComponent from "./ConfirmDeleteDefaultComponent";
 import { FaSave, FaEye } from "react-icons/fa";
 import { updateDoc } from "firebase/firestore/lite";
 import { toast } from "react-toastify";
-import PreviewComponent from "./PreviewComponent";
+import DefaultPreviewComponent from "./DefaultPreviewComponent";
 
 export default function EditDefaultArticleComponent({
 	articles,
@@ -22,6 +22,7 @@ export default function EditDefaultArticleComponent({
 	const [modifiedArticle, setModifiedArticle] = useState();
 	const [showDeleteModal, setShowDeleteModal] = useState(false);
 	const [showPreviewModal, setShowPreviewModal] = useState(false);
+	const [isSaving, setSaving] = useState(false);
 
 	useEffect(() => {
 		if (article === undefined) return;
@@ -32,6 +33,7 @@ export default function EditDefaultArticleComponent({
 
 	async function save() {
 		if (modifiedArticle === undefined) return;
+		setSaving(true);
 		const ref = article.ref;
 		updateDoc(ref, modifiedArticle).then(() => {
 			const index = articles.indexOf(article);
@@ -42,6 +44,7 @@ export default function EditDefaultArticleComponent({
 			const newArticles = [...articles];
 			newArticles[index] = newArticle;
 			setArticles(newArticles);
+			setSaving(false);
 			toast.success("Article Updated");
 		});
 	}
@@ -74,7 +77,11 @@ export default function EditDefaultArticleComponent({
 						className="toggle"
 						style={{ marginRight: 20 }}
 					/>
-					<FaSave size={30} onClick={save} className="toggle" />
+					{isSaving ? (
+						<Spinner animation="border" role="status" />
+					) : (
+						<FaSave size={30} onClick={save} className="toggle" />
+					)}
 				</div>
 			</div>
 			<div
@@ -132,7 +139,7 @@ export default function EditDefaultArticleComponent({
 				article={article}
 				setArticle={setArticle}
 			/>
-			<PreviewComponent
+			<DefaultPreviewComponent
 				show={showPreviewModal}
 				setShow={setShowPreviewModal}
 				article={modifiedArticle}
