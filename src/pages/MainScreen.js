@@ -7,15 +7,13 @@ import HomeMonitoringScreen from "./HomeMonitoringScreen";
 import LabResultsScreen from "./LabResultsScreen";
 import MedicationScreen from "./MedicationScreen";
 
-const userName = "iCgfe1IHSfDNRC3hfgxF";
-
-export default function MainScreen({ database }) {
+export default function MainScreen({ database, userName }) {
 	const [path, setPath] = useState("");
 	const location = useLocation();
 
 	useEffect(() => {
 		const currentPath = window.location.pathname.substring(1);
-		if (currentPath != path) {
+		if (currentPath !== path) {
 			setPath(currentPath);
 		}
 	}, [location]);
