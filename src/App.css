@@ -26,6 +26,18 @@ p {
 	--accent: rgb(12, 121, 235);
 }
 
+/** Dashboard Screen **/
+
+.header {
+	width: 100%;
+	display: flex;
+	flex-direction: column;
+	padding: 80px 40px;
+	align-items: center;
+	justify-content: center;
+	background-color: var(--accent);
+}
+
 /** Main Screen **/
 
 .mainPage {
