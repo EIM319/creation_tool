@@ -9,6 +9,7 @@ export default function DashboardScreen({ database }) {
 	const [input, setInput] = useState("");
 	const [items, setItems] = useState([]);
 	const [selectedUser, setSelectedUser] = useState(null);
+	const [selectedName, setSelectedName] = useState(null);
 
 	useEffect(() => {
 		getUsers(database, setUsers);
@@ -28,7 +29,15 @@ export default function DashboardScreen({ database }) {
 	if (users === undefined) return <LoadingComponent />;
 
 	if (selectedUser !== null) {
-		return <MainScreen database={database} userName={selectedUser} />;
+		return (
+			<MainScreen
+				database={database}
+				userName={selectedUser}
+				setUserName={setSelectedUser}
+				name={selectedName}
+				setName={setSelectedName}
+			/>
+		);
 	}
 
 	const list = [];
@@ -41,6 +50,7 @@ export default function DashboardScreen({ database }) {
 				key={i}
 				onClick={() => {
 					setSelectedUser(items[i].id);
+					setSelectedName(items[i].data().name);
 				}}
 			>
 				<p className="listItem">{items[i].data().name}</p>
