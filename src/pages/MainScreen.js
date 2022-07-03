@@ -7,7 +7,13 @@ import HomeMonitoringScreen from "./HomeMonitoringScreen";
 import LabResultsScreen from "./LabResultsScreen";
 import MedicationScreen from "./MedicationScreen";
 
-export default function MainScreen({ database, userName }) {
+export default function MainScreen({
+	database,
+	userName,
+	setUserName,
+	name,
+	setName,
+}) {
 	const [path, setPath] = useState("");
 	const location = useLocation();
 
@@ -20,7 +26,12 @@ export default function MainScreen({ database, userName }) {
 
 	return (
 		<div className="mainPage">
-			<SideNavBar path={path} />
+			<SideNavBar
+				path={path}
+				setUserName={setUserName}
+				name={name}
+				setName={setName}
+			/>
 			<div className="content">
 				<Routes>
 					<Route
@@ -101,7 +112,7 @@ var screenNames = [
 	},
 ];
 
-function SideNavBar({ path }) {
+function SideNavBar({ path, setUserName, name, setName }) {
 	var toggles = [];
 	for (let i = 0; i < screenNames.length; i++) {
 		if (screenNames[i].path === path) {
@@ -122,5 +133,23 @@ function SideNavBar({ path }) {
 			);
 		}
 	}
-	return <div className="sideNav">{toggles}</div>;
+	return (
+		<div className="sideNav">
+			<div style={{ padding: 20 }}>
+				<p style={{ fontSize: 20, fontWeight: 500 }}>{name}</p>
+				<p
+					className="toggle"
+					onClick={() => {
+						setUserName(null);
+						setName(null);
+					}}
+				>
+					← Back to Dashboard
+				</p>
+				<br />
+				<div className="line" />
+			</div>
+			{toggles}
+		</div>
+	);
 }

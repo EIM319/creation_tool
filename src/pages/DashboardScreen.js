@@ -1,6 +1,8 @@
 import { collection, getDocs } from "firebase/firestore/lite";
 import { useEffect, useState } from "react";
 import { Col, Container, FormControl, Row } from "react-bootstrap";
+import { IoIosAdd } from "react-icons/io";
+import AddUserModal from "../components/dashboard/AddUserModal";
 import LoadingComponent from "../components/LoadingComponent";
 import MainScreen from "./MainScreen";
 
@@ -9,6 +11,8 @@ export default function DashboardScreen({ database }) {
 	const [input, setInput] = useState("");
 	const [items, setItems] = useState([]);
 	const [selectedUser, setSelectedUser] = useState(null);
+	const [selectedName, setSelectedName] = useState(null);
+	const [showAddModal, setShowAddModal] = useState(false);
 
 	useEffect(() => {
 		getUsers(database, setUsers);
@@ -28,7 +32,15 @@ export default function DashboardScreen({ database }) {
 	if (users === undefined) return <LoadingComponent />;
 
 	if (selectedUser !== null) {
-		return <MainScreen database={database} userName={selectedUser} />;
+		return (
+			<MainScreen
+				database={database}
+				userName={selectedUser}
+				setUserName={setSelectedUser}
+				name={selectedName}
+				setName={setSelectedName}
+			/>
+		);
 	}
 
 	const list = [];
@@ -41,6 +53,7 @@ export default function DashboardScreen({ database }) {
 				key={i}
 				onClick={() => {
 					setSelectedUser(items[i].id);
+					setSelectedName(items[i].data().name);
 				}}
 			>
 				<p className="listItem">{items[i].data().name}</p>
@@ -73,6 +86,21 @@ export default function DashboardScreen({ database }) {
 			<Container>
 				<Row style={{ padding: 40 }}>{list}</Row>
 			</Container>
+			<div
+				className="fab toggle"
+				onClick={() => {
+					setShowAddModal(true);
+				}}
+			>
+				<IoIosAdd size={30} color="white" />
+			</div>
+			<AddUserModal
+				database={database}
+				users={users}
+				setUsers={setUsers}
+				open={showAddModal}
+				setOpen={setShowAddModal}
+			/>
 		</div>
 	);
 }
