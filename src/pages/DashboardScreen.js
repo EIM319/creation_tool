@@ -1,6 +1,8 @@
 import { collection, getDocs } from "firebase/firestore/lite";
 import { useEffect, useState } from "react";
 import { Col, Container, FormControl, Row } from "react-bootstrap";
+import { IoIosAdd } from "react-icons/io";
+import AddUserModal from "../components/dashboard/AddUserModal";
 import LoadingComponent from "../components/LoadingComponent";
 import MainScreen from "./MainScreen";
 
@@ -10,6 +12,7 @@ export default function DashboardScreen({ database }) {
 	const [items, setItems] = useState([]);
 	const [selectedUser, setSelectedUser] = useState(null);
 	const [selectedName, setSelectedName] = useState(null);
+	const [showAddModal, setShowAddModal] = useState(false);
 
 	useEffect(() => {
 		getUsers(database, setUsers);
@@ -83,6 +86,21 @@ export default function DashboardScreen({ database }) {
 			<Container>
 				<Row style={{ padding: 40 }}>{list}</Row>
 			</Container>
+			<div
+				className="fab toggle"
+				onClick={() => {
+					setShowAddModal(true);
+				}}
+			>
+				<IoIosAdd size={30} color="white" />
+			</div>
+			<AddUserModal
+				database={database}
+				users={users}
+				setUsers={setUsers}
+				open={showAddModal}
+				setOpen={setShowAddModal}
+			/>
 		</div>
 	);
 }

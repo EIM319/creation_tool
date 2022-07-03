@@ -173,3 +173,17 @@ p {
 	height: 1px;
 	background-color: #c5c5c5;
 }
+
+.fab {
+	position: absolute;
+	width: 60px;
+	height: 60px;
+	background-color: var(--accent);
+	border-radius: 50%;
+	bottom: 30px;
+	right: 30px;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+}
