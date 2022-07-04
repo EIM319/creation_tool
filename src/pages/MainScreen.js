@@ -1,5 +1,7 @@
 import { useEffect, useState } from "react";
+import { Button } from "react-bootstrap";
 import { Link, Route, Routes, useLocation } from "react-router-dom";
+import PublishModal from "../components/publish/PublishModal";
 import AdditionalNotesScreen from "./AdditionalNotesScreen";
 import CaregivingScreen from "./CaregivingScreen";
 import DefaultArticleScreen from "./DefaultArticlesScreen";
@@ -15,6 +17,7 @@ export default function MainScreen({
 	setName,
 }) {
 	const [path, setPath] = useState("");
+	const [showPublishModal, setShowPublishModal] = useState(false);
 	const location = useLocation();
 
 	useEffect(() => {
@@ -31,6 +34,7 @@ export default function MainScreen({
 				setUserName={setUserName}
 				name={name}
 				setName={setName}
+				setShowPublishModal={setShowPublishModal}
 			/>
 			<div className="content">
 				<Routes>
@@ -85,6 +89,12 @@ export default function MainScreen({
 					/>
 				</Routes>
 			</div>
+			<PublishModal
+				show={showPublishModal}
+				setShow={setShowPublishModal}
+				database={database}
+				userName={userName}
+			/>
 		</div>
 	);
 }
@@ -112,7 +122,7 @@ var screenNames = [
 	},
 ];
 
-function SideNavBar({ path, setUserName, name, setName }) {
+function SideNavBar({ path, setUserName, name, setName, setShowPublishModal }) {
 	var toggles = [];
 	for (let i = 0; i < screenNames.length; i++) {
 		if (screenNames[i].path === path) {
@@ -150,6 +160,18 @@ function SideNavBar({ path, setUserName, name, setName }) {
 				<div className="line" />
 			</div>
 			{toggles}
+			<div style={{ padding: 20 }}>
+				<div className="line" />
+				<br />
+				<Button
+					style={{ width: "100%" }}
+					onClick={() => {
+						setShowPublishModal(true);
+					}}
+				>
+					Publish
+				</Button>
+			</div>
 		</div>
 	);
 }
