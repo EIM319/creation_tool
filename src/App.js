@@ -1,9 +1,9 @@
 import "./App.css";
 import { BrowserRouter } from "react-router-dom";
-import MainScreen from "./pages/MainScreen";
+// import MainScreen from "./pages/MainScreen";
 import { initializeApp } from "firebase/app";
 import { getFirestore } from "firebase/firestore/lite";
-import DashboardScreen from "./pages/DashboardScreen";
+// import DashboardScreen from "./pages/DashboardScreen";
 
 const firebaseConfig = {
 	apiKey: "AIzaSyDl4oBi9R0lWDIj8Uk2GrjzK3D-XB36xOM",
@@ -18,8 +18,6 @@ const db = getFirestore(app);
 
 export default function App() {
 	return (
-		<BrowserRouter>
-			<DashboardScreen database={db} />
-		</BrowserRouter>
+		<BrowserRouter>{/* <DashboardScreen database={db} /> */}</BrowserRouter>
 	);
 }
