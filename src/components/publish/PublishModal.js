@@ -4,6 +4,7 @@ import { addDoc, collection, doc, getDoc } from "firebase/firestore/lite";
 export default function PublishModal({ show, setShow, userName, database }) {
 	async function publish() {
 		const data = await getUser(database, userName);
+		data.date = new Date();
 		const archiveRef = collection(
 			database,
 			"users/" + userName + "/archive"
@@ -45,7 +46,6 @@ export default function PublishModal({ show, setShow, userName, database }) {
 async function getUser(database, userName) {
 	const ref = doc(database, "users", userName);
 	const result = await getDoc(ref);
-	console.log(result);
 	const data = result.data();
 	return data;
 }
