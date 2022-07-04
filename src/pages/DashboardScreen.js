@@ -4,7 +4,7 @@ import { Col, Container, FormControl, Row } from "react-bootstrap";
 import { IoIosAdd } from "react-icons/io";
 import AddUserModal from "../components/dashboard/AddUserModal";
 import LoadingComponent from "../components/LoadingComponent";
-import MainScreen from "./MainScreen";
+// import MainScreen from "./MainScreen";
 
 export default function DashboardScreen({ database }) {
 	const [users, setUsers] = useState();
@@ -31,17 +31,17 @@ export default function DashboardScreen({ database }) {
 
 	if (users === undefined) return <LoadingComponent />;
 
-	if (selectedUser !== null) {
-		return (
-			<MainScreen
-				database={database}
-				userName={selectedUser}
-				setUserName={setSelectedUser}
-				name={selectedName}
-				setName={setSelectedName}
-			/>
-		);
-	}
+	// if (selectedUser !== null) {
+	// 	return (
+	// 		<MainScreen
+	// 			database={database}
+	// 			userName={selectedUser}
+	// 			setUserName={setSelectedUser}
+	// 			name={selectedName}
+	// 			setName={setSelectedName}
+	// 		/>
+	// 	);
+	// }
 
 	const list = [];
 	for (let i = 0; i < items.length; i++) {
