@@ -1,12 +1,12 @@
 import { Button, Modal } from "react-bootstrap";
 import { doc, updateDoc } from "firebase/firestore/lite";
 
-export default function ClearAllModal(
+export default function ClearAllModal({
     show, 
     setShow, 
     database, 
     userName
-){
+}){
     return (
         <Modal
             show = {show}
