@@ -1,5 +1,6 @@
 import { Button, Modal } from "react-bootstrap";
 import { doc, updateDoc } from "firebase/firestore/lite";
+import { toast } from "react-toastify";
 
 export default function ClearAllModal({
     show, 
@@ -48,6 +49,8 @@ export default function ClearAllModal({
                         });
                         await updateDoc(ref, {
                             additional_notes: empty,
+                        }).then(() => {
+                            toast.success("All Entries Cleared");
                         });
                     }}
                 >
