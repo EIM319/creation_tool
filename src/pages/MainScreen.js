@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { Button } from "react-bootstrap";
 import { Link, Route, Routes, useLocation } from "react-router-dom";
 import ClearAllModal from "../components/clear/ClearAllModal";
+import PreviewModal from "../components/publish/PreviewModal";
 import PublishModal from "../components/publish/PublishModal";
 import AdditionalNotesScreen from "./AdditionalNotesScreen";
 import CaregivingScreen from "./CaregivingScreen";
@@ -20,6 +21,7 @@ export default function MainScreen({
 	const [path, setPath] = useState("");
 	const [showPublishModal, setShowPublishModal] = useState(false);
 	const [showClearAllModal, setShowClearAllModal] = useState(false);
+	const [showPreviewModal, setShowPreviewModal] = useState(false);
 	const location = useLocation();
 
 	useEffect(() => {
@@ -37,7 +39,8 @@ export default function MainScreen({
 				name={name}
 				setName={setName}
 				setShowPublishModal={setShowPublishModal}
-				setShowClearAllModal = {setShowClearAllModal}
+				setShowClearAllModal={setShowClearAllModal}
+				setShowPreviewModal={setShowPreviewModal}
 			/>
 			<div className="content">
 				<Routes>
@@ -93,18 +96,22 @@ export default function MainScreen({
 				</Routes>
 			</div>
 			<ClearAllModal
-					show = {showClearAllModal}
-					setShow = {setShowClearAllModal}
-					database = {database}
-					userName = {userName}
+				show={showClearAllModal}
+				setShow={setShowClearAllModal}
+				database={database}
+				userName={userName}
 			/>
 			<PublishModal
 				show={showPublishModal}
 				setShow={setShowPublishModal}
 				database={database}
-				userName={userName}				
+				userName={userName}
 			/>
-				
+			<PreviewModal
+				show={showPreviewModal}
+				setShow={setShowPreviewModal}
+				user={userName}
+			/>
 		</div>
 	);
 }
@@ -132,7 +139,15 @@ var screenNames = [
 	},
 ];
 
-function SideNavBar({ path, setUserName, name, setName, setShowPublishModal, setShowClearAllModal}) {
+function SideNavBar({
+	path,
+	setUserName,
+	name,
+	setName,
+	setShowPublishModal,
+	setShowClearAllModal,
+	setShowPreviewModal,
+}) {
 	var toggles = [];
 	for (let i = 0; i < screenNames.length; i++) {
 		if (screenNames[i].path === path) {
@@ -174,18 +189,25 @@ function SideNavBar({ path, setUserName, name, setName, setShowPublishModal, set
 				<div className="line" />
 				<br />
 				<Button
-					style = {{width: "100%", 
-					marginBottom: 10}}
-					variant = "outline-danger"
+					style={{ width: "100%", marginBottom: 10 }}
+					variant="outline-danger"
 					onClick={() => {
 						setShowClearAllModal(true);
 					}}
 				>
 					Clear All
-				</Button> 
+				</Button>
 				<Button
-					style={{ width: "100%"
+					style={{ width: "100%", marginBottom: 10 }}
+					variant="secondary"
+					onClick={() => {
+						setShowPreviewModal(true);
 					}}
+				>
+					Preview
+				</Button>
+				<Button
+					style={{ width: "100%" }}
 					onClick={() => {
 						setShowPublishModal(true);
 					}}
