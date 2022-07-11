@@ -27,13 +27,6 @@ class MultipleSelection extends Component {
 			selectText="Pick Items"
 			searchInputPlaceholderText="Search Items..."
 			onChangeInput={ (text)=> console.log(text)}
-			altFontFamily="ProximaNova-Light"
-			tagRemoveIconColor="#CCC"
-			tagBorderColor="#CCC"
-			tagTextColor="#CCC"
-			selectedItemTextColor="#CCC"
-			selectedItemIconColor="#CCC"
-			itemTextColor="#000"
 			displayKey="name"
 			searchInputStyle={{ color: '#CCC' }}
 			submitButtonColor="#CCC"
