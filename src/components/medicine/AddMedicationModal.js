@@ -1,6 +1,7 @@
 import { collection, doc, getDocs, updateDoc } from "firebase/firestore/lite";
 import { useEffect, useState } from "react";
 import { Modal } from "react-bootstrap";
+import { Link } from "react-router-dom";
 import { toast } from "react-toastify";
 
 export default function AddMedicationModal({
@@ -55,7 +56,10 @@ export default function AddMedicationModal({
 				<Modal.Title>Get Medication</Modal.Title>
 			</Modal.Header>
 			<Modal.Body>{itemsListing}</Modal.Body>
-			<Modal.Footer></Modal.Footer>
+			<Modal.Footer>
+				<p>Unable to find what you need?</p>
+				<Link to="/tool">Click Here</Link>
+			</Modal.Footer>
 		</Modal>
 	);
 }
