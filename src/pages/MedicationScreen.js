@@ -1,12 +1,14 @@
 import { useState, useEffect } from "react";
 import { doc, getDoc } from "firebase/firestore/lite";
-import { Col, Row } from "react-bootstrap";
+import { Button, Col, Row } from "react-bootstrap";
 import EditMedicineComponent from "../components/medicine/EditMedicineComponent";
 import LoadingComponent from "../components/LoadingComponent";
+import AddMedicationModal from "../components/medicine/AddMedicationModal";
 
 export default function MedicationScreen({ database, userName }) {
 	const [medication, setMedication] = useState();
 	const [selectedMedicine, setSelectedMedicine] = useState();
+	const [openModal, setOpenModal] = useState(false);
 
 	useEffect(() => {
 		getMedication(database, userName, setMedication, setSelectedMedicine);
@@ -42,6 +44,17 @@ export default function MedicationScreen({ database, userName }) {
 			<Row style={{ width: "100%", margin: 0 }}>
 				<Col xs={3} className="listPanel">
 					{medicationList}
+					<div style={{ margin: 10 }}>
+						<Button
+							variant="secondary"
+							style={{ width: "100%" }}
+							onClick={() => {
+								setOpenModal(true);
+							}}
+						>
+							Add Medication
+						</Button>
+					</div>
 				</Col>
 				<Col xs={9}>
 					<EditMedicineComponent
@@ -53,6 +66,14 @@ export default function MedicationScreen({ database, userName }) {
 					/>
 				</Col>
 			</Row>
+			<AddMedicationModal
+				show={openModal}
+				setShow={setOpenModal}
+				database={database}
+				userName={userName}
+				medication={medication}
+				setMedication={setMedication}
+			/>
 		</div>
 	);
 }

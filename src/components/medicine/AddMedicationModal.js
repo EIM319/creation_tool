@@ -1,0 +1,132 @@
+import { collection, doc, getDocs, updateDoc } from "firebase/firestore/lite";
+import { useEffect, useState } from "react";
+import { Button, Modal } from "react-bootstrap";
+import { Link } from "react-router-dom";
+import { toast } from "react-toastify";
+
+export default function AddMedicationModal({
+	show,
+	setShow,
+	database,
+	userName,
+	medication,
+	setMedication,
+}) {
+	const [defaultMedication, setDefaultMedication] = useState([]);
+	const [selectedMedication, setSelectedMedication] = useState(new Set());
+
+	useEffect(() => {
+		getDefaultMedications(database, setDefaultMedication);
+	}, []);
+
+	return (
+		<Modal
+			show={show}
+			onHide={() => {
+				setShow(false);
+			}}
+			centered
+		>
+			<Modal.Header closeButton>
+				<Modal.Title>Get Medication</Modal.Title>
+			</Modal.Header>
+			<Modal.Body>
+				<MedicationList
+					selectedMedication={selectedMedication}
+					setSelectedMedication={setSelectedMedication}
+					defaultMedication={defaultMedication}
+				/>
+				<div
+					style={{
+						display: "flex",
+						flexDirection: "row",
+					}}
+				>
+					<p style={{ fontSize: 13, margin: 0 }}>
+						Unable to find what you need?{" "}
+						<Link to="/tool">Click Here</Link>
+					</p>
+				</div>
+			</Modal.Body>
+			<Modal.Footer>
+				<Button
+					onClick={async () => {
+						setShow(false);
+						const ref = doc(database, "users", userName);
+						const newMedications = [...medication];
+						selectedMedication.forEach((index) => {
+							const newMedicine = Object.assign(
+								{},
+								defaultMedication[index]
+							);
+							newMedications.push(newMedicine);
+						});
+						await updateDoc(ref, {
+							medication: newMedications,
+						}).then(() => {
+							setMedication(newMedications);
+							toast.success("Import Successful");
+						});
+					}}
+				>
+					Add
+				</Button>
+			</Modal.Footer>
+		</Modal>
+	);
+}
+
+async function getDefaultMedications(database, setDefaultMedication) {
+	const items = [];
+	const ref = collection(database, "medication");
+	const docs = await getDocs(ref);
+	docs.docs.forEach((doc) => {
+		items.push(doc.data());
+	});
+	setDefaultMedication(items);
+}
+
+function MedicationList({
+	selectedMedication,
+	setSelectedMedication,
+	defaultMedication,
+}) {
+	const items = [];
+	for (let i = 0; i < defaultMedication.length; i++) {
+		const medicine = defaultMedication[i];
+		if (selectedMedication.has(i)) {
+			items.push(
+				<div
+					className="toggle"
+					onClick={() => {
+						const newSet = new Set(selectedMedication);
+						newSet.delete(i);
+						setSelectedMedication(newSet);
+					}}
+				>
+					<b style={{ color: "rgb(12, 121, 235)" }}>
+						{medicine.name}
+					</b>
+					<p style={{ color: "rgb(12, 121, 235)" }}>
+						{medicine.purpose}
+					</p>
+				</div>
+			);
+		} else {
+			items.push(
+				<div
+					className="toggle"
+					onClick={() => {
+						const newSet = new Set(selectedMedication);
+						newSet.add(i);
+						setSelectedMedication(newSet);
+					}}
+				>
+					<b>{medicine.name}</b>
+					<p>{medicine.purpose}</p>
+				</div>
+			);
+		}
+	}
+	return items;
+}
