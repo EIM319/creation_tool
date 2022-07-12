@@ -1,8 +1,9 @@
 import "./App.css";
-import { BrowserRouter } from "react-router-dom";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { initializeApp } from "firebase/app";
 import { getFirestore } from "firebase/firestore/lite";
 import DashboardScreen from "./pages/DashboardScreen";
+import DefaultArticleScreen from "./pages/DefaultArticlesScreen";
 
 const firebaseConfig = {
 	apiKey: "AIzaSyDl4oBi9R0lWDIj8Uk2GrjzK3D-XB36xOM",
@@ -18,7 +19,13 @@ const db = getFirestore(app);
 export default function App() {
 	return (
 		<BrowserRouter>
-			<DashboardScreen database={db} />
+			<Routes>
+				<Route
+					path="tool"
+					element={<DefaultArticleScreen database={db} />}
+				/>
+				<Route path="*" element={<DashboardScreen database={db} />} />
+			</Routes>
 		</BrowserRouter>
 	);
 }
