@@ -3,6 +3,7 @@ import { useState, useEffect } from "react";
 import { Button, FormControl, InputGroup, Spinner } from "react-bootstrap";
 import { FaSave } from "react-icons/fa";
 import { toast } from "react-toastify";
+import ConfirmDeleteMedicineComponent from "./ConfirmDeleteMedicineComponent";
 
 export default function EditMedicineComponent({
 	selectedMedicine,
@@ -12,6 +13,7 @@ export default function EditMedicineComponent({
 	userName,
 }) {
 	const [purpose, setPurpose] = useState("");
+	const [showDeleteModal, setShowDeleteModal] = useState(false);
 	const [sideEffects, setSideEffects] = useState([]);
 	const [extras, setExtras] = useState([]);
 	const [isSaving, setSaving] = useState(false);
@@ -106,6 +108,26 @@ export default function EditMedicineComponent({
 						Extra Notes
 					</b>
 					<Extras extras={extras} setExtras={setExtras} />
+					<br />
+					<Button
+						style={{ width: "fit-content" }}
+						variant="danger"
+						onClick={() => {
+							setShowDeleteModal(true);
+						}}
+					>
+						Delete Medicine
+					</Button>
+					<br />
+					<ConfirmDeleteMedicineComponent
+						show = {showDeleteModal}
+						setShow = {setShowDeleteModal}
+						database = {database}
+						userName = {userName}
+						medicines = {medication}
+						setMedication = {setMedication}
+						selectedMedicine = {selectedMedicine}
+					/>
 					<br />
 				</div>
 			</div>
