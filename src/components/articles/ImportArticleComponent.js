@@ -1,4 +1,4 @@
-import { Modal } from "react-bootstrap";
+import { Button, Modal } from "react-bootstrap";
 import { collection, doc, getDocs, updateDoc } from "firebase/firestore/lite";
 import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
@@ -15,40 +15,15 @@ export default function ImportArticleComponent({
 	setArticle,
 }) {
 	const [defaultArticles, setDefaultArticles] = useState();
+	const [selectedArticles, setSelectedArticles] = useState(new Set());
 
 	useEffect(() => {
 		getDefaultArticles(type, database, setDefaultArticles);
 	}, [type]);
 
-	const items = [];
-	if (defaultArticles !== undefined) {
-		for (let i = 0; i < defaultArticles.length; i++) {
-			items.push(
-				<div
-					className="toggle"
-					onClick={async () => {
-						setOpen(false);
-						const ref = doc(database, "users", userName);
-						const newArticle = Object.assign(
-							{},
-							defaultArticles[i]
-						);
-						const newArticles = [...articles, newArticle];
-						await updateDatabase(ref, type, newArticles).then(
-							() => {
-								setArticles(newArticles);
-								setArticle(newArticle);
-								toast.success("Import Successful");
-							}
-						);
-					}}
-				>
-					<b>{defaultArticles[i].name}</b>
-					<p>{defaultArticles[i].purpose}</p>
-				</div>
-			);
-		}
-	}
+	useEffect(() => {
+		selectedArticles.clear();
+	}, [open]);
 
 	return (
 		<Modal
@@ -61,10 +36,47 @@ export default function ImportArticleComponent({
 			<Modal.Header closeButton>
 				<Modal.Title>Get {getHeaderText(type)}</Modal.Title>
 			</Modal.Header>
-			<Modal.Body>{items}</Modal.Body>
+			<Modal.Body>
+				<Articles
+					selectedArticles={selectedArticles}
+					setSelectedArticles={setSelectedArticles}
+					defaultArticles={defaultArticles}
+				/>
+				<div
+					style={{
+						display: "flex",
+						flexDirection: "row",
+					}}
+				>
+					<p style={{ fontSize: 13, margin: 0 }}>
+						Unable to find what you need?{" "}
+						<Link to="/tool">Click Here</Link>
+					</p>
+				</div>
+			</Modal.Body>
 			<Modal.Footer>
-				<p>Unable to find what you need?</p>
-				<Link to="/tool">Click Here</Link>
+				<Button
+					onClick={async () => {
+						setOpen(false);
+						const ref = doc(database, "users", userName);
+						const newArticles = [...articles];
+						selectedArticles.forEach((index) => {
+							const newArticle = Object.assign(
+								{},
+								defaultArticles[index]
+							);
+							newArticles.push(newArticle);
+						});
+						await updateDatabase(ref, type, newArticles).then(
+							() => {
+								setArticles(newArticles);
+								toast.success("Import Successful");
+							}
+						);
+					}}
+				>
+					Add
+				</Button>
 			</Modal.Footer>
 		</Modal>
 	);
@@ -108,4 +120,47 @@ async function updateDatabase(ref, type, newArticles) {
 			caregiving: newArticles,
 		});
 	}
+}
+
+function Articles({ selectedArticles, setSelectedArticles, defaultArticles }) {
+	const items = [];
+	console.log(selectedArticles);
+	if (defaultArticles !== undefined) {
+		for (let i = 0; i < defaultArticles.length; i++) {
+			if (selectedArticles.has(i)) {
+				items.push(
+					<div
+						className="toggle"
+						onClick={async () => {
+							const newSet = new Set(selectedArticles);
+							newSet.delete(i);
+							setSelectedArticles(newSet);
+						}}
+					>
+						<b style={{ color: "rgb(12, 121, 235)" }}>
+							{defaultArticles[i].name}
+						</b>
+						<p style={{ color: "rgb(12, 121, 235)" }}>
+							{defaultArticles[i].purpose}
+						</p>
+					</div>
+				);
+			} else {
+				items.push(
+					<div
+						className="toggle"
+						onClick={async () => {
+							const newSet = new Set(selectedArticles);
+							newSet.add(i);
+							setSelectedArticles(newSet);
+						}}
+					>
+						<b>{defaultArticles[i].name}</b>
+						<p>{defaultArticles[i].purpose}</p>
+					</div>
+				);
+			}
+		}
+	}
+	return items;
 }
