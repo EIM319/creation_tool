@@ -4,6 +4,7 @@ import { Link, Route, Routes, useLocation } from "react-router-dom";
 import ClearAllModal from "../components/clear/ClearAllModal";
 import PreviewModal from "../components/publish/PreviewModal";
 import PublishModal from "../components/publish/PublishModal";
+import UnsavedModal from "../components/unsaved/UnsavedModal";
 import AdditionalNotesScreen from "./AdditionalNotesScreen";
 import CaregivingScreen from "./CaregivingScreen";
 import HomeMonitoringScreen from "./HomeMonitoringScreen";
@@ -22,6 +23,8 @@ export default function MainScreen({
 	const [showClearAllModal, setShowClearAllModal] = useState(false);
 	const [showPreviewModal, setShowPreviewModal] = useState(false);
 	const location = useLocation();
+	const [showUnsavedModal, setShowUnsavedModal] = useState(false);
+	let unsaved = false; 
 
 	useEffect(() => {
 		const currentPath = window.location.pathname.substring(1);
@@ -40,9 +43,15 @@ export default function MainScreen({
 				setShowPublishModal={setShowPublishModal}
 				setShowClearAllModal={setShowClearAllModal}
 				setShowPreviewModal={setShowPreviewModal}
+				onChange = {() => {
+					unsaved = true;
+				}}
 			/>
 			<div className="content">
 				<Routes>
+				onChange = {() => {
+					unsaved = true;
+				}}
 					<Route
 						path="/"
 						element={
@@ -106,6 +115,11 @@ export default function MainScreen({
 				show={showPreviewModal}
 				setShow={setShowPreviewModal}
 				user={userName}
+			/>
+			<UnsavedModal
+				show = {showUnsavedModal}
+				setShow = {setShowUnsavedModal}
+				unsavedChanges = {unsaved}
 			/>
 		</div>
 	);
