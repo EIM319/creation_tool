@@ -30,7 +30,7 @@ export default function ConfirmDeleteMedicineComponent({
                 </Button>
                 <Button 
                     variant = "danger"
-                    onCliick = {async()=> {
+                    onClick = {async()=> {
                         setShow(false);
                         const ref = doc(database, "users", userName)
                         const index = medicines.indexOf(selectedMedicine); 
