@@ -73,7 +73,6 @@ export default function MedicationScreen({ database, userName }) {
 				userName={userName}
 				medication={medication}
 				setMedication={setMedication}
-				setSelectedMedicine={setSelectedMedicine}
 			/>
 		</div>
 	);
