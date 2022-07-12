@@ -4,12 +4,14 @@ import { Col, Row, Button } from "react-bootstrap";
 import EditDefaultArticleComponent from "../components/articles/EditDefaultArticleComponent";
 import { toast } from "react-toastify";
 import LoadingComponent from "../components/LoadingComponent";
+import { useNavigate } from "react-router-dom";
 
 export default function DefaultArticleScreen({ database }) {
 	const [monitoring, setMonitoring] = useState();
 	const [caregiving, setCaregiving] = useState();
 	const [viewingMonitoring, setViewingMonitoring] = useState(true);
 	const [selectedArticle, setSelectedArticle] = useState();
+	const navigate = useNavigate();
 
 	useEffect(() => {
 		getMonitoring(database, setMonitoring, setSelectedArticle);
@@ -101,6 +103,15 @@ export default function DefaultArticleScreen({ database }) {
 				<Col xs={3} className="listPanel">
 					<div style={{ margin: 20 }}>
 						<Row>
+							<b
+								className="toggle"
+								style={{ fontSize: 17, marginBottom: 20 }}
+								onClick={() => {
+									navigate("/");
+								}}
+							>
+								← Back to dashboard
+							</b>
 							<Col
 								className={
 									viewingMonitoring

@@ -2,6 +2,7 @@ import { collection, getDocs } from "firebase/firestore/lite";
 import { useEffect, useState } from "react";
 import { Col, Container, FormControl, Row } from "react-bootstrap";
 import { IoIosAdd } from "react-icons/io";
+import { useNavigate } from "react-router-dom";
 import AddUserModal from "../components/dashboard/AddUserModal";
 import LoadingComponent from "../components/LoadingComponent";
 import MainScreen from "./MainScreen";
@@ -13,6 +14,7 @@ export default function DashboardScreen({ database }) {
 	const [selectedUser, setSelectedUser] = useState(null);
 	const [selectedName, setSelectedName] = useState(null);
 	const [showAddModal, setShowAddModal] = useState(false);
+	const navigate = useNavigate();
 
 	useEffect(() => {
 		getUsers(database, setUsers);
@@ -93,6 +95,14 @@ export default function DashboardScreen({ database }) {
 				}}
 			>
 				<IoIosAdd size={30} color="white" />
+			</div>
+			<div
+				className="fabLong toggle"
+				onClick={() => {
+					navigate("/tool");
+				}}
+			>
+				<b style={{ margin: 0, color: "white" }}>Edit Articles</b>
 			</div>
 			<AddUserModal
 				database={database}
