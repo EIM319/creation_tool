@@ -23,8 +23,8 @@ export default function MainScreen({
 	const [showClearAllModal, setShowClearAllModal] = useState(false);
 	const [showPreviewModal, setShowPreviewModal] = useState(false);
 	const location = useLocation();
-	const [showUnsavedModal, setShowUnsavedModal] = useState(false);
-	let unsaved = false; 
+	//const [showUnsavedModal, setShowUnsavedModal] = useState(false);
+	const [unsaved, setUnsaved] = useState(false); 
 
 	useEffect(() => {
 		const currentPath = window.location.pathname.substring(1);
@@ -43,21 +43,19 @@ export default function MainScreen({
 				setShowPublishModal={setShowPublishModal}
 				setShowClearAllModal={setShowClearAllModal}
 				setShowPreviewModal={setShowPreviewModal}
-				onChange = {() => {
-					unsaved = true;
-				}}
+				// onChange = {() => {
+				// 	setUnsaved(true);
+				// }}
 			/>
 			<div className="content">
 				<Routes>
-				onChange = {() => {
-					unsaved = true;
-				}}
 					<Route
 						path="/"
 						element={
 							<MedicationScreen
 								database={database}
 								userName={userName}
+								setUnsaved={setUnsaved}
 							/>
 						}
 					/>
@@ -67,6 +65,7 @@ export default function MainScreen({
 							<HomeMonitoringScreen
 								database={database}
 								userName={userName}
+								setUnsaved = {setUnsaved}
 							/>
 						}
 					/>
@@ -76,6 +75,8 @@ export default function MainScreen({
 							<LabResultsScreen
 								database={database}
 								userName={userName}
+								setUnsaved = {setUnsaved}
+
 							/>
 						}
 					/>
@@ -85,6 +86,7 @@ export default function MainScreen({
 							<CaregivingScreen
 								database={database}
 								userName={userName}
+								setUnsaved = {setUnsaved}
 							/>
 						}
 					/>
@@ -94,6 +96,7 @@ export default function MainScreen({
 							<AdditionalNotesScreen
 								database={database}
 								userName={userName}
+								setUnsaved={setUnsaved}
 							/>
 						}
 					/>
@@ -117,9 +120,9 @@ export default function MainScreen({
 				user={userName}
 			/>
 			<UnsavedModal
-				show = {showUnsavedModal}
-				setShow = {setShowUnsavedModal}
-				unsavedChanges = {unsaved}
+				show = {unsaved}
+				setShow = {setUnsaved}
+				// unsavedChanges = {unsaved}
 			/>
 		</div>
 	);
@@ -156,6 +159,7 @@ function SideNavBar({
 	setShowPublishModal,
 	setShowClearAllModal,
 	setShowPreviewModal,
+	// onChange
 }) {
 	var toggles = [];
 	for (let i = 0; i < screenNames.length; i++) {
@@ -165,6 +169,7 @@ function SideNavBar({
 					to={screenNames[i].path}
 					className="sideNavText sideNavTextSelected"
 					key={i}
+			
 				>
 					{screenNames[i].name}
 				</Link>

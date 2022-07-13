@@ -20,6 +20,7 @@ export default function EditArticleComponent({
 	database,
 	userName,
 	type,
+	setUnsaved
 }) {
 	const [modifiedArticle, setModifiedArticle] = useState();
 	const [showDeleteModal, setShowDeleteModal] = useState(false);
@@ -75,13 +76,13 @@ export default function EditArticleComponent({
 				}}
 			>
 				<b style={{ paddingBottom: 10, fontSize: 20 }}>Title</b>
-				<HeaderComponent article={modifiedArticle} />
+				<HeaderComponent article={modifiedArticle} setUnsaved = {setUnsaved} />
 				<br />
 				<b style={{ paddingBottom: 10, fontSize: 20 }}>Purpose</b>
-				<PurposeComponent article={modifiedArticle} />
+				<PurposeComponent article={modifiedArticle} setUnsaved = {setUnsaved} />
 				<br />
 				<b style={{ paddingBottom: 10, fontSize: 20 }}>Banner Image</b>
-				<ImageComponent article={modifiedArticle} />
+				<ImageComponent article={modifiedArticle} setUnsaved = {setUnsaved} />
 				<br />
 				{type === "monitoring" ? (
 					<>
@@ -97,6 +98,7 @@ export default function EditArticleComponent({
 				<ContentListComponent
 					article={modifiedArticle}
 					setArticle={setModifiedArticle}
+					setUnsaved = {setUnsaved}
 				/>
 				<br />
 				<div className="line" />

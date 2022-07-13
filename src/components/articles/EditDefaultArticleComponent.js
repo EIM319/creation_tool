@@ -96,7 +96,7 @@ export default function EditDefaultArticleComponent({
 				<HeaderComponent article={modifiedArticle} />
 				<br />
 				<b style={{ paddingBottom: 10, fontSize: 20 }}>Purpose</b>
-				<PurposeComponent article={modifiedArticle} />
+				<PurposeComponent article={modifiedArticle}  />
 				<br />
 				<b style={{ paddingBottom: 10, fontSize: 20 }}>Banner Image</b>
 				<ImageComponent article={modifiedArticle} />

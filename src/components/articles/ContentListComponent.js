@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { Button } from "react-bootstrap";
 import ContentComponent from "./ContentComponent";
 
-export default function ContentListComponent({ article, setArticle }) {
+export default function ContentListComponent({ article, setArticle, setUnsaved }) {
 	const [content, setContent] = useState();
 
 	useEffect(() => {
@@ -20,6 +20,7 @@ export default function ContentListComponent({ article, setArticle }) {
 				article={article}
 				setArticle={setArticle}
 				index={i}
+				setUnsaved = {setUnsaved}
 			/>
 		);
 	}

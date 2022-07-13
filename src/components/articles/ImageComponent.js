@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { FormControl, Image } from "react-bootstrap";
 
-export default function ImageComponent({ article }) {
+export default function ImageComponent({ article, setUnsaved }) {
 	const [link, setLink] = useState();
 	useEffect(() => {
 		setLink(article.image);
@@ -14,6 +14,7 @@ export default function ImageComponent({ article }) {
 			<FormControl
 				value={link}
 				onChange={(event) => {
+					setUnsaved(true);
 					setLink(event.target.value);
 					article.image = event.target.value;
 				}}

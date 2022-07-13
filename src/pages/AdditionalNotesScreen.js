@@ -6,7 +6,7 @@ import LoadingComponent from "../components/LoadingComponent";
 import { FaSave } from "react-icons/fa";
 import { toast } from "react-toastify";
 
-export default function AdditionalNotesScreen({ database, userName }) {
+export default function AdditionalNotesScreen({ database, userName, setUnsaved }) {
 	const [note, setNote] = useState();
 	const [isSaving, setSaving] = useState(false);
 
@@ -24,6 +24,7 @@ export default function AdditionalNotesScreen({ database, userName }) {
 				note={note}
 				setNote={setNote}
 				index={i}
+				setUnsaved={setUnsaved}
 			/>
 		);
 	}

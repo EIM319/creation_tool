@@ -6,6 +6,7 @@ export default function EditNotesComponent({
 	note,
 	setNote,
 	index,
+	setUnsaved
 }) {
 	const [title, setTitle] = useState("");
 	const [value, setValue] = useState("");
@@ -28,6 +29,7 @@ export default function EditNotesComponent({
 				<FormControl
 					value={title}
 					onChange={(event) => {
+						setUnsaved(true);
 						additional_notes.title = event.target.value;
 						setTitle(event.target.value);
 					}}
@@ -38,6 +40,7 @@ export default function EditNotesComponent({
 					as="textarea"
 					value={value}
 					onChange={(event) => {
+						setUnsaved(true);
 						additional_notes.value = event.target.value;
 						setValue(event.target.value);
 					}}

@@ -6,7 +6,7 @@ import { toast } from "react-toastify";
 import LoadingComponent from "../components/LoadingComponent";
 import { useNavigate } from "react-router-dom";
 
-export default function DefaultArticleScreen({ database }) {
+export default function DefaultArticleScreen({ database}) {
 	const [monitoring, setMonitoring] = useState();
 	const [caregiving, setCaregiving] = useState();
 	const [viewingMonitoring, setViewingMonitoring] = useState(true);
@@ -159,6 +159,7 @@ export default function DefaultArticleScreen({ database }) {
 							article={selectedArticle}
 							setArticle={setSelectedArticle}
 							type="monitoring"
+							//setUnsaved={setUnsaved}
 						/>
 					) : (
 						<EditDefaultArticleComponent
@@ -167,6 +168,7 @@ export default function DefaultArticleScreen({ database }) {
 							article={selectedArticle}
 							setArticle={setSelectedArticle}
 							type="caregiving"
+							//setUnsaved={setUnsaved}
 						/>
 					)}
 				</Col>

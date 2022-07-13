@@ -5,7 +5,7 @@ import EditArticleComponent from "../components/articles/EditArticleComponent";
 import ImportArticleComponent from "../components/articles/ImportArticleComponent";
 import LoadingComponent from "../components/LoadingComponent";
 
-export default function CaregivingScreen({ database, userName }) {
+export default function CaregivingScreen({ database, userName, setUnsaved }) {
 	const [caregiving, setCaregiving] = useState();
 	const [selectedCaregiving, setSelectedCaregiving] = useState();
 	const [openModal, setOpenModal] = useState(false);
@@ -65,6 +65,7 @@ export default function CaregivingScreen({ database, userName }) {
 						database={database}
 						userName={userName}
 						type="caregiving"
+						setUnsaved = {setUnsaved}
 					/>
 				</Col>
 			</Row>

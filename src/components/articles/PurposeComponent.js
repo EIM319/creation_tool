@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { FormControl } from "react-bootstrap";
 
-export default function PurposeComponent({ article }) {
+export default function PurposeComponent({ article, setUnsaved }) {
 	const [purpose, setPurpose] = useState();
 
 	useEffect(() => {
@@ -14,6 +14,7 @@ export default function PurposeComponent({ article }) {
 		<FormControl
 			value={purpose}
 			onChange={(event) => {
+				setUnsaved(true);
 				setPurpose(event.target.value);
 				article.purpose = event.target.value;
 			}}

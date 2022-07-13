@@ -10,6 +10,7 @@ export default function EditMedicineComponent({
 	setMedication,
 	database,
 	userName,
+	setUnsaved
 }) {
 	const [purpose, setPurpose] = useState("");
 	const [sideEffects, setSideEffects] = useState([]);
@@ -85,6 +86,7 @@ export default function EditMedicineComponent({
 						<FormControl
 							value={purpose}
 							onChange={(event) => {
+								setUnsaved(true);
 								setPurpose(event.target.value);
 							}}
 						/>
@@ -99,13 +101,14 @@ export default function EditMedicineComponent({
 					<SideEffects
 						sideEffects={sideEffects}
 						setSideEffects={setSideEffects}
+						setUnsaved={setUnsaved}
 					/>
 					<br />
 
 					<b style={{ paddingBottom: 10, fontSize: 20 }}>
 						Extra Notes
 					</b>
-					<Extras extras={extras} setExtras={setExtras} />
+					<Extras extras={extras} setExtras={setExtras} setUnsaved={setUnsaved} />
 					<br />
 				</div>
 			</div>
@@ -115,7 +118,7 @@ export default function EditMedicineComponent({
 	}
 }
 
-function SideEffects({ sideEffects, setSideEffects }) {
+function SideEffects({ sideEffects, setSideEffects, setUnsaved }) {
 	if (sideEffects === undefined) return null;
 	const array = [];
 	for (let i = 0; i < sideEffects.length; i++) {
@@ -125,6 +128,7 @@ function SideEffects({ sideEffects, setSideEffects }) {
 					as="textarea"
 					value={sideEffects[i]}
 					onChange={(event) => {
+						setUnsaved(true);
 						const newSideEffects = [...sideEffects];
 						newSideEffects[i] = event.target.value;
 						setSideEffects(newSideEffects);
@@ -159,7 +163,7 @@ function SideEffects({ sideEffects, setSideEffects }) {
 	return array;
 }
 
-function Extras({ extras, setExtras }) {
+function Extras({ extras, setExtras, setUnsaved }) {
 	if (extras === undefined) return null;
 	const array = [];
 	for (let i = 0; i < extras.length; i++) {
@@ -170,6 +174,7 @@ function Extras({ extras, setExtras }) {
 					<FormControl
 						value={extras[i].header}
 						onChange={(event) => {
+							setUnsaved(true);
 							const newExtras = [...extras];
 							const newExtra = new Object(newExtras[i]);
 							newExtra.header = event.target.value;
@@ -193,6 +198,7 @@ function Extras({ extras, setExtras }) {
 					style={{ marginBottom: 20 }}
 					value={extras[i].content}
 					onChange={(event) => {
+						setUnsaved(true);
 						const newExtras = [...extras];
 						const newExtra = new Object(newExtras[i]);
 						newExtra.content = event.target.value;

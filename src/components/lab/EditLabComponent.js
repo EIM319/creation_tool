@@ -1,7 +1,7 @@
 import { Row, Col, FormControl, Button } from "react-bootstrap";
 import { useState, useEffect } from "react";
 
-export default function EditLabComponent({ labResult, lab, setLab, index }) {
+export default function EditLabComponent({ labResult, lab, setLab, index, setUnsaved }) {
 	const [title, setTitle] = useState("");
 	const [content, setContent] = useState("");
 	const [solution, setSolution] = useState("");
@@ -25,6 +25,7 @@ export default function EditLabComponent({ labResult, lab, setLab, index }) {
 				<FormControl
 					value={title}
 					onChange={(event) => {
+						setUnsaved(true);
 						labResult.title = event.target.value;
 						setTitle(event.target.value);
 					}}

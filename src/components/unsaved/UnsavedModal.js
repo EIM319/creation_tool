@@ -2,12 +2,10 @@ import {Button, Modal} from "react-bootstrap";
 
 export default function UnsavedModal({
     show, 
-    setShow,
-    unsavedChanges,
-    
+    setShow
 }){
-    console.log(show)
-    if (unsavedChanges){
+//   console.log(show)
+    if (setShow){
         return(
             <Modal 
         centered

@@ -5,7 +5,7 @@ import EditMedicineComponent from "../components/medicine/EditMedicineComponent"
 import LoadingComponent from "../components/LoadingComponent";
 import AddMedicationModal from "../components/medicine/AddMedicationModal";
 
-export default function MedicationScreen({ database, userName }) {
+export default function MedicationScreen({ database, userName, setUnsaved }) {
 	const [medication, setMedication] = useState();
 	const [selectedMedicine, setSelectedMedicine] = useState();
 	const [openModal, setOpenModal] = useState(false);
@@ -63,6 +63,7 @@ export default function MedicationScreen({ database, userName }) {
 						setMedication={setMedication}
 						database={database}
 						userName={userName}
+						setUnsaved = {setUnsaved}
 					/>
 				</Col>
 			</Row>

@@ -13,6 +13,7 @@ export default function ContentComponent({
 	article,
 	setArticle,
 	index,
+	setUnsaved
 }) {
 	const [type, setType] = useState();
 	const [value, setValue] = useState();
@@ -70,6 +71,7 @@ export default function ContentComponent({
 				as="textarea"
 				value={value}
 				onChange={(event) => {
+					setUnsaved(true);
 					setValue(event.target.value);
 					content[index].content = event.target.value;
 				}}

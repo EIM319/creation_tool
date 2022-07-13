@@ -22,7 +22,8 @@ export default function App() {
 			<Routes>
 				<Route
 					path="tool"
-					element={<DefaultArticleScreen database={db} />}
+					element={<DefaultArticleScreen database={db} 
+					/>}
 				/>
 				<Route path="*" element={<DashboardScreen database={db} />} />
 			</Routes>

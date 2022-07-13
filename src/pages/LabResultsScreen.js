@@ -6,7 +6,7 @@ import LoadingComponent from "../components/LoadingComponent";
 import { FaSave } from "react-icons/fa";
 import { toast } from "react-toastify";
 
-export default function LabResultsScreen({ database, userName }) {
+export default function LabResultsScreen({ database, userName, setUnsaved }) {
 	const [lab, setLab] = useState();
 	const [isSaving, setSaving] = useState(false);
 
@@ -24,6 +24,7 @@ export default function LabResultsScreen({ database, userName }) {
 				lab={lab}
 				setLab={setLab}
 				index={i}
+				setUnsaved = {setUnsaved}
 			/>
 		);
 	}
