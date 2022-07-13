@@ -14,7 +14,9 @@ export default function EditDefaultMedicineComponent({
 	medication,
 	setMedication,
 }) {
+	const [name, setName] = useState("");
 	const [purpose, setPurpose] = useState("");
+	const [dosage, setDosage] = useState("");
 	const [showDeleteModal, setShowDeleteModal] = useState(false);
 	const [dayTime, setDayTime] = useState({});
 	const [sideEffects, setSideEffects] = useState([]);
@@ -23,7 +25,9 @@ export default function EditDefaultMedicineComponent({
 
 	useEffect(() => {
 		if (selectedMedicine === undefined) return;
+		setName(selectedMedicine.data.name);
 		setPurpose(selectedMedicine.data.purpose);
+		setDosage(selectedMedicine.data.dosage);
 		setSideEffects(selectedMedicine.data.side_effects);
 		setExtras(selectedMedicine.data.extras);
 		setDayTime({
@@ -37,7 +41,9 @@ export default function EditDefaultMedicineComponent({
 		setSaving(true);
 		const ref = selectedMedicine.ref;
 		const newMedicine = new Object(selectedMedicine.data);
+		newMedicine.name = name;
 		newMedicine.purpose = purpose;
+		newMedicine.dosage = dosage;
 		newMedicine.days = dayTime.days;
 		newMedicine.time = dayTime.time;
 		newMedicine.side_effects = sideEffects;
@@ -89,18 +95,30 @@ export default function EditDefaultMedicineComponent({
 						padding: "0px 30px 0px 30px",
 					}}
 				>
+					<b style={{ paddingBottom: 10, fontSize: 20 }}>Title</b>
+					<FormControl
+						value={name}
+						onChange={(event) => {
+							setName(event.target.value);
+						}}
+					/>
+					<br />
 					<b style={{ paddingBottom: 10, fontSize: 20 }}>Purpose</b>
-					<InputGroup>
-						<FormControl
-							value={purpose}
-							onChange={(event) => {
-								setPurpose(event.target.value);
-							}}
-						/>
-					</InputGroup>
+					<FormControl
+						value={purpose}
+						onChange={(event) => {
+							setPurpose(event.target.value);
+						}}
+					/>
 					<br />
 					<b style={{ paddingBottom: 5, fontSize: 20 }}>Dosage</b>
-					<p>{selectedMedicine.data.dosage}</p>
+					<FormControl
+						value={dosage}
+						onChange={(event) => {
+							setDosage(event.target.value);
+						}}
+					/>
+					<br />
 					<b style={{ paddingBottom: 10, fontSize: 20 }}>Day</b>
 					<DaySelectorComponent article={dayTime} />
 					<br />

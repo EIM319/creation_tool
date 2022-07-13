@@ -15,6 +15,7 @@ export default function EditMedicineComponent({
 	userName,
 }) {
 	const [purpose, setPurpose] = useState("");
+	const [dosage, setDosage] = useState("");
 	const [showDeleteModal, setShowDeleteModal] = useState(false);
 	const [dayTime, setDayTime] = useState({});
 	const [sideEffects, setSideEffects] = useState([]);
@@ -24,6 +25,7 @@ export default function EditMedicineComponent({
 	useEffect(() => {
 		if (selectedMedicine === undefined) return;
 		setPurpose(selectedMedicine.purpose);
+		setDosage(selectedMedicine.dosage);
 		setSideEffects(selectedMedicine.side_effects);
 		setExtras(selectedMedicine.extras);
 		setDayTime({
@@ -37,6 +39,7 @@ export default function EditMedicineComponent({
 		setSaving(true);
 		const newMedicine = new Object(selectedMedicine);
 		newMedicine.purpose = purpose;
+		newMedicine.dosage = dosage;
 		newMedicine.days = dayTime.days;
 		newMedicine.time = dayTime.time;
 		newMedicine.side_effects = sideEffects;
@@ -92,17 +95,21 @@ export default function EditMedicineComponent({
 					}}
 				>
 					<b style={{ paddingBottom: 10, fontSize: 20 }}>Purpose</b>
-					<InputGroup>
-						<FormControl
-							value={purpose}
-							onChange={(event) => {
-								setPurpose(event.target.value);
-							}}
-						/>
-					</InputGroup>
+					<FormControl
+						value={purpose}
+						onChange={(event) => {
+							setPurpose(event.target.value);
+						}}
+					/>
 					<br />
 					<b style={{ paddingBottom: 5, fontSize: 20 }}>Dosage</b>
-					<p>{selectedMedicine.dosage}</p>
+					<FormControl
+						value={dosage}
+						onChange={(event) => {
+							setDosage(event.target.value);
+						}}
+					/>
+					<br />
 					<b style={{ paddingBottom: 10, fontSize: 20 }}>Day</b>
 					<DaySelectorComponent article={dayTime} />
 					<br />
