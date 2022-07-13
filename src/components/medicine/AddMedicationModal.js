@@ -19,6 +19,10 @@ export default function AddMedicationModal({
 		getDefaultMedications(database, setDefaultMedication);
 	}, []);
 
+	useEffect(() => {
+		selectedMedication.clear();
+	}, [show]);
+
 	return (
 		<Modal
 			show={show}

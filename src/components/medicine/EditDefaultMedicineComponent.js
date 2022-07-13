@@ -95,7 +95,7 @@ export default function EditDefaultMedicineComponent({
 						padding: "0px 30px 0px 30px",
 					}}
 				>
-					<b style={{ paddingBottom: 10, fontSize: 20 }}>Title</b>
+					<b style={{ paddingBottom: 10, fontSize: 20 }}>Name</b>
 					<FormControl
 						value={name}
 						onChange={(event) => {

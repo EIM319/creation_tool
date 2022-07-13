@@ -283,7 +283,7 @@ const defaultCaregiving = {
 	purpose: "",
 };
 const defaultMedication = {
-	name: "Name",
+	name: "",
 	purpose: "",
 	dosage: "",
 	time: [false, false, false, false, false, false, false],
