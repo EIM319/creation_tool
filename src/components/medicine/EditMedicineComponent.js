@@ -3,6 +3,8 @@ import { useState, useEffect } from "react";
 import { Button, FormControl, InputGroup, Spinner } from "react-bootstrap";
 import { FaSave } from "react-icons/fa";
 import { toast } from "react-toastify";
+import DaySelectorComponent from "../articles/DaySelectorComponent";
+import TimeSelectorComponent from "../articles/TimeSelectorComponent";
 import ConfirmDeleteMedicineComponent from "./ConfirmDeleteMedicineComponent";
 
 export default function EditMedicineComponent({
@@ -14,6 +16,7 @@ export default function EditMedicineComponent({
 }) {
 	const [purpose, setPurpose] = useState("");
 	const [showDeleteModal, setShowDeleteModal] = useState(false);
+	const [dayTime, setDayTime] = useState({});
 	const [sideEffects, setSideEffects] = useState([]);
 	const [extras, setExtras] = useState([]);
 	const [isSaving, setSaving] = useState(false);
@@ -23,6 +26,10 @@ export default function EditMedicineComponent({
 		setPurpose(selectedMedicine.purpose);
 		setSideEffects(selectedMedicine.side_effects);
 		setExtras(selectedMedicine.extras);
+		setDayTime({
+			days: selectedMedicine.days,
+			time: selectedMedicine.time,
+		});
 	}, [selectedMedicine]);
 
 	async function save() {
@@ -30,6 +37,8 @@ export default function EditMedicineComponent({
 		setSaving(true);
 		const newMedicine = new Object(selectedMedicine);
 		newMedicine.purpose = purpose;
+		newMedicine.days = dayTime.days;
+		newMedicine.time = dayTime.time;
 		newMedicine.side_effects = sideEffects;
 		newMedicine.extras = extras;
 		const newMedicationList = [...medication];
@@ -94,6 +103,11 @@ export default function EditMedicineComponent({
 					<br />
 					<b style={{ paddingBottom: 5, fontSize: 20 }}>Dosage</b>
 					<p>{selectedMedicine.dosage}</p>
+					<b style={{ paddingBottom: 10, fontSize: 20 }}>Day</b>
+					<DaySelectorComponent article={dayTime} />
+					<br />
+					<b style={{ paddingBottom: 10, fontSize: 20 }}>Time</b>
+					<TimeSelectorComponent article={dayTime} />
 					<br />
 					<b style={{ paddingBottom: 10, fontSize: 20 }}>
 						Side Effects
@@ -109,6 +123,8 @@ export default function EditMedicineComponent({
 					</b>
 					<Extras extras={extras} setExtras={setExtras} />
 					<br />
+					<div className="line" />
+					<br />
 					<Button
 						style={{ width: "fit-content" }}
 						variant="danger"
@@ -120,13 +136,13 @@ export default function EditMedicineComponent({
 					</Button>
 					<br />
 					<ConfirmDeleteMedicineComponent
-						show = {showDeleteModal}
-						setShow = {setShowDeleteModal}
-						database = {database}
-						userName = {userName}
-						medicines = {medication}
-						setMedication = {setMedication}
-						selectedMedicine = {selectedMedicine}
+						show={showDeleteModal}
+						setShow={setShowDeleteModal}
+						database={database}
+						userName={userName}
+						medicines={medication}
+						setMedication={setMedication}
+						selectedMedicine={selectedMedicine}
 					/>
 					<br />
 				</div>
@@ -137,7 +153,7 @@ export default function EditMedicineComponent({
 	}
 }
 
-function SideEffects({ sideEffects, setSideEffects }) {
+export function SideEffects({ sideEffects, setSideEffects }) {
 	if (sideEffects === undefined) return null;
 	const array = [];
 	for (let i = 0; i < sideEffects.length; i++) {
@@ -181,7 +197,7 @@ function SideEffects({ sideEffects, setSideEffects }) {
 	return array;
 }
 
-function Extras({ extras, setExtras }) {
+export function Extras({ extras, setExtras }) {
 	if (extras === undefined) return null;
 	const array = [];
 	for (let i = 0; i < extras.length; i++) {

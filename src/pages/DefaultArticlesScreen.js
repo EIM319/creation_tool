@@ -5,23 +5,26 @@ import EditDefaultArticleComponent from "../components/articles/EditDefaultArtic
 import { toast } from "react-toastify";
 import LoadingComponent from "../components/LoadingComponent";
 import { useNavigate } from "react-router-dom";
+import EditDefaultMedicineComponent from "../components/medicine/EditDefaultMedicineComponent";
 
 export default function DefaultArticleScreen({ database }) {
 	const [monitoring, setMonitoring] = useState();
 	const [caregiving, setCaregiving] = useState();
-	const [viewingMonitoring, setViewingMonitoring] = useState(true);
+	const [medication, setMedication] = useState();
+	const [viewingScreen, setViewingScreen] = useState(0);
 	const [selectedArticle, setSelectedArticle] = useState();
 	const navigate = useNavigate();
 
 	useEffect(() => {
 		getMonitoring(database, setMonitoring, setSelectedArticle);
 		getCaregiving(database, setCaregiving);
+		getMedication(database, setMedication);
 	}, []);
 
 	if (monitoring === undefined) return <LoadingComponent />;
 
 	const listComponents = [];
-	if (viewingMonitoring) {
+	if (viewingScreen === 0) {
 		if (monitoring !== undefined) {
 			monitoring.forEach((article) => {
 				listComponents.push(
@@ -44,9 +47,32 @@ export default function DefaultArticleScreen({ database }) {
 				);
 			});
 		}
-	} else {
+	} else if (viewingScreen === 1) {
 		if (caregiving !== undefined) {
 			caregiving.forEach((article) => {
+				listComponents.push(
+					<div
+						className="toggle"
+						onClick={() => {
+							setSelectedArticle(article);
+						}}
+					>
+						<p
+							className={
+								selectedArticle === article
+									? "listItem listItemSelected"
+									: "listItem"
+							}
+						>
+							{article.data.name}
+						</p>
+					</div>
+				);
+			});
+		}
+	} else {
+		if (medication !== undefined) {
+			medication.forEach((article) => {
 				listComponents.push(
 					<div
 						className="toggle"
@@ -70,7 +96,7 @@ export default function DefaultArticleScreen({ database }) {
 	}
 
 	async function addArticle() {
-		if (viewingMonitoring) {
+		if (viewingScreen === 0) {
 			const ref = await addDoc(
 				collection(database, "homemonitoring"),
 				defaultMonitoring
@@ -82,7 +108,7 @@ export default function DefaultArticleScreen({ database }) {
 			setSelectedArticle(newArticle);
 			setMonitoring([...monitoring, newArticle]);
 			toast.success("Added New Article");
-		} else {
+		} else if (viewingScreen === 1) {
 			const ref = await addDoc(
 				collection(database, "caregiving"),
 				defaultCaregiving
@@ -94,52 +120,79 @@ export default function DefaultArticleScreen({ database }) {
 			setSelectedArticle(newArticle);
 			setCaregiving([...caregiving, newArticle]);
 			toast.success("Added New Article");
+		} else {
+			const ref = await addDoc(
+				collection(database, "medication"),
+				defaultMedication
+			);
+			const newArticle = {
+				ref: ref,
+				data: Object.assign({}, defaultMedication),
+			};
+			setSelectedArticle(newArticle);
+			setMedication([...medication, newArticle]);
+			toast.success("Added New Medication");
 		}
 	}
 
 	return (
 		<div>
 			<Row style={{ width: "100%", margin: 0 }}>
-				<Col xs={3} className="listPanel">
+				<Col xs={2}>
 					<div style={{ margin: 20 }}>
-						<Row>
-							<b
-								className="toggle"
-								style={{ fontSize: 17, marginBottom: 20 }}
-								onClick={() => {
-									navigate("/");
-								}}
-							>
-								← Back to dashboard
-							</b>
-							<Col
+						<b
+							className="toggle"
+							style={{ fontSize: 17 }}
+							onClick={() => {
+								navigate("/");
+							}}
+						>
+							← Back to dashboard
+						</b>
+						<Col style={{ marginTop: 50 }}>
+							<Row
 								className={
-									viewingMonitoring
+									viewingScreen === 0
 										? "toggle tabSelected"
 										: "toggle tabUnselected"
 								}
 								onClick={() => {
-									setViewingMonitoring(true);
+									setViewingScreen(0);
 									setSelectedArticle(monitoring[0]);
 								}}
 							>
 								Home Monitoring
-							</Col>
-							<Col
+							</Row>
+							<Row
 								className={
-									viewingMonitoring
-										? "toggle tabUnselected"
-										: "toggle tabSelected"
+									viewingScreen === 1
+										? "toggle tabSelected"
+										: "toggle tabUnselected"
 								}
 								onClick={() => {
-									setViewingMonitoring(false);
+									setViewingScreen(1);
 									setSelectedArticle(caregiving[0]);
 								}}
 							>
 								Caregiving
-							</Col>
-						</Row>
+							</Row>
+							<Row
+								className={
+									viewingScreen === 2
+										? "toggle tabSelected"
+										: "toggle tabUnselected"
+								}
+								onClick={() => {
+									setViewingScreen(2);
+									setSelectedArticle(medication[0]);
+								}}
+							>
+								Medication
+							</Row>
+						</Col>
 					</div>
+				</Col>
+				<Col xs={3} className="listPanel">
 					{listComponents}
 					<div style={{ margin: 10 }}>
 						<Button
@@ -151,8 +204,8 @@ export default function DefaultArticleScreen({ database }) {
 						</Button>
 					</div>
 				</Col>
-				<Col xs={9}>
-					{viewingMonitoring ? (
+				<Col xs={7}>
+					{viewingScreen === 0 ? (
 						<EditDefaultArticleComponent
 							articles={monitoring}
 							setArticles={setMonitoring}
@@ -160,13 +213,20 @@ export default function DefaultArticleScreen({ database }) {
 							setArticle={setSelectedArticle}
 							type="monitoring"
 						/>
-					) : (
+					) : viewingScreen === 1 ? (
 						<EditDefaultArticleComponent
 							articles={caregiving}
 							setArticles={setCaregiving}
 							article={selectedArticle}
 							setArticle={setSelectedArticle}
 							type="caregiving"
+						/>
+					) : (
+						<EditDefaultMedicineComponent
+							setSelectedMedicine={setSelectedArticle}
+							selectedMedicine={selectedArticle}
+							medication={medication}
+							setMedication={setMedication}
 						/>
 					)}
 				</Col>
@@ -198,6 +258,16 @@ async function getCaregiving(database, setCaregiving) {
 	setCaregiving(array);
 }
 
+async function getMedication(database, setMedication) {
+	const array = [];
+	const ref = collection(database, "medication");
+	const documents = await getDocs(ref);
+	documents.forEach((doc) => {
+		array.push({ data: doc.data(), ref: doc.ref });
+	});
+	setMedication(array);
+}
+
 const defaultMonitoring = {
 	content: [],
 	image: "",
@@ -211,4 +281,13 @@ const defaultCaregiving = {
 	image: "",
 	name: "",
 	purpose: "",
+};
+const defaultMedication = {
+	name: "Name",
+	purpose: "",
+	dosage: "",
+	time: [false, false, false, false, false, false, false],
+	days: [false, false, false, false, false, false, false],
+	side_effects: [],
+	extras: [],
 };
