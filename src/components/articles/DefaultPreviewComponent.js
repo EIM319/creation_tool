@@ -20,7 +20,7 @@ export default function DefaultPreviewComponent({ show, setShow, article }) {
 				);
 				break;
 			case "video":
-				components.push(<YouTube url={item.content} />);
+				components.push(<YouTube id={item.content} />);
 				break;
 			case "section":
 				components.push(
