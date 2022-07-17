@@ -4,7 +4,6 @@ import { Col, Row, Button } from "react-bootstrap";
 import EditDefaultArticleComponent from "../components/articles/EditDefaultArticleComponent";
 import { toast } from "react-toastify";
 import LoadingComponent from "../components/LoadingComponent";
-import { useNavigate } from "react-router-dom";
 import EditDefaultMedicineComponent from "../components/medicine/EditDefaultMedicineComponent";
 
 export default function DefaultArticleScreen({ database }) {
@@ -13,7 +12,6 @@ export default function DefaultArticleScreen({ database }) {
 	const [medication, setMedication] = useState();
 	const [viewingScreen, setViewingScreen] = useState(0);
 	const [selectedArticle, setSelectedArticle] = useState();
-	const navigate = useNavigate();
 
 	useEffect(() => {
 		getMonitoring(database, setMonitoring, setSelectedArticle);
@@ -37,7 +35,7 @@ export default function DefaultArticleScreen({ database }) {
 						<p
 							className={
 								selectedArticle === article
-									? "listItem listItemSelected"
+									? "listItem listItemSelected green"
 									: "listItem"
 							}
 						>
@@ -60,7 +58,7 @@ export default function DefaultArticleScreen({ database }) {
 						<p
 							className={
 								selectedArticle === article
-									? "listItem listItemSelected"
+									? "listItem listItemSelected green"
 									: "listItem"
 							}
 						>
@@ -83,7 +81,7 @@ export default function DefaultArticleScreen({ database }) {
 						<p
 							className={
 								selectedArticle === article
-									? "listItem listItemSelected"
+									? "listItem listItemSelected green"
 									: "listItem"
 							}
 						>
@@ -139,21 +137,16 @@ export default function DefaultArticleScreen({ database }) {
 		<div>
 			<Row style={{ width: "100%", margin: 0 }}>
 				<Col xs={2}>
-					<div style={{ margin: 20 }}>
-						<b
-							className="toggle"
-							style={{ fontSize: 17 }}
-							onClick={() => {
-								navigate("/");
-							}}
-						>
-							← Back to dashboard
-						</b>
-						<Col style={{ marginTop: 50 }}>
+					<div
+						style={{
+							margin: 20,
+						}}
+					>
+						<Col>
 							<Row
 								className={
 									viewingScreen === 0
-										? "toggle tabSelected"
+										? "toggle tabSelected green"
 										: "toggle tabUnselected"
 								}
 								onClick={() => {
@@ -166,7 +159,7 @@ export default function DefaultArticleScreen({ database }) {
 							<Row
 								className={
 									viewingScreen === 1
-										? "toggle tabSelected"
+										? "toggle tabSelected green"
 										: "toggle tabUnselected"
 								}
 								onClick={() => {
@@ -179,7 +172,7 @@ export default function DefaultArticleScreen({ database }) {
 							<Row
 								className={
 									viewingScreen === 2
-										? "toggle tabSelected"
+										? "toggle tabSelected green"
 										: "toggle tabUnselected"
 								}
 								onClick={() => {
