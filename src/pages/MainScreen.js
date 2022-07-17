@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { Button } from "react-bootstrap";
+import QRCode from "react-qr-code";
 import { Link, Route, Routes, useLocation } from "react-router-dom";
 import ClearAllModal from "../components/clear/ClearAllModal";
 import PreviewModal from "../components/publish/PreviewModal";
@@ -34,6 +35,7 @@ export default function MainScreen({
 		<div className="mainPage">
 			<SideNavBar
 				path={path}
+				userName={userName}
 				setUserName={setUserName}
 				name={name}
 				setName={setName}
@@ -96,16 +98,17 @@ export default function MainScreen({
 				database={database}
 				userName={userName}
 			/>
+			<PreviewModal
+				show={showPreviewModal}
+				setShow={setShowPreviewModal}
+				setShowPublishModal={setShowPublishModal}
+				user={userName}
+			/>
 			<PublishModal
 				show={showPublishModal}
 				setShow={setShowPublishModal}
 				database={database}
 				userName={userName}
-			/>
-			<PreviewModal
-				show={showPreviewModal}
-				setShow={setShowPreviewModal}
-				user={userName}
 			/>
 		</div>
 	);
@@ -136,6 +139,7 @@ var screenNames = [
 
 function SideNavBar({
 	path,
+	userName,
 	setUserName,
 	name,
 	setName,
@@ -166,7 +170,10 @@ function SideNavBar({
 	return (
 		<div className="sideNav">
 			<div style={{ padding: 20 }}>
-				<p style={{ fontSize: 20, fontWeight: 500 }}>{name}</p>
+				<QRCode value={"https://eim319.web.app/home/" + userName} />
+				<p style={{ fontSize: 20, fontWeight: 500, marginTop: 20 }}>
+					{name}
+				</p>
 				<p
 					className="toggle"
 					onClick={() => {
