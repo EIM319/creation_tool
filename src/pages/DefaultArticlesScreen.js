@@ -37,7 +37,7 @@ export default function DefaultArticleScreen({ database }) {
 						<p
 							className={
 								selectedArticle === article
-									? "listItem listItemSelected"
+									? "listItem listItemSelected green"
 									: "listItem"
 							}
 						>
@@ -60,7 +60,7 @@ export default function DefaultArticleScreen({ database }) {
 						<p
 							className={
 								selectedArticle === article
-									? "listItem listItemSelected"
+									? "listItem listItemSelected green"
 									: "listItem"
 							}
 						>
@@ -83,7 +83,7 @@ export default function DefaultArticleScreen({ database }) {
 						<p
 							className={
 								selectedArticle === article
-									? "listItem listItemSelected"
+									? "listItem listItemSelected green"
 									: "listItem"
 							}
 						>
@@ -139,21 +139,16 @@ export default function DefaultArticleScreen({ database }) {
 		<div>
 			<Row style={{ width: "100%", margin: 0 }}>
 				<Col xs={2}>
-					<div style={{ margin: 20 }}>
-						<b
-							className="toggle"
-							style={{ fontSize: 17 }}
-							onClick={() => {
-								navigate("/");
-							}}
-						>
-							← Back to dashboard
-						</b>
-						<Col style={{ marginTop: 50 }}>
+					<div
+						style={{
+							margin: 20,
+						}}
+					>
+						<Col>
 							<Row
 								className={
 									viewingScreen === 0
-										? "toggle tabSelected"
+										? "toggle tabSelected green"
 										: "toggle tabUnselected"
 								}
 								onClick={() => {
@@ -166,7 +161,7 @@ export default function DefaultArticleScreen({ database }) {
 							<Row
 								className={
 									viewingScreen === 1
-										? "toggle tabSelected"
+										? "toggle tabSelected green"
 										: "toggle tabUnselected"
 								}
 								onClick={() => {
@@ -179,7 +174,7 @@ export default function DefaultArticleScreen({ database }) {
 							<Row
 								className={
 									viewingScreen === 2
-										? "toggle tabSelected"
+										? "toggle tabSelected green"
 										: "toggle tabUnselected"
 								}
 								onClick={() => {

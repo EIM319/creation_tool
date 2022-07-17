@@ -96,14 +96,6 @@ export default function DashboardScreen({ database }) {
 			>
 				<IoIosAdd size={30} color="white" />
 			</div>
-			<div
-				className="fabLong toggle"
-				onClick={() => {
-					navigate("/tool");
-				}}
-			>
-				<b style={{ margin: 0, color: "white" }}>Edit Articles</b>
-			</div>
 			<AddUserModal
 				database={database}
 				users={users}

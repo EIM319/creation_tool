@@ -202,3 +202,8 @@ p {
 	justify-content: center;
 	align-items: center;
 }
+
+.green {
+	background-color: #2cac4c;
+	color: white;
+}
