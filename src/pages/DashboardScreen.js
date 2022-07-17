@@ -2,7 +2,6 @@ import { collection, getDocs } from "firebase/firestore/lite";
 import { useEffect, useState } from "react";
 import { Col, Container, FormControl, Row } from "react-bootstrap";
 import { IoIosAdd } from "react-icons/io";
-import { useNavigate } from "react-router-dom";
 import AddUserModal from "../components/dashboard/AddUserModal";
 import LoadingComponent from "../components/LoadingComponent";
 import MainScreen from "./MainScreen";
@@ -14,7 +13,6 @@ export default function DashboardScreen({ database }) {
 	const [selectedUser, setSelectedUser] = useState(null);
 	const [selectedName, setSelectedName] = useState(null);
 	const [showAddModal, setShowAddModal] = useState(false);
-	const navigate = useNavigate();
 
 	useEffect(() => {
 		getUsers(database, setUsers);

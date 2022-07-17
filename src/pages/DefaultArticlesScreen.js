@@ -4,7 +4,6 @@ import { Col, Row, Button } from "react-bootstrap";
 import EditDefaultArticleComponent from "../components/articles/EditDefaultArticleComponent";
 import { toast } from "react-toastify";
 import LoadingComponent from "../components/LoadingComponent";
-import { useNavigate } from "react-router-dom";
 import EditDefaultMedicineComponent from "../components/medicine/EditDefaultMedicineComponent";
 
 export default function DefaultArticleScreen({ database }) {
@@ -13,7 +12,6 @@ export default function DefaultArticleScreen({ database }) {
 	const [medication, setMedication] = useState();
 	const [viewingScreen, setViewingScreen] = useState(0);
 	const [selectedArticle, setSelectedArticle] = useState();
-	const navigate = useNavigate();
 
 	useEffect(() => {
 		getMonitoring(database, setMonitoring, setSelectedArticle);
