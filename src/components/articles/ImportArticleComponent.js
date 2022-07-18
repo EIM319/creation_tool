@@ -60,16 +60,21 @@ export default function ImportArticleComponent({
 						setOpen(false);
 						const ref = doc(database, "users", userName);
 						const newArticles = [...articles];
+						var first;
 						selectedArticles.forEach((index) => {
 							const newArticle = Object.assign(
 								{},
 								defaultArticles[index]
 							);
 							newArticles.push(newArticle);
+							if (first === undefined) {
+								first = newArticle;
+							}
 						});
 						await updateDatabase(ref, type, newArticles).then(
 							() => {
 								setArticles(newArticles);
+								setArticle(first);
 								toast.success("Import Successful");
 							}
 						);
