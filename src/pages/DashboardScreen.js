@@ -24,7 +24,7 @@ export default function DashboardScreen({ database }) {
 			users.filter(
 				(user) =>
 					user.data().name !== undefined &&
-					user.data().name.toLowerCase().includes(input)
+					user.data().name.toLowerCase().includes(input.toLowerCase())
 			)
 		);
 	}, [input, users]);
