@@ -11,6 +11,7 @@ export default function AddMedicationModal({
 	userName,
 	medication,
 	setMedication,
+	setSelected,
 }) {
 	const [defaultMedication, setDefaultMedication] = useState([]);
 	const [selectedMedication, setSelectedMedication] = useState(new Set());
@@ -58,16 +59,21 @@ export default function AddMedicationModal({
 						setShow(false);
 						const ref = doc(database, "users", userName);
 						const newMedications = [...medication];
+						var first;
 						selectedMedication.forEach((index) => {
 							const newMedicine = Object.assign(
 								{},
 								defaultMedication[index]
 							);
 							newMedications.push(newMedicine);
+							if (first === undefined) {
+								first = newMedicine;
+							}
 						});
 						await updateDoc(ref, {
 							medication: newMedications,
 						}).then(() => {
+							setSelected(first);
 							setMedication(newMedications);
 							toast.success("Import Successful");
 						});
