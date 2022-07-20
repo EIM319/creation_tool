@@ -10,6 +10,24 @@ export default function PublishModal({ show, setShow, userName, database }) {
 			"users/" + userName + "/archive"
 		);
 		await addDoc(archiveRef, data);
+		var userToken = data.notificationKey;
+		if (userToken === null || userToken === undefined) return;
+		const message = {
+			notification: {
+				title: "Care Synopsis Updated",
+				text: "Your care synopsis has been updated.",
+			},
+			to: userToken,
+		};
+		const response = await fetch("https://fcm.googleapis.com/fcm/send", {
+			method: "POST",
+			headers: {
+				Authorization:
+					"key=AAAA-fp04k4:APA91bGRXVM73uayUJ7pl85HQpomtql8WFar9pd9cEGopO98pS58BGVbFaV1E5Z47NPd1jz6P26TBzfbJ3P1PRdO7AJx5YPbLzo7Kz9-Kb62duMdckEGXQWmyn1v2pIIAEjhIjgQ0ACE",
+				"Content-Type": "application/json",
+			},
+			body: JSON.stringify(message),
+		});
 		setShow(false);
 	}
 
