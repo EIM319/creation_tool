@@ -8,14 +8,12 @@ import EditDefaultMedicineComponent from "../components/medicine/EditDefaultMedi
 
 export default function DefaultArticleScreen({ database }) {
 	const [monitoring, setMonitoring] = useState();
-	const [caregiving, setCaregiving] = useState();
 	const [medication, setMedication] = useState();
 	const [viewingScreen, setViewingScreen] = useState(0);
 	const [selectedArticle, setSelectedArticle] = useState();
 
 	useEffect(() => {
 		getMonitoring(database, setMonitoring, setSelectedArticle);
-		getCaregiving(database, setCaregiving);
 		getMedication(database, setMedication);
 	}, []);
 
@@ -25,29 +23,6 @@ export default function DefaultArticleScreen({ database }) {
 	if (viewingScreen === 0) {
 		if (monitoring !== undefined) {
 			monitoring.forEach((article) => {
-				listComponents.push(
-					<div
-						className="toggle"
-						onClick={() => {
-							setSelectedArticle(article);
-						}}
-					>
-						<p
-							className={
-								selectedArticle === article
-									? "listItem listItemSelected green"
-									: "listItem"
-							}
-						>
-							{article.data.name}
-						</p>
-					</div>
-				);
-			});
-		}
-	} else if (viewingScreen === 1) {
-		if (caregiving !== undefined) {
-			caregiving.forEach((article) => {
 				listComponents.push(
 					<div
 						className="toggle"
@@ -106,18 +81,6 @@ export default function DefaultArticleScreen({ database }) {
 			setSelectedArticle(newArticle);
 			setMonitoring([...monitoring, newArticle]);
 			toast.success("Added New Article");
-		} else if (viewingScreen === 1) {
-			const ref = await addDoc(
-				collection(database, "caregiving"),
-				defaultCaregiving
-			);
-			const newArticle = {
-				ref: ref,
-				data: Object.assign({}, defaultCaregiving),
-			};
-			setSelectedArticle(newArticle);
-			setCaregiving([...caregiving, newArticle]);
-			toast.success("Added New Article");
 		} else {
 			const ref = await addDoc(
 				collection(database, "medication"),
@@ -164,19 +127,6 @@ export default function DefaultArticleScreen({ database }) {
 								}
 								onClick={() => {
 									setViewingScreen(1);
-									setSelectedArticle(caregiving[0]);
-								}}
-							>
-								Caregiving
-							</Row>
-							<Row
-								className={
-									viewingScreen === 2
-										? "toggle tabSelected green"
-										: "toggle tabUnselected"
-								}
-								onClick={() => {
-									setViewingScreen(2);
 									setSelectedArticle(medication[0]);
 								}}
 							>
@@ -206,14 +156,6 @@ export default function DefaultArticleScreen({ database }) {
 							setArticle={setSelectedArticle}
 							type="monitoring"
 						/>
-					) : viewingScreen === 1 ? (
-						<EditDefaultArticleComponent
-							articles={caregiving}
-							setArticles={setCaregiving}
-							article={selectedArticle}
-							setArticle={setSelectedArticle}
-							type="caregiving"
-						/>
 					) : (
 						<EditDefaultMedicineComponent
 							setSelectedMedicine={setSelectedArticle}
@@ -241,16 +183,6 @@ async function getMonitoring(database, setMonitoring, setSelectedArticle) {
 	}
 }
 
-async function getCaregiving(database, setCaregiving) {
-	const array = [];
-	const ref = collection(database, "caregiving");
-	const documents = await getDocs(ref);
-	documents.forEach((doc) => {
-		array.push({ data: doc.data(), ref: doc.ref });
-	});
-	setCaregiving(array);
-}
-
 async function getMedication(database, setMedication) {
 	const array = [];
 	const ref = collection(database, "medication");
@@ -266,14 +198,9 @@ const defaultMonitoring = {
 	image: "",
 	name: "",
 	purpose: "",
+	isMonitoring: false,
 	time: [false, false, false, false, false, false, false],
 	days: [false, false, false, false, false, false, false],
-};
-const defaultCaregiving = {
-	content: [],
-	image: "",
-	name: "",
-	purpose: "",
 };
 const defaultMedication = {
 	name: "",

@@ -11,12 +11,16 @@ export default function HeaderComponent({ article }) {
 	if (article.name === undefined) return <></>;
 
 	return (
-		<FormControl
-			value={name}
-			onChange={(event) => {
-				setName(event.target.value);
-				article.name = event.target.value;
-			}}
-		/>
+		<>
+			<b style={{ paddingBottom: 10, fontSize: 20 }}>Title</b>
+			<FormControl
+				value={name}
+				onChange={(event) => {
+					setName(event.target.value);
+					article.name = event.target.value;
+				}}
+			/>
+			<br />
+		</>
 	);
 }

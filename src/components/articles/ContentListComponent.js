@@ -41,5 +41,11 @@ export default function ContentListComponent({ article, setArticle }) {
 			Add Content
 		</Button>
 	);
-	return contentList;
+	return (
+		<>
+			<b style={{ paddingBottom: 10, fontSize: 20 }}>Content</b>
+			{contentList}
+			<br />
+		</>
+	);
 }

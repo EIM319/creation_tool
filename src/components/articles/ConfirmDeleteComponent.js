@@ -39,17 +39,15 @@ export default function ConfirmDeleteComponent({
 						if (index < 0) return;
 						const newArticles = [...articles];
 						newArticles.splice(index, 1);
-						await updateDatabase(ref, type, newArticles).then(
-							() => {
-								setArticles(newArticles);
-								if (newArticles.length > 0) {
-									setArticle(newArticles[0]);
-								} else {
-									setArticle(undefined);
-								}
-								toast.success("Delete Successful");
+						await updateDatabase(ref, newArticles).then(() => {
+							setArticles(newArticles);
+							if (newArticles.length > 0) {
+								setArticle(newArticles[0]);
+							} else {
+								setArticle(undefined);
 							}
-						);
+							toast.success("Delete Successful");
+						});
 					}}
 				>
 					Confirm
@@ -59,14 +57,8 @@ export default function ConfirmDeleteComponent({
 	);
 }
 
-async function updateDatabase(ref, type, newArticles) {
-	if (type === "monitoring") {
-		await updateDoc(ref, {
-			monitoring: newArticles,
-		});
-	} else if (type === "caregiving") {
-		await updateDoc(ref, {
-			caregiving: newArticles,
-		});
-	}
+async function updateDatabase(ref, newArticles) {
+	await updateDoc(ref, {
+		monitoring: newArticles,
+	});
 }

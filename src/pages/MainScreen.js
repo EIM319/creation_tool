@@ -6,7 +6,6 @@ import ClearAllModal from "../components/clear/ClearAllModal";
 import PreviewModal from "../components/publish/PreviewModal";
 import PublishModal from "../components/publish/PublishModal";
 import AdditionalNotesScreen from "./AdditionalNotesScreen";
-import CaregivingScreen from "./CaregivingScreen";
 import HomeMonitoringScreen from "./HomeMonitoringScreen";
 import LabResultsScreen from "./LabResultsScreen";
 import MedicationScreen from "./MedicationScreen";
@@ -73,15 +72,6 @@ export default function MainScreen({
 						}
 					/>
 					<Route
-						path="caregiving"
-						element={
-							<CaregivingScreen
-								database={database}
-								userName={userName}
-							/>
-						}
-					/>
-					<Route
 						path="additionalnotes"
 						element={
 							<AdditionalNotesScreen
@@ -126,10 +116,6 @@ var screenNames = [
 	{
 		name: "Lab Results",
 		path: "labresults",
-	},
-	{
-		name: "Caregiving",
-		path: "caregiving",
 	},
 	{
 		name: "Care Staff's Comment",

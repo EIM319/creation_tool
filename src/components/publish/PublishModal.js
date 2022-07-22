@@ -15,7 +15,7 @@ export default function PublishModal({ show, setShow, userName, database }) {
 		const message = {
 			notification: {
 				title: "Care Synopsis Updated",
-				text: "Your care synopsis has been updated.",
+				body: "Your care synopsis has been updated.",
 			},
 			to: userToken,
 		};
