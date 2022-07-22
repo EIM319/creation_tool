@@ -11,6 +11,7 @@ import { FaSave, FaEye } from "react-icons/fa";
 import { updateDoc } from "firebase/firestore/lite";
 import { toast } from "react-toastify";
 import DefaultPreviewComponent from "./DefaultPreviewComponent";
+import IsMonitoringComponent from "./IsMonitoringComponent";
 
 export default function EditDefaultArticleComponent({
 	articles,
@@ -92,31 +93,14 @@ export default function EditDefaultArticleComponent({
 					padding: "0px 30px 0px 30px",
 				}}
 			>
-				<b style={{ paddingBottom: 10, fontSize: 20 }}>Title</b>
 				<HeaderComponent article={modifiedArticle} />
-				<br />
-				<b style={{ paddingBottom: 10, fontSize: 20 }}>Purpose</b>
 				<PurposeComponent article={modifiedArticle} />
-				<br />
-				<b style={{ paddingBottom: 10, fontSize: 20 }}>Banner Image</b>
 				<ImageComponent article={modifiedArticle} />
-				<br />
-				{type === "monitoring" ? (
-					<>
-						<b style={{ paddingBottom: 10, fontSize: 20 }}>Day</b>
-						<DaySelectorComponent article={modifiedArticle} />
-						<br />
-						<b style={{ paddingBottom: 10, fontSize: 20 }}>Time</b>
-						<TimeSelectorComponent article={modifiedArticle} />
-						<br />
-					</>
-				) : null}
-				<b style={{ paddingBottom: 10, fontSize: 20 }}>Content</b>
+				<IsMonitoringComponent article={modifiedArticle} />
 				<ContentListComponent
 					article={modifiedArticle}
 					setArticle={setModifiedArticle}
 				/>
-				<br />
 				<div className="line" />
 				<br />
 				<b style={{ paddingBottom: 10, fontSize: 20 }}>Controls</b>

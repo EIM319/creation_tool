@@ -11,6 +11,7 @@ export default function ImageComponent({ article }) {
 
 	return (
 		<>
+			<b style={{ paddingBottom: 10, fontSize: 20 }}>Banner Image</b>
 			<FormControl
 				value={link}
 				onChange={(event) => {
@@ -21,6 +22,7 @@ export default function ImageComponent({ article }) {
 			<div style={{ width: 300, margin: 20 }}>
 				<Image src={link} fluid />
 			</div>
+			<br />
 		</>
 	);
 }

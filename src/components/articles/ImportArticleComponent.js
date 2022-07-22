@@ -18,11 +18,10 @@ export default function ImportArticleComponent({
 	const [selectedArticles, setSelectedArticles] = useState(new Set());
 
 	useEffect(() => {
-		getDefaultArticles(type, database, setDefaultArticles);
-	}, [type]);
-
-	useEffect(() => {
 		selectedArticles.clear();
+		if (open) {
+			getDefaultArticles(database, setDefaultArticles);
+		}
 	}, [open]);
 
 	return (
@@ -34,7 +33,7 @@ export default function ImportArticleComponent({
 			}}
 		>
 			<Modal.Header closeButton>
-				<Modal.Title>Get {getHeaderText(type)}</Modal.Title>
+				<Modal.Title>Get Article</Modal.Title>
 			</Modal.Header>
 			<Modal.Body>
 				<Articles
@@ -71,13 +70,11 @@ export default function ImportArticleComponent({
 								first = newArticle;
 							}
 						});
-						await updateDatabase(ref, type, newArticles).then(
-							() => {
-								setArticles(newArticles);
-								setArticle(first);
-								toast.success("Import Successful");
-							}
-						);
+						await updateDatabase(ref, newArticles).then(() => {
+							setArticles(newArticles);
+							setArticle(first);
+							toast.success("Import Successful");
+						});
 					}}
 				>
 					Add
@@ -87,44 +84,20 @@ export default function ImportArticleComponent({
 	);
 }
 
-function getHeaderText(type) {
-	if (type === "monitoring") {
-		return "Home Monitoring";
-	} else if (type === "caregiving") {
-		return "Caregiving";
-	} else {
-		return "Invalid";
-	}
-}
-
-async function getDefaultArticles(type, database, setDefaultArticles) {
+async function getDefaultArticles(database, setDefaultArticles) {
 	const array = [];
-	if (type === "monitoring") {
-		const ref = collection(database, "homemonitoring");
-		const documents = await getDocs(ref);
-		documents.forEach((doc) => {
-			array.push(doc.data());
-		});
-	} else if (type === "caregiving") {
-		const ref = collection(database, "caregiving");
-		const documents = await getDocs(ref);
-		documents.forEach((doc) => {
-			array.push(doc.data());
-		});
-	}
+	const ref = collection(database, "homemonitoring");
+	const documents = await getDocs(ref);
+	documents.forEach((doc) => {
+		array.push(doc.data());
+	});
 	setDefaultArticles(array);
 }
 
-async function updateDatabase(ref, type, newArticles) {
-	if (type === "monitoring") {
-		await updateDoc(ref, {
-			monitoring: newArticles,
-		});
-	} else if (type === "caregiving") {
-		await updateDoc(ref, {
-			caregiving: newArticles,
-		});
-	}
+async function updateDatabase(ref, newArticles) {
+	await updateDoc(ref, {
+		monitoring: newArticles,
+	});
 }
 
 function Articles({ selectedArticles, setSelectedArticles, defaultArticles }) {

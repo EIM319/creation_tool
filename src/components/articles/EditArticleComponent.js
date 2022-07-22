@@ -2,15 +2,14 @@ import { doc, updateDoc } from "firebase/firestore/lite";
 import { useState, useEffect } from "react";
 import { Button, Spinner } from "react-bootstrap";
 import ContentListComponent from "./ContentListComponent";
-import DaySelectorComponent from "./DaySelectorComponent";
 import HeaderComponent from "./HeaderComponent";
 import PurposeComponent from "./PurposeComponent";
-import TimeSelectorComponent from "./TimeSelectorComponent";
 import { FaSave, FaEdit } from "react-icons/fa";
 import ConfirmDeleteComponent from "./ConfirmDeleteComponent";
 import { toast } from "react-toastify";
 import ImageComponent from "./ImageComponent";
 import PreviewComponent from "./PreviewComponent";
+import IsMonitoringComponent from "./IsMonitoringComponent";
 
 export default function EditArticleComponent({
 	articles,
@@ -41,27 +40,15 @@ export default function EditArticleComponent({
 		const newArticles = [...articles];
 		newArticles[index] = modifiedArticle;
 		const ref = doc(database, "users", userName);
-		if (type === "monitoring") {
-			await updateDoc(ref, {
-				monitoring: newArticles,
-			}).then(() => {
-				setSaving(false);
-				setEditing(false);
-				setArticles(newArticles);
-				setArticle(modifiedArticle);
-				toast.success("Save Successful");
-			});
-		} else if (type === "caregiving") {
-			await updateDoc(ref, {
-				caregiving: newArticles,
-			}).then(() => {
-				setSaving(false);
-				setEditing(false);
-				setArticles(newArticles);
-				setArticle(modifiedArticle);
-				toast.success("Save Successful");
-			});
-		}
+		await updateDoc(ref, {
+			monitoring: newArticles,
+		}).then(() => {
+			setSaving(false);
+			setEditing(false);
+			setArticles(newArticles);
+			setArticle(modifiedArticle);
+			toast.success("Save Successful");
+		});
 	}
 
 	function EditComponent() {
@@ -74,26 +61,10 @@ export default function EditArticleComponent({
 					padding: "0px 30px 0px 30px",
 				}}
 			>
-				<b style={{ paddingBottom: 10, fontSize: 20 }}>Title</b>
 				<HeaderComponent article={modifiedArticle} />
-				<br />
-				<b style={{ paddingBottom: 10, fontSize: 20 }}>Purpose</b>
 				<PurposeComponent article={modifiedArticle} />
-				<br />
-				<b style={{ paddingBottom: 10, fontSize: 20 }}>Banner Image</b>
 				<ImageComponent article={modifiedArticle} />
-				<br />
-				{type === "monitoring" ? (
-					<>
-						<b style={{ paddingBottom: 10, fontSize: 20 }}>Day</b>
-						<DaySelectorComponent article={modifiedArticle} />
-						<br />
-						<b style={{ paddingBottom: 10, fontSize: 20 }}>Time</b>
-						<TimeSelectorComponent article={modifiedArticle} />
-						<br />
-					</>
-				) : null}
-				<b style={{ paddingBottom: 10, fontSize: 20 }}>Content</b>
+				<IsMonitoringComponent article={modifiedArticle} />
 				<ContentListComponent
 					article={modifiedArticle}
 					setArticle={setModifiedArticle}
