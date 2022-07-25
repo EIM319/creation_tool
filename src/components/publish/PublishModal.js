@@ -11,7 +11,10 @@ export default function PublishModal({ show, setShow, userName, database }) {
 		);
 		await addDoc(archiveRef, data);
 		var userToken = data.notificationKey;
-		if (userToken === null || userToken === undefined) return;
+		if (userToken === null || userToken === undefined) {
+			setShow(false);
+			return;
+		}
 		const message = {
 			notification: {
 				title: "Care Synopsis Updated",

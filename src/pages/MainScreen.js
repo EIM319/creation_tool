@@ -156,7 +156,11 @@ function SideNavBar({
 	return (
 		<div className="sideNav">
 			<div style={{ padding: 20 }}>
-				<QRCode value={"https://eim319.web.app/home/" + userName} />
+				<QRCode
+					value={"https://eim319.web.app/home/" + userName}
+					size={90}
+					style={{ width: "100%" }}
+				/>
 				<p style={{ fontSize: 20, fontWeight: 500, marginTop: 20 }}>
 					{name}
 				</p>
