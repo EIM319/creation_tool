@@ -10,8 +10,6 @@ export default function IsMonitoringComponent({ article }) {
 		setSelected(article.isMonitoring);
 	}, [article]);
 
-	console.log(isSelected);
-
 	return (
 		<>
 			<b style={{ paddingBottom: 10, fontSize: 20 }}>Has Schedule</b>

@@ -6,7 +6,7 @@ import { toast } from "react-toastify";
 import LoadingComponent from "../components/LoadingComponent";
 import EditDefaultMedicineComponent from "../components/medicine/EditDefaultMedicineComponent";
 
-export default function DefaultArticleScreen({ database }) {
+export default function DefaultArticleScreen({ database, storage }) {
 	const [monitoring, setMonitoring] = useState();
 	const [medication, setMedication] = useState();
 	const [viewingScreen, setViewingScreen] = useState(0);
@@ -154,7 +154,7 @@ export default function DefaultArticleScreen({ database }) {
 							setArticles={setMonitoring}
 							article={selectedArticle}
 							setArticle={setSelectedArticle}
-							type="monitoring"
+							storage={storage}
 						/>
 					) : (
 						<EditDefaultMedicineComponent

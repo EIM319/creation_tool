@@ -1,24 +1,22 @@
 import { useState, useEffect } from "react";
 import { Button, Spinner } from "react-bootstrap";
-import ContentListComponent from "./ContentListComponent";
-import DaySelectorComponent from "./DaySelectorComponent";
 import HeaderComponent from "./HeaderComponent";
 import PurposeComponent from "./PurposeComponent";
-import TimeSelectorComponent from "./TimeSelectorComponent";
 import ImageComponent from "./ImageComponent";
 import ConfirmDeleteDefaultComponent from "./ConfirmDeleteDefaultComponent";
 import { FaSave, FaEye } from "react-icons/fa";
 import { updateDoc } from "firebase/firestore/lite";
 import { toast } from "react-toastify";
 import DefaultPreviewComponent from "./DefaultPreviewComponent";
-import IsMonitoringComponent from "./IsMonitoringComponent";
+
+import ContentSelectorComponent from "./ContentSelectorComponent";
 
 export default function EditDefaultArticleComponent({
 	articles,
 	setArticles,
 	article,
 	setArticle,
-	type,
+	storage,
 }) {
 	const [modifiedArticle, setModifiedArticle] = useState();
 	const [showDeleteModal, setShowDeleteModal] = useState(false);
@@ -96,10 +94,10 @@ export default function EditDefaultArticleComponent({
 				<HeaderComponent article={modifiedArticle} />
 				<PurposeComponent article={modifiedArticle} />
 				<ImageComponent article={modifiedArticle} />
-				<IsMonitoringComponent article={modifiedArticle} />
-				<ContentListComponent
+				<ContentSelectorComponent
 					article={modifiedArticle}
 					setArticle={setModifiedArticle}
+					storage={storage}
 				/>
 				<div className="line" />
 				<br />
