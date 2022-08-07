@@ -4,6 +4,20 @@ import YouTube from "./Youtube";
 export default function DefaultPreviewComponent({ show, setShow, article }) {
 	if (article === undefined || article.content === undefined) return null;
 
+	if (article.pdf !== undefined && article.pdf !== null) {
+		return (
+			<Modal show={show} onHide={() => setShow(false)} size="xl" centered>
+				<Modal.Header closeButton>
+					<Modal.Title>{article.name}</Modal.Title>
+				</Modal.Header>
+				<iframe
+					src={article.pdf}
+					style={{ width: "100%", height: "80vh", marginTop: 20 }}
+				/>{" "}
+			</Modal>
+		);
+	}
+
 	const components = [];
 	article.content.forEach((item) => {
 		switch (item.type) {

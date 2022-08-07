@@ -4,6 +4,15 @@ import YouTube from "./Youtube";
 export default function PreviewComponent({ article }) {
 	if (article === undefined || article.content === undefined) return null;
 
+	if (article.pdf !== undefined && article.pdf !== null) {
+		return (
+			<iframe
+				src={article.pdf}
+				style={{ width: "100%", height: "80vh", marginTop: 20 }}
+			/>
+		);
+	}
+
 	const components = [];
 	article.content.forEach((item) => {
 		switch (item.type) {

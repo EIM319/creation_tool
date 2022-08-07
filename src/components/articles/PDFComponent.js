@@ -43,10 +43,16 @@ export default function PDFComponent({ article, storage }) {
 				/>
 			</Form.Group>
 			{file !== null ? (
-				<iframe
-					src={file}
-					style={{ width: "100%", height: "80vh", marginTop: 20 }}
-				/>
+				<>
+					<p style={{ marginTop: 10 }}>
+						<b>File Attached: </b>
+						{file}
+					</p>
+					<iframe
+						src={file}
+						style={{ width: "100%", height: "80vh", marginTop: 10 }}
+					/>
+				</>
 			) : null}
 		</>
 	);

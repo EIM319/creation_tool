@@ -6,7 +6,7 @@ import AddUserModal from "../components/dashboard/AddUserModal";
 import LoadingComponent from "../components/LoadingComponent";
 import MainScreen from "./MainScreen";
 
-export default function DashboardScreen({ database }) {
+export default function DashboardScreen({ database, storage }) {
 	const [users, setUsers] = useState();
 	const [input, setInput] = useState("");
 	const [items, setItems] = useState([]);
@@ -35,6 +35,7 @@ export default function DashboardScreen({ database }) {
 		return (
 			<MainScreen
 				database={database}
+				storage={storage}
 				userName={selectedUser}
 				setUserName={setSelectedUser}
 				name={selectedName}

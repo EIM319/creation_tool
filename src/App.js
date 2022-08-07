@@ -28,7 +28,12 @@ export default function App() {
 						<DefaultArticleScreen database={db} storage={storage} />
 					}
 				/>
-				<Route path="*" element={<DashboardScreen database={db} />} />
+				<Route
+					path="*"
+					element={
+						<DashboardScreen database={db} storage={storage} />
+					}
+				/>
 			</Routes>
 		</BrowserRouter>
 	);
