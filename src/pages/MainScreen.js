@@ -12,6 +12,7 @@ import MedicationScreen from "./MedicationScreen";
 
 export default function MainScreen({
 	database,
+	storage,
 	userName,
 	setUserName,
 	name,
@@ -59,6 +60,7 @@ export default function MainScreen({
 							<HomeMonitoringScreen
 								database={database}
 								userName={userName}
+								storage={storage}
 							/>
 						}
 					/>

@@ -5,7 +5,7 @@ import EditArticleComponent from "../components/articles/EditArticleComponent";
 import ImportArticleComponent from "../components/articles/ImportArticleComponent";
 import LoadingComponent from "../components/LoadingComponent";
 
-export default function HomeMonitoringScreen({ database, userName }) {
+export default function HomeMonitoringScreen({ database, userName, storage }) {
 	const [monitoring, setMonitoring] = useState();
 	const [selectedMonitoring, setSelectedMonitoring] = useState();
 	const [openModal, setOpenModal] = useState(false);
@@ -65,6 +65,7 @@ export default function HomeMonitoringScreen({ database, userName }) {
 						database={database}
 						userName={userName}
 						type="monitoring"
+						storage={storage}
 					/>
 				</Col>
 			</Row>

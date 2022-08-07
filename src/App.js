@@ -2,6 +2,7 @@ import "./App.css";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { initializeApp } from "firebase/app";
 import { getFirestore } from "firebase/firestore/lite";
+import { getStorage } from "firebase/storage";
 import DashboardScreen from "./pages/DashboardScreen";
 import DefaultArticleScreen from "./pages/DefaultArticlesScreen";
 
@@ -15,6 +16,7 @@ const firebaseConfig = {
 };
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
+const storage = getStorage(app);
 
 export default function App() {
 	return (
@@ -22,9 +24,16 @@ export default function App() {
 			<Routes>
 				<Route
 					path="tool"
-					element={<DefaultArticleScreen database={db} />}
+					element={
+						<DefaultArticleScreen database={db} storage={storage} />
+					}
 				/>
-				<Route path="*" element={<DashboardScreen database={db} />} />
+				<Route
+					path="*"
+					element={
+						<DashboardScreen database={db} storage={storage} />
+					}
+				/>
 			</Routes>
 		</BrowserRouter>
 	);

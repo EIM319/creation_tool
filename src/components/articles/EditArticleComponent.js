@@ -1,7 +1,6 @@
 import { doc, updateDoc } from "firebase/firestore/lite";
 import { useState, useEffect } from "react";
 import { Button, Spinner } from "react-bootstrap";
-import ContentListComponent from "./ContentListComponent";
 import HeaderComponent from "./HeaderComponent";
 import PurposeComponent from "./PurposeComponent";
 import { FaSave, FaEdit } from "react-icons/fa";
@@ -9,7 +8,7 @@ import ConfirmDeleteComponent from "./ConfirmDeleteComponent";
 import { toast } from "react-toastify";
 import ImageComponent from "./ImageComponent";
 import PreviewComponent from "./PreviewComponent";
-import IsMonitoringComponent from "./IsMonitoringComponent";
+import ContentSelectorComponent from "./ContentSelectorComponent";
 
 export default function EditArticleComponent({
 	articles,
@@ -19,6 +18,7 @@ export default function EditArticleComponent({
 	database,
 	userName,
 	type,
+	storage,
 }) {
 	const [modifiedArticle, setModifiedArticle] = useState();
 	const [showDeleteModal, setShowDeleteModal] = useState(false);
@@ -64,12 +64,11 @@ export default function EditArticleComponent({
 				<HeaderComponent article={modifiedArticle} />
 				<PurposeComponent article={modifiedArticle} />
 				<ImageComponent article={modifiedArticle} />
-				<IsMonitoringComponent article={modifiedArticle} />
-				<ContentListComponent
+				<ContentSelectorComponent
 					article={modifiedArticle}
 					setArticle={setModifiedArticle}
+					storage={storage}
 				/>
-				<br />
 				<div className="line" />
 				<br />
 				<b style={{ paddingBottom: 10, fontSize: 20 }}>Controls</b>
