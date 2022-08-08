@@ -1,11 +1,10 @@
-import { Button, Modal } from "react-bootstrap";
+import { Button, Modal, Form } from "react-bootstrap";
 import { collection, doc, getDocs, updateDoc } from "firebase/firestore/lite";
 import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import { Link } from "react-router-dom";
 
 export default function ImportArticleComponent({
-	type,
 	open,
 	setOpen,
 	database,
@@ -16,11 +15,13 @@ export default function ImportArticleComponent({
 }) {
 	const [defaultArticles, setDefaultArticles] = useState();
 	const [selectedArticles, setSelectedArticles] = useState(new Set());
+	const [keyword, setKeyword] = useState("");
 
 	useEffect(() => {
 		selectedArticles.clear();
 		if (open) {
 			getDefaultArticles(database, setDefaultArticles);
+			setKeyword("");
 		}
 	}, [open]);
 
@@ -36,10 +37,18 @@ export default function ImportArticleComponent({
 				<Modal.Title>Get Article</Modal.Title>
 			</Modal.Header>
 			<Modal.Body>
+				<Form.Control
+					value={keyword}
+					onChange={(event) => {
+						setKeyword(event.target.value);
+					}}
+					style={{ marginBottom: 20 }}
+				/>
 				<Articles
 					selectedArticles={selectedArticles}
 					setSelectedArticles={setSelectedArticles}
 					defaultArticles={defaultArticles}
+					keyword={keyword}
 				/>
 				<div
 					style={{
@@ -100,43 +109,53 @@ async function updateDatabase(ref, newArticles) {
 	});
 }
 
-function Articles({ selectedArticles, setSelectedArticles, defaultArticles }) {
+function Articles({
+	selectedArticles,
+	setSelectedArticles,
+	defaultArticles,
+	keyword,
+}) {
 	const items = [];
-	console.log(selectedArticles);
 	if (defaultArticles !== undefined) {
 		for (let i = 0; i < defaultArticles.length; i++) {
-			if (selectedArticles.has(i)) {
-				items.push(
-					<div
-						className="toggle"
-						onClick={async () => {
-							const newSet = new Set(selectedArticles);
-							newSet.delete(i);
-							setSelectedArticles(newSet);
-						}}
-					>
-						<b style={{ color: "rgb(12, 121, 235)" }}>
-							{defaultArticles[i].name}
-						</b>
-						<p style={{ color: "rgb(12, 121, 235)" }}>
-							{defaultArticles[i].purpose}
-						</p>
-					</div>
-				);
-			} else {
-				items.push(
-					<div
-						className="toggle"
-						onClick={async () => {
-							const newSet = new Set(selectedArticles);
-							newSet.add(i);
-							setSelectedArticles(newSet);
-						}}
-					>
-						<b>{defaultArticles[i].name}</b>
-						<p>{defaultArticles[i].purpose}</p>
-					</div>
-				);
+			if (
+				defaultArticles[i].name
+					.toLowerCase()
+					.includes(keyword.toLowerCase())
+			) {
+				if (selectedArticles.has(i)) {
+					items.push(
+						<div
+							className="toggle"
+							onClick={async () => {
+								const newSet = new Set(selectedArticles);
+								newSet.delete(i);
+								setSelectedArticles(newSet);
+							}}
+						>
+							<b style={{ color: "rgb(12, 121, 235)" }}>
+								{defaultArticles[i].name}
+							</b>
+							<p style={{ color: "rgb(12, 121, 235)" }}>
+								{defaultArticles[i].purpose}
+							</p>
+						</div>
+					);
+				} else {
+					items.push(
+						<div
+							className="toggle"
+							onClick={async () => {
+								const newSet = new Set(selectedArticles);
+								newSet.add(i);
+								setSelectedArticles(newSet);
+							}}
+						>
+							<b>{defaultArticles[i].name}</b>
+							<p>{defaultArticles[i].purpose}</p>
+						</div>
+					);
+				}
 			}
 		}
 	}
