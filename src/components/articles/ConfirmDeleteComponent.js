@@ -11,7 +11,6 @@ export default function ConfirmDeleteComponent({
 	setArticles,
 	setArticle,
 	article,
-	type,
 }) {
 	return (
 		<Modal show={show} onHide={() => setShow(false)} centered>

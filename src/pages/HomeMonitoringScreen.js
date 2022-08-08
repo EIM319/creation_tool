@@ -64,13 +64,11 @@ export default function HomeMonitoringScreen({ database, userName, storage }) {
 						setArticle={setSelectedMonitoring}
 						database={database}
 						userName={userName}
-						type="monitoring"
 						storage={storage}
 					/>
 				</Col>
 			</Row>
 			<ImportArticleComponent
-				type="monitoring"
 				open={openModal}
 				setOpen={setOpenModal}
 				database={database}

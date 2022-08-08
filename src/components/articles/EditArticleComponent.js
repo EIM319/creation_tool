@@ -17,7 +17,6 @@ export default function EditArticleComponent({
 	setArticle,
 	database,
 	userName,
-	type,
 	storage,
 }) {
 	const [modifiedArticle, setModifiedArticle] = useState();
@@ -141,7 +140,6 @@ export default function EditArticleComponent({
 				setArticles={setArticles}
 				article={article}
 				setArticle={setArticle}
-				type={type}
 			/>
 		</div>
 	);
