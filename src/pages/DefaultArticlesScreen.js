@@ -96,6 +96,20 @@ export default function DefaultArticleScreen({ database, storage }) {
 		}
 	}
 
+	async function addPdf() {
+		const ref = await addDoc(
+			collection(database, "homemonitoring"),
+			defaultMonitoringPdf
+		);
+		const newArticle = {
+			ref: ref,
+			data: Object.assign({}, defaultMonitoringPdf),
+		};
+		setSelectedArticle(newArticle);
+		setMonitoring([...monitoring, newArticle]);
+		toast.success("Added New Article");
+	}
+
 	return (
 		<div>
 			<Row style={{ width: "100%", margin: 0 }}>
@@ -117,7 +131,7 @@ export default function DefaultArticleScreen({ database, storage }) {
 									setSelectedArticle(monitoring[0]);
 								}}
 							>
-								Home Monitoring
+								Article
 							</Row>
 							<Row
 								className={
@@ -137,15 +151,28 @@ export default function DefaultArticleScreen({ database, storage }) {
 				</Col>
 				<Col xs={3} className="listPanel">
 					{listComponents}
-					<div style={{ margin: 10 }}>
-						<Button
-							variant="secondary"
-							style={{ width: "100%" }}
-							onClick={addArticle}
-						>
-							Add Article
-						</Button>
-					</div>
+					<Row style={{ margin: 0 }}>
+						<Col>
+							<Button
+								variant="secondary"
+								onClick={addArticle}
+								style={{ width: "100%" }}
+							>
+								Add Article
+							</Button>
+						</Col>
+						{viewingScreen === 0 ? (
+							<Col>
+								<Button
+									variant="secondary"
+									onClick={addPdf}
+									style={{ width: "100%" }}
+								>
+									Add PDF
+								</Button>
+							</Col>
+						) : null}
+					</Row>
 				</Col>
 				<Col xs={7}>
 					{viewingScreen === 0 ? (
@@ -199,6 +226,16 @@ const defaultMonitoring = {
 	name: "",
 	purpose: "",
 	isMonitoring: false,
+	time: [false, false, false, false, false, false, false],
+	days: [false, false, false, false, false, false, false],
+};
+const defaultMonitoringPdf = {
+	content: [],
+	image: "",
+	name: "",
+	purpose: "",
+	isMonitoring: false,
+	pdf: "",
 	time: [false, false, false, false, false, false, false],
 	days: [false, false, false, false, false, false, false],
 };

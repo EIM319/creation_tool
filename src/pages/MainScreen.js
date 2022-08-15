@@ -55,7 +55,7 @@ export default function MainScreen({
 						}
 					/>
 					<Route
-						path="homemonitoring"
+						path="article"
 						element={
 							<HomeMonitoringScreen
 								database={database}
@@ -112,8 +112,8 @@ var screenNames = [
 		path: "",
 	},
 	{
-		name: "Home Monitoring",
-		path: "homemonitoring",
+		name: "Article",
+		path: "article",
 	},
 	{
 		name: "Lab Results",
