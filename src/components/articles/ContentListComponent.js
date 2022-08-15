@@ -42,10 +42,10 @@ export default function ContentListComponent({ article, setArticle }) {
 		</Button>
 	);
 	return (
-		<>
+		<div style={{ display: "flex", flexDirection: "column" }}>
 			<b style={{ paddingBottom: 10, fontSize: 20 }}>Content</b>
 			{contentList}
 			<br />
-		</>
+		</div>
 	);
 }

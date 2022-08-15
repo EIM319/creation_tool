@@ -47,12 +47,12 @@ export default function HomeMonitoringScreen({ database, userName, storage }) {
 					<div style={{ margin: 10 }}>
 						<Button
 							variant="secondary"
-							style={{ width: "100%" }}
+							style={{ width: "100%", marginBottom: 10 }}
 							onClick={() => {
 								setOpenModal(true);
 							}}
 						>
-							Add Article
+							Add From Library
 						</Button>
 					</div>
 				</Col>
