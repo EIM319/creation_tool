@@ -1,7 +1,14 @@
-import { Image, Row, Modal } from "react-bootstrap";
+import { useEffect, useState } from "react";
+import { Image, Row, Modal, Spinner } from "react-bootstrap";
 import YouTube from "./Youtube";
 
 export default function DefaultPreviewComponent({ show, setShow, article }) {
+	const [isLoading, setLoading] = useState(true);
+
+	useEffect(() => {
+		setLoading(true);
+	}, [show]);
+
 	if (article === undefined || article.content === undefined) return null;
 
 	if (article.pdf !== undefined && article.pdf !== null) {
@@ -10,12 +17,41 @@ export default function DefaultPreviewComponent({ show, setShow, article }) {
 				<Modal.Header closeButton>
 					<Modal.Title>{article.name}</Modal.Title>
 				</Modal.Header>
+				{isLoading ? (
+					<div
+						style={{
+							display: "flex",
+							flexDirection: "column",
+							alignItems: "center",
+							justifyContent: "center",
+							width: "100%",
+							height: "80vh",
+						}}
+					>
+						<Spinner animation="border" role="status" />
+					</div>
+				) : null}
 				<iframe
 					src={article.pdf}
-					style={{ width: "100%", height: "80vh", marginTop: 20 }}
+					style={{
+						width: "100%",
+						height: "80vh",
+						display: getHide(),
+					}}
+					onLoad={() => {
+						setLoading(false);
+					}}
 				/>{" "}
 			</Modal>
 		);
+	}
+
+	function getHide() {
+		if (isLoading) {
+			return "none";
+		} else {
+			return "flex";
+		}
 	}
 
 	const components = [];

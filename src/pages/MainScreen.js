@@ -158,11 +158,28 @@ function SideNavBar({
 	return (
 		<div className="sideNav">
 			<div style={{ padding: 20 }}>
-				<QRCode
-					value={"https://eim319.web.app/home/" + userName}
-					size={90}
-					style={{ width: "100%" }}
-				/>
+				<a
+					class="toggle"
+					href={"https://eim319.web.app/home/" + userName}
+					target="_blank"
+					style={{ textDecoration: "none" }}
+				>
+					<QRCode
+						value={"https://eim319.web.app/home/" + userName}
+						size={120}
+						style={{ width: "100%" }}
+					/>
+					<p
+						style={{
+							marginTop: 10,
+							color: "black",
+							opacity: 0.7,
+						}}
+					>
+						Click to open
+					</p>
+				</a>
+
 				<p style={{ fontSize: 20, fontWeight: 500, marginTop: 20 }}>
 					{name}
 				</p>

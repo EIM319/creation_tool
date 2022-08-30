@@ -44,25 +44,27 @@ export default function ImportArticleComponent({
 					}}
 					style={{ marginBottom: 20 }}
 				/>
-				<Articles
-					selectedArticles={selectedArticles}
-					setSelectedArticles={setSelectedArticles}
-					defaultArticles={defaultArticles}
-					keyword={keyword}
-				/>
+				<div style={{ height: "50vh", overflow: "auto" }}>
+					<Articles
+						selectedArticles={selectedArticles}
+						setSelectedArticles={setSelectedArticles}
+						defaultArticles={defaultArticles}
+						keyword={keyword}
+					/>
+				</div>
+			</Modal.Body>
+			<Modal.Footer>
 				<div
 					style={{
 						display: "flex",
 						flexDirection: "row",
 					}}
 				>
-					<p style={{ fontSize: 13, margin: 0 }}>
+					<p style={{ fontSize: 13, margin: 0, paddingRight: 10 }}>
 						Unable to find what you need?{" "}
 						<Link to="/tool">Click Here</Link>
 					</p>
 				</div>
-			</Modal.Body>
-			<Modal.Footer>
 				<Button
 					onClick={async () => {
 						setOpen(false);
