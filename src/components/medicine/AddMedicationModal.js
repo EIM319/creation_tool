@@ -1,6 +1,6 @@
 import { collection, doc, getDocs, updateDoc } from "firebase/firestore/lite";
 import { useEffect, useState } from "react";
-import { Button, Modal } from "react-bootstrap";
+import { Button, Form, Modal } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import { toast } from "react-toastify";
 
@@ -15,6 +15,7 @@ export default function AddMedicationModal({
 }) {
 	const [defaultMedication, setDefaultMedication] = useState([]);
 	const [selectedMedication, setSelectedMedication] = useState(new Set());
+	const [keyword, setKeyword] = useState("");
 
 	useEffect(() => {
 		getDefaultMedications(database, setDefaultMedication);
@@ -22,6 +23,9 @@ export default function AddMedicationModal({
 
 	useEffect(() => {
 		selectedMedication.clear();
+		if (show) {
+			setKeyword("");
+		}
 	}, [show]);
 
 	return (
@@ -36,24 +40,34 @@ export default function AddMedicationModal({
 				<Modal.Title>Get Medication</Modal.Title>
 			</Modal.Header>
 			<Modal.Body>
-				<MedicationList
-					selectedMedication={selectedMedication}
-					setSelectedMedication={setSelectedMedication}
-					defaultMedication={defaultMedication}
+				<Form.Control
+					value={keyword}
+					onChange={(event) => {
+						setKeyword(event.target.value);
+					}}
+					style={{ marginBottom: 20 }}
 				/>
+				<div style={{ height: "50vh", overflow: "auto" }}>
+					<MedicationList
+						selectedMedication={selectedMedication}
+						setSelectedMedication={setSelectedMedication}
+						defaultMedication={defaultMedication}
+						keyword={keyword}
+					/>
+				</div>
+			</Modal.Body>
+			<Modal.Footer>
 				<div
 					style={{
 						display: "flex",
 						flexDirection: "row",
 					}}
 				>
-					<p style={{ fontSize: 13, margin: 0 }}>
+					<p style={{ fontSize: 13, margin: 0, paddingRight: 10 }}>
 						Unable to find what you need?{" "}
 						<Link to="/tool">Click Here</Link>
 					</p>
 				</div>
-			</Modal.Body>
-			<Modal.Footer>
 				<Button
 					onClick={async () => {
 						setShow(false);
@@ -100,10 +114,13 @@ function MedicationList({
 	selectedMedication,
 	setSelectedMedication,
 	defaultMedication,
+	keyword,
 }) {
 	const items = [];
 	for (let i = 0; i < defaultMedication.length; i++) {
 		const medicine = defaultMedication[i];
+		if (!medicine.name.toLowerCase().includes(keyword.toLowerCase()))
+			continue;
 		if (selectedMedication.has(i)) {
 			items.push(
 				<div

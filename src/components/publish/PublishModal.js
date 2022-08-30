@@ -1,8 +1,13 @@
-import { Button, Modal } from "react-bootstrap";
+import { Button, Modal, Spinner } from "react-bootstrap";
 import { addDoc, collection, doc, getDoc } from "firebase/firestore/lite";
+import { useState } from "react";
 
 export default function PublishModal({ show, setShow, userName, database }) {
+	const [isSaving, setSaving] = useState(false);
+
 	async function publish() {
+		if (isSaving) return;
+		setSaving(true);
 		const data = await getUser(database, userName);
 		data.date = new Date();
 		const archiveRef = collection(
@@ -13,6 +18,7 @@ export default function PublishModal({ show, setShow, userName, database }) {
 		var userToken = data.notificationKey;
 		if (userToken === null || userToken === undefined) {
 			setShow(false);
+			setSaving(false);
 			return;
 		}
 		const message = {
@@ -22,7 +28,7 @@ export default function PublishModal({ show, setShow, userName, database }) {
 			},
 			to: userToken,
 		};
-		const response = await fetch("https://fcm.googleapis.com/fcm/send", {
+		await fetch("https://fcm.googleapis.com/fcm/send", {
 			method: "POST",
 			headers: {
 				Authorization:
@@ -32,6 +38,7 @@ export default function PublishModal({ show, setShow, userName, database }) {
 			body: JSON.stringify(message),
 		});
 		setShow(false);
+		setSaving(false);
 	}
 
 	return (
@@ -50,15 +57,21 @@ export default function PublishModal({ show, setShow, userName, database }) {
 				will be able to see the updated information.
 			</Modal.Body>
 			<Modal.Footer>
-				<Button
-					variant="secondary"
-					onClick={() => {
-						setShow(false);
-					}}
-				>
-					Cancel
-				</Button>
-				<Button onClick={publish}>Confirm</Button>
+				{isSaving ? (
+					<Spinner animation="border" role="status" />
+				) : (
+					<>
+						<Button
+							variant="secondary"
+							onClick={() => {
+								setShow(false);
+							}}
+						>
+							Cancel
+						</Button>
+						<Button onClick={publish}>Confirm</Button>
+					</>
+				)}
 			</Modal.Footer>
 		</Modal>
 	);

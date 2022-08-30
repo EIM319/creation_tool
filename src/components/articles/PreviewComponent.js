@@ -1,15 +1,41 @@
-import { Image } from "react-bootstrap";
+import { useEffect, useState } from "react";
+import { Image, Spinner } from "react-bootstrap";
 import YouTube from "./Youtube";
 
 export default function PreviewComponent({ article }) {
+	const [isLoading, setLoading] = useState(true);
+
+	useEffect(() => {
+		setLoading(true);
+	}, [article]);
+
 	if (article === undefined || article.content === undefined) return null;
 
 	if (article.pdf !== undefined && article.pdf !== null) {
 		return (
-			<iframe
-				src={article.pdf}
-				style={{ width: "100%", height: "80vh", marginTop: 20 }}
-			/>
+			<>
+				{isLoading ? (
+					<div
+						style={{
+							display: "flex",
+							flexDirection: "column",
+							alignItems: "center",
+							justifyContent: "center",
+							width: "100%",
+							height: "85vh",
+						}}
+					>
+						<Spinner animation="border" role="status" />
+					</div>
+				) : null}
+				<iframe
+					src={article.pdf}
+					style={{ width: "100%", height: "85vh" }}
+					onLoad={() => {
+						setLoading(false);
+					}}
+				/>
+			</>
 		);
 	}
 
@@ -63,7 +89,7 @@ export default function PreviewComponent({ article }) {
 	return (
 		<div
 			style={{
-				padding: 30,
+				padding: "0px 30px 30px 30px",
 				overflowY: "auto",
 			}}
 		>

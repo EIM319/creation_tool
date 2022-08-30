@@ -1,15 +1,18 @@
-import { Form } from "react-bootstrap";
+import { Form, Spinner } from "react-bootstrap";
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import { useEffect, useState } from "react";
 
 export default function PDFComponent({ article, storage }) {
 	const [file, setFile] = useState(null);
+	const [isLoading, setLoading] = useState(true);
 
 	useEffect(() => {
 		if (article.pdf === undefined || article.pdf === null) {
 			setFile(null);
+			setLoading(false);
 		} else {
 			setFile(article.pdf);
+			setLoading(true);
 		}
 	}, [article]);
 
@@ -48,9 +51,16 @@ export default function PDFComponent({ article, storage }) {
 						<b>File Attached: </b>
 						{file}
 					</p>
+					{isLoading ? (
+						<Spinner animation="border" role="status" />
+					) : null}
+
 					<iframe
 						src={file}
 						style={{ width: "100%", height: "80vh", marginTop: 10 }}
+						onLoad={() => {
+							setLoading(false);
+						}}
 					/>
 				</>
 			) : null}
