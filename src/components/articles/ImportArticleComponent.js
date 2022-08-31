@@ -1,4 +1,4 @@
-import { Button, Modal, Form } from "react-bootstrap";
+import { Button, Modal, Form, Badge } from "react-bootstrap";
 import { collection, doc, getDocs, updateDoc } from "firebase/firestore/lite";
 import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
@@ -124,6 +124,9 @@ function Articles({
 			if (
 				defaultArticles[i].name
 					.toLowerCase()
+					.includes(keyword.toLowerCase()) ||
+				defaultArticles[i].tag
+					.toLowerCase()
 					.includes(keyword.toLowerCase())
 			) {
 				if (selectedArticles.has(i)) {
@@ -136,9 +139,24 @@ function Articles({
 								setSelectedArticles(newSet);
 							}}
 						>
-							<b style={{ color: "rgb(12, 121, 235)" }}>
+							<b
+								style={{
+									color: "rgb(12, 121, 235)",
+									marginRight: 10,
+								}}
+							>
 								{defaultArticles[i].name}
 							</b>
+							{defaultArticles[i].tag !== "" ? (
+								<Badge
+									style={{
+										width: "fit-content",
+										marginRight: 10,
+									}}
+								>
+									{defaultArticles[i].tag}
+								</Badge>
+							) : null}
 							<p style={{ color: "rgb(12, 121, 235)" }}>
 								{defaultArticles[i].purpose}
 							</p>
@@ -154,7 +172,20 @@ function Articles({
 								setSelectedArticles(newSet);
 							}}
 						>
-							<b>{defaultArticles[i].name}</b>
+							<b style={{ marginRight: 10 }}>
+								{defaultArticles[i].name}
+							</b>
+							{defaultArticles[i].tag !== "" ? (
+								<Badge
+									bg="secondary"
+									style={{
+										width: "fit-content",
+										marginRight: 10,
+									}}
+								>
+									{defaultArticles[i].tag}
+								</Badge>
+							) : null}
 							<p>{defaultArticles[i].purpose}</p>
 						</div>
 					);

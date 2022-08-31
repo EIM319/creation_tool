@@ -133,6 +133,23 @@ export default function DefaultArticleScreen({ database, storage }) {
 						}}
 					>
 						<Col>
+							<p
+								style={{
+									fontWeight: 700,
+									fontSize: 30,
+								}}
+							>
+								Admin Tool
+							</p>
+							<p
+								style={{
+									fontSize: 17,
+									marginBottom: 50,
+								}}
+							>
+								Use this tool to add or edit articles the
+								library
+							</p>
 							<Row
 								className={
 									viewingScreen === 0
@@ -255,6 +272,7 @@ const defaultMonitoring = {
 	name: "",
 	purpose: "",
 	isMonitoring: false,
+	tag: "",
 	time: [false, false, false, false, false, false, false],
 	days: [false, false, false, false, false, false, false],
 };
@@ -265,6 +283,7 @@ const defaultMonitoringPdf = {
 	purpose: "",
 	isMonitoring: false,
 	pdf: "",
+	tag: "",
 	time: [false, false, false, false, false, false, false],
 	days: [false, false, false, false, false, false, false],
 };
@@ -272,6 +291,7 @@ const defaultMedication = {
 	name: "",
 	purpose: "",
 	dosage: "",
+	tag: "",
 	time: [false, false, false, false, false, false, false],
 	days: [false, false, false, false, false, false, false],
 	side_effects: [],
