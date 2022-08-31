@@ -41,6 +41,7 @@ export default function AddMedicationModal({
 			</Modal.Header>
 			<Modal.Body>
 				<Form.Control
+					placeholder="Search"
 					value={keyword}
 					onChange={(event) => {
 						setKeyword(event.target.value);
