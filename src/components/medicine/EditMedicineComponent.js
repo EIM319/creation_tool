@@ -165,7 +165,7 @@ export function SideEffects({ sideEffects, setSideEffects }) {
 	const array = [];
 	for (let i = 0; i < sideEffects.length; i++) {
 		array.push(
-			<InputGroup style={{ marginBottom: 10 }}>
+			<InputGroup style={{ marginBottom: 10, maxWidth: 500 }}>
 				<FormControl
 					value={sideEffects[i]}
 					onChange={(event) => {

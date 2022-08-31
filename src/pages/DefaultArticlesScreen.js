@@ -27,6 +27,9 @@ export default function DefaultArticleScreen({ database, storage }) {
 				if (
 					article.data.name
 						.toLowerCase()
+						.includes(keyword.toLowerCase()) ||
+					article.data.tag
+						.toLowerCase()
 						.includes(keyword.toLowerCase())
 				) {
 					listComponents.push(
@@ -55,6 +58,9 @@ export default function DefaultArticleScreen({ database, storage }) {
 			medication.forEach((article) => {
 				if (
 					article.data.name
+						.toLowerCase()
+						.includes(keyword.toLowerCase()) ||
+					article.data.tag
 						.toLowerCase()
 						.includes(keyword.toLowerCase())
 				) {
