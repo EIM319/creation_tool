@@ -1,6 +1,6 @@
 import { collection, doc, getDocs, updateDoc } from "firebase/firestore/lite";
 import { useEffect, useState } from "react";
-import { Button, Form, Modal } from "react-bootstrap";
+import { Badge, Button, Form, Modal } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import { toast } from "react-toastify";
 
@@ -41,6 +41,7 @@ export default function AddMedicationModal({
 			</Modal.Header>
 			<Modal.Body>
 				<Form.Control
+					placeholder="Search"
 					value={keyword}
 					onChange={(event) => {
 						setKeyword(event.target.value);
@@ -119,7 +120,10 @@ function MedicationList({
 	const items = [];
 	for (let i = 0; i < defaultMedication.length; i++) {
 		const medicine = defaultMedication[i];
-		if (!medicine.name.toLowerCase().includes(keyword.toLowerCase()))
+		if (
+			!medicine.name.toLowerCase().includes(keyword.toLowerCase()) &&
+			!medicine.tag.toLowerCase().includes(keyword.toLowerCase())
+		)
 			continue;
 		if (selectedMedication.has(i)) {
 			items.push(
@@ -131,9 +135,19 @@ function MedicationList({
 						setSelectedMedication(newSet);
 					}}
 				>
-					<b style={{ color: "rgb(12, 121, 235)" }}>
+					<b style={{ color: "rgb(12, 121, 235)", marginRight: 10 }}>
 						{medicine.name}
 					</b>
+					{medicine.tag !== "" ? (
+						<Badge
+							style={{
+								width: "fit-content",
+								marginRight: 10,
+							}}
+						>
+							{medicine.tag}
+						</Badge>
+					) : null}
 					<p style={{ color: "rgb(12, 121, 235)" }}>
 						{medicine.purpose}
 					</p>
@@ -149,7 +163,18 @@ function MedicationList({
 						setSelectedMedication(newSet);
 					}}
 				>
-					<b>{medicine.name}</b>
+					<b style={{ marginRight: 10 }}>{medicine.name}</b>
+					{medicine.tag !== "" ? (
+						<Badge
+							bg="secondary"
+							style={{
+								width: "fit-content",
+								marginRight: 10,
+							}}
+						>
+							{medicine.tag}
+						</Badge>
+					) : null}
 					<p>{medicine.purpose}</p>
 				</div>
 			);

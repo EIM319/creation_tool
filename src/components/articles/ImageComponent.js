@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { FormControl, Image } from "react-bootstrap";
 
 export default function ImageComponent({ article }) {
-	const [link, setLink] = useState();
+	const [link, setLink] = useState("");
 	useEffect(() => {
 		setLink(article.image);
 	}, [article]);
@@ -19,9 +19,12 @@ export default function ImageComponent({ article }) {
 					article.image = event.target.value;
 				}}
 			/>
-			<div style={{ width: 300, margin: 20 }}>
-				<Image src={link} fluid />
-			</div>
+			{link.length > 0 ? (
+				<div style={{ width: 300, margin: 20 }}>
+					<Image src={link} fluid />
+				</div>
+			) : null}
+
 			<br />
 		</>
 	);

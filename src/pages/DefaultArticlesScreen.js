@@ -1,6 +1,6 @@
 import { addDoc, collection, getDocs } from "firebase/firestore/lite";
 import { useState, useEffect } from "react";
-import { Col, Row, Button } from "react-bootstrap";
+import { Col, Row, Button, Form } from "react-bootstrap";
 import EditDefaultArticleComponent from "../components/articles/EditDefaultArticleComponent";
 import { toast } from "react-toastify";
 import LoadingComponent from "../components/LoadingComponent";
@@ -11,6 +11,7 @@ export default function DefaultArticleScreen({ database, storage }) {
 	const [medication, setMedication] = useState();
 	const [viewingScreen, setViewingScreen] = useState(0);
 	const [selectedArticle, setSelectedArticle] = useState();
+	const [keyword, setKeyword] = useState("");
 
 	useEffect(() => {
 		getMonitoring(database, setMonitoring, setSelectedArticle);
@@ -23,47 +24,65 @@ export default function DefaultArticleScreen({ database, storage }) {
 	if (viewingScreen === 0) {
 		if (monitoring !== undefined) {
 			monitoring.forEach((article) => {
-				listComponents.push(
-					<div
-						className="toggle"
-						onClick={() => {
-							setSelectedArticle(article);
-						}}
-					>
-						<p
-							className={
-								selectedArticle === article
-									? "listItem listItemSelected green"
-									: "listItem"
-							}
+				if (
+					article.data.name
+						.toLowerCase()
+						.includes(keyword.toLowerCase()) ||
+					article.data.tag
+						.toLowerCase()
+						.includes(keyword.toLowerCase())
+				) {
+					listComponents.push(
+						<div
+							className="toggle"
+							onClick={() => {
+								setSelectedArticle(article);
+							}}
 						>
-							{article.data.name}
-						</p>
-					</div>
-				);
+							<p
+								className={
+									selectedArticle === article
+										? "listItem listItemSelected green"
+										: "listItem"
+								}
+							>
+								{article.data.name}
+							</p>
+						</div>
+					);
+				}
 			});
 		}
 	} else {
 		if (medication !== undefined) {
 			medication.forEach((article) => {
-				listComponents.push(
-					<div
-						className="toggle"
-						onClick={() => {
-							setSelectedArticle(article);
-						}}
-					>
-						<p
-							className={
-								selectedArticle === article
-									? "listItem listItemSelected green"
-									: "listItem"
-							}
+				if (
+					article.data.name
+						.toLowerCase()
+						.includes(keyword.toLowerCase()) ||
+					article.data.tag
+						.toLowerCase()
+						.includes(keyword.toLowerCase())
+				) {
+					listComponents.push(
+						<div
+							className="toggle"
+							onClick={() => {
+								setSelectedArticle(article);
+							}}
 						>
-							{article.data.name}
-						</p>
-					</div>
-				);
+							<p
+								className={
+									selectedArticle === article
+										? "listItem listItemSelected green"
+										: "listItem"
+								}
+							>
+								{article.data.name}
+							</p>
+						</div>
+					);
+				}
 			});
 		}
 	}
@@ -120,6 +139,23 @@ export default function DefaultArticleScreen({ database, storage }) {
 						}}
 					>
 						<Col>
+							<p
+								style={{
+									fontWeight: 700,
+									fontSize: 30,
+								}}
+							>
+								Admin Tool
+							</p>
+							<p
+								style={{
+									fontSize: 17,
+									marginBottom: 50,
+								}}
+							>
+								Use this tool to add or edit articles the
+								library
+							</p>
 							<Row
 								className={
 									viewingScreen === 0
@@ -150,8 +186,24 @@ export default function DefaultArticleScreen({ database, storage }) {
 					</div>
 				</Col>
 				<Col xs={3} className="listPanel">
-					{listComponents}
-					<Row style={{ margin: 0 }}>
+					<div style={{ padding: 10 }}>
+						<Form.Control
+							placeholder="Search"
+							value={keyword}
+							onChange={(event) => {
+								setKeyword(event.target.value);
+							}}
+						/>
+					</div>
+					<div
+						style={{
+							overflowY: "auto",
+							height: "80vh",
+						}}
+					>
+						{listComponents}
+					</div>
+					<Row style={{ margin: 0, marginTop: 20 }}>
 						<Col>
 							<Button
 								variant="secondary"
@@ -164,7 +216,7 @@ export default function DefaultArticleScreen({ database, storage }) {
 						{viewingScreen === 0 ? (
 							<Col>
 								<Button
-									variant="secondary"
+									variant="danger"
 									onClick={addPdf}
 									style={{ width: "100%" }}
 								>
@@ -226,6 +278,7 @@ const defaultMonitoring = {
 	name: "",
 	purpose: "",
 	isMonitoring: false,
+	tag: "",
 	time: [false, false, false, false, false, false, false],
 	days: [false, false, false, false, false, false, false],
 };
@@ -236,6 +289,7 @@ const defaultMonitoringPdf = {
 	purpose: "",
 	isMonitoring: false,
 	pdf: "",
+	tag: "",
 	time: [false, false, false, false, false, false, false],
 	days: [false, false, false, false, false, false, false],
 };
@@ -243,6 +297,7 @@ const defaultMedication = {
 	name: "",
 	purpose: "",
 	dosage: "",
+	tag: "",
 	time: [false, false, false, false, false, false, false],
 	days: [false, false, false, false, false, false, false],
 	side_effects: [],

@@ -10,6 +10,7 @@ import { toast } from "react-toastify";
 import DefaultPreviewComponent from "./DefaultPreviewComponent";
 
 import ContentSelectorComponent from "./ContentSelectorComponent";
+import TagComponent from "./TagComponent";
 
 export default function EditDefaultArticleComponent({
 	articles,
@@ -93,6 +94,7 @@ export default function EditDefaultArticleComponent({
 			>
 				<HeaderComponent article={modifiedArticle} />
 				<PurposeComponent article={modifiedArticle} />
+				<TagComponent article={modifiedArticle} />
 				<ImageComponent article={modifiedArticle} />
 				<ContentSelectorComponent
 					article={modifiedArticle}

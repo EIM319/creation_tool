@@ -16,6 +16,7 @@ export default function EditDefaultMedicineComponent({
 }) {
 	const [name, setName] = useState("");
 	const [purpose, setPurpose] = useState("");
+	const [tag, setTag] = useState();
 	const [dosage, setDosage] = useState("");
 	const [showDeleteModal, setShowDeleteModal] = useState(false);
 	const [dayTime, setDayTime] = useState({});
@@ -27,6 +28,7 @@ export default function EditDefaultMedicineComponent({
 		if (selectedMedicine === undefined) return;
 		setName(selectedMedicine.data.name);
 		setPurpose(selectedMedicine.data.purpose);
+		setTag(selectedMedicine.data.tag);
 		setDosage(selectedMedicine.data.dosage);
 		setSideEffects(selectedMedicine.data.side_effects);
 		setExtras(selectedMedicine.data.extras);
@@ -43,6 +45,7 @@ export default function EditDefaultMedicineComponent({
 		const newMedicine = new Object(selectedMedicine.data);
 		newMedicine.name = name;
 		newMedicine.purpose = purpose;
+		newMedicine.tag = tag;
 		newMedicine.dosage = dosage;
 		newMedicine.days = dayTime.days;
 		newMedicine.time = dayTime.time;
@@ -108,6 +111,16 @@ export default function EditDefaultMedicineComponent({
 						value={purpose}
 						onChange={(event) => {
 							setPurpose(event.target.value);
+						}}
+					/>
+					<br />
+					<b style={{ paddingBottom: 10, fontSize: 20 }}>
+						Tag - For easier searches
+					</b>
+					<FormControl
+						value={tag}
+						onChange={(event) => {
+							setTag(event.target.value);
 						}}
 					/>
 					<br />
