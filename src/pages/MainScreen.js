@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { Button } from "react-bootstrap";
+import { FaEye } from "react-icons/fa";
 import QRCode from "react-qr-code";
 import { Link, Route, Routes, useLocation } from "react-router-dom";
 import ClearAllModal from "../components/clear/ClearAllModal";
@@ -9,6 +10,7 @@ import AdditionalNotesScreen from "./AdditionalNotesScreen";
 import HomeMonitoringScreen from "./HomeMonitoringScreen";
 import LabResultsScreen from "./LabResultsScreen";
 import MedicationScreen from "./MedicationScreen";
+import RecordingsScreen from "./RecordingsScreen";
 
 export default function MainScreen({
 	database,
@@ -77,6 +79,15 @@ export default function MainScreen({
 						path="additionalnotes"
 						element={
 							<AdditionalNotesScreen
+								database={database}
+								userName={userName}
+							/>
+						}
+					/>
+					<Route
+						path="recordings"
+						element={
+							<RecordingsScreen
 								database={database}
 								userName={userName}
 							/>
@@ -155,6 +166,26 @@ function SideNavBar({
 			);
 		}
 	}
+
+	function RecordingsToggle() {
+		if (path == "recordings") {
+			return (
+				<Link
+					to="recordings"
+					className="sideNavText sideNavTextSelected"
+				>
+					Recordings
+				</Link>
+			);
+		} else {
+			return (
+				<Link to="recordings" className="sideNavText">
+					Recordings
+				</Link>
+			);
+		}
+	}
+
 	return (
 		<div className="sideNav">
 			<div style={{ padding: 20 }}>
@@ -179,7 +210,6 @@ function SideNavBar({
 						Click to open
 					</p>
 				</a>
-
 				<p style={{ fontSize: 20, fontWeight: 500, marginTop: 20 }}>
 					{name}
 				</p>
@@ -195,12 +225,14 @@ function SideNavBar({
 				<br />
 				<div className="line" />
 			</div>
-			{toggles}
+			<RecordingsToggle />
 			<div style={{ padding: 20 }}>
 				<div className="line" />
-				<br />
+			</div>
+			{toggles}
+			<div style={{ padding: "20px 20px 0px 20px" }}>
 				<Button
-					style={{ width: "100%", marginBottom: 10 }}
+					style={{ width: "100%" }}
 					variant="outline-danger"
 					onClick={() => {
 						setShowClearAllModal(true);
@@ -208,22 +240,39 @@ function SideNavBar({
 				>
 					Clear All
 				</Button>
+			</div>
+			<div style={{ padding: 20 }}>
+				<div className="line" />
+			</div>
+			<div
+				style={{
+					display: "flex",
+					flexDirection: "row",
+					padding: "0px 20px 20px 20px",
+				}}
+			>
 				<Button
-					style={{ width: "100%", marginBottom: 10 }}
-					variant="secondary"
-					onClick={() => {
-						setShowPreviewModal(true);
-					}}
-				>
-					Preview
-				</Button>
-				<Button
-					style={{ width: "100%" }}
+					style={{ flexGrow: 100 }}
 					onClick={() => {
 						setShowPublishModal(true);
 					}}
 				>
 					Publish
+				</Button>
+				<Button
+					style={{
+						marginLeft: 10,
+						display: "flex",
+						flexDirection: "column",
+						alignItems: "center",
+						justifyContent: "center",
+					}}
+					variant="secondary"
+					onClick={() => {
+						setShowPreviewModal(true);
+					}}
+				>
+					<FaEye />
 				</Button>
 			</div>
 		</div>

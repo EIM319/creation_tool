@@ -2,6 +2,7 @@ import { collection, getDocs } from "firebase/firestore/lite";
 import { useEffect, useState } from "react";
 import { Col, Container, FormControl, Row } from "react-bootstrap";
 import { IoIosAdd } from "react-icons/io";
+import { Link } from "react-router-dom";
 import AddUserModal from "../components/dashboard/AddUserModal";
 import LoadingComponent from "../components/LoadingComponent";
 import MainScreen from "./MainScreen";
@@ -57,7 +58,9 @@ export default function DashboardScreen({ database, storage }) {
 					setSelectedName(items[i].data().name);
 				}}
 			>
-				<p className="listItem">{items[i].data().name}</p>
+				<Link to="" style={{ textDecoration: "none", color: "black" }}>
+					<p className="listItem">{items[i].data().name}</p>
+				</Link>
 			</Col>
 		);
 	}
