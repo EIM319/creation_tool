@@ -13,7 +13,7 @@ export default function RecordingsSelector({
 						padding: "10px 20px",
 						background: "var(--accent)",
 						color: "white",
-						borderRadius: 100,
+						borderRadius: 5,
 						margin: 0,
 					}}
 				>
@@ -45,7 +45,6 @@ export default function RecordingsSelector({
 				flexDirection: "row",
 				width: "100%",
 				overflowX: "scroll",
-				padding: 20,
 			}}
 		>
 			{items}

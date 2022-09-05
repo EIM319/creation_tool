@@ -2,6 +2,7 @@ import { useEffect } from "react";
 import { useState } from "react";
 import LoadingComponent from "../components/LoadingComponent";
 import { collection, getDocs } from "firebase/firestore/lite";
+import { Row, Col } from "react-bootstrap";
 import RecordingsSelector from "../components/recordings/RecordingSelector";
 import RecordingList from "../components/recordings/RecordingList";
 
@@ -14,15 +15,25 @@ export default function RecordingsScreen({ database, userName }) {
 	}, []);
 
 	if (recordings === undefined) return <LoadingComponent />;
+	console.log(selectedRecording);
 	return (
-		<>
+		<div style={{ padding: 40 }}>
 			<RecordingsSelector
 				recordings={recordings}
 				setSelectedRecording={setSelectedRecording}
 				selectedRecording={selectedRecording}
 			/>
-			<RecordingList selectedRecording={selectedRecording} />
-		</>
+			{selectedRecording === undefined ? null : (
+				<p style={{ fontSize: 30, margin: 0, padding: "20px 0px" }}>
+					{selectedRecording[0]}
+				</p>
+			)}
+			<Row>
+				<Col xs={4}>
+					<RecordingList selectedRecording={selectedRecording} />
+				</Col>
+			</Row>
+		</div>
 	);
 }
 
