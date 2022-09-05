@@ -4,7 +4,7 @@ export default function RecordingList({ selectedRecording }) {
 	if (selectedRecording === undefined) return null;
 	const list = [];
 	selectedRecording[1].forEach((item) => {
-		const date = Date(item.date).split(" GMT");
+		const date = item.date.split(" GMT");
 		list.push(
 			<Row style={{ paddingTop: 10 }}>
 				<Col>{item.value}</Col>

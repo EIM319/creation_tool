@@ -5,6 +5,7 @@ import { collection, getDocs } from "firebase/firestore/lite";
 import { Row, Col } from "react-bootstrap";
 import RecordingsSelector from "../components/recordings/RecordingSelector";
 import RecordingList from "../components/recordings/RecordingList";
+import RecordingGraph from "../components/recordings/RecordingGraph";
 
 export default function RecordingsScreen({ database, userName }) {
 	const [recordings, setRecordings] = useState();
@@ -15,7 +16,6 @@ export default function RecordingsScreen({ database, userName }) {
 	}, []);
 
 	if (recordings === undefined) return <LoadingComponent />;
-	console.log(selectedRecording);
 	return (
 		<div style={{ padding: 40 }}>
 			<RecordingsSelector
@@ -31,6 +31,9 @@ export default function RecordingsScreen({ database, userName }) {
 			<Row>
 				<Col xs={4}>
 					<RecordingList selectedRecording={selectedRecording} />
+				</Col>
+				<Col xs={8}>
+					<RecordingGraph selectedRecording={selectedRecording} />
 				</Col>
 			</Row>
 		</div>
@@ -57,5 +60,10 @@ async function getRecordings(
 		});
 		setSelectedRecording(map.entries().next().value);
 	}
+	map.forEach((value, key) => {
+		value.sort((a, b) => {
+			return a.datetime - b.datetime;
+		});
+	});
 	setRecordings(map);
 }
