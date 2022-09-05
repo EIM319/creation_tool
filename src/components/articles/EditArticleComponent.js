@@ -9,6 +9,7 @@ import { toast } from "react-toastify";
 import ImageComponent from "./ImageComponent";
 import PreviewComponent from "./PreviewComponent";
 import ContentSelectorComponent from "./ContentSelectorComponent";
+import IsMonitoringComponent from "./IsMonitoringComponent";
 
 export default function EditArticleComponent({
 	articles,
@@ -63,6 +64,8 @@ export default function EditArticleComponent({
 				<HeaderComponent article={modifiedArticle} />
 				<PurposeComponent article={modifiedArticle} />
 				<ImageComponent article={modifiedArticle} />
+				<IsMonitoringComponent article={modifiedArticle} />
+
 				<ContentSelectorComponent
 					article={modifiedArticle}
 					setArticle={setModifiedArticle}
