@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import IsMonitoringComponent from "./IsMonitoringComponent";
 import PDFComponent from "./PDFComponent";
 import ContentListComponent from "./ContentListComponent";
 
@@ -28,7 +27,6 @@ export default function ContentSelectorComponent({
 				<PDFComponent article={article} storage={storage} />
 			) : (
 				<>
-					<IsMonitoringComponent article={article} />
 					<ContentListComponent
 						article={article}
 						setArticle={setArticle}

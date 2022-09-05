@@ -5,7 +5,7 @@ export default function RecordingsSelector({
 }) {
 	const items = [];
 	recordings.forEach((value, key) => {
-		if (selectedRecording != undefined && key === selectedRecording[0]) {
+		if (selectedRecording !== undefined && key === selectedRecording[0]) {
 			items.push(
 				<p
 					className="toggle"
@@ -14,6 +14,7 @@ export default function RecordingsSelector({
 						background: "var(--accent)",
 						color: "white",
 						borderRadius: 100,
+						margin: 0,
 					}}
 				>
 					{key}
@@ -25,6 +26,7 @@ export default function RecordingsSelector({
 					className="toggle"
 					style={{
 						padding: "10px 20px",
+						margin: 0,
 					}}
 					onClick={() => {
 						setSelectedRecording([key, value]);

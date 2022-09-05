@@ -8,6 +8,7 @@ import { FaSave, FaEye } from "react-icons/fa";
 import { updateDoc } from "firebase/firestore/lite";
 import { toast } from "react-toastify";
 import DefaultPreviewComponent from "./DefaultPreviewComponent";
+import IsMonitoringComponent from "./IsMonitoringComponent";
 
 import ContentSelectorComponent from "./ContentSelectorComponent";
 import TagComponent from "./TagComponent";
@@ -96,6 +97,7 @@ export default function EditDefaultArticleComponent({
 				<PurposeComponent article={modifiedArticle} />
 				<TagComponent article={modifiedArticle} />
 				<ImageComponent article={modifiedArticle} />
+				<IsMonitoringComponent article={modifiedArticle} />
 				<ContentSelectorComponent
 					article={modifiedArticle}
 					setArticle={setModifiedArticle}
