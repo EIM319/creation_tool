@@ -35,7 +35,6 @@ export default function PDFComponent({ article, storage }) {
 								{ contentType: "application/pdf" }
 							);
 							const url = await getDownloadURL(result.ref);
-							console.log(url);
 							article.pdf = url;
 							setFile(url);
 						} else {

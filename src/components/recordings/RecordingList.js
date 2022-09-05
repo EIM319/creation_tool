@@ -4,15 +4,16 @@ export default function RecordingList({ selectedRecording }) {
 	if (selectedRecording === undefined) return null;
 	const list = [];
 	selectedRecording[1].forEach((item) => {
+		const date = item.date.split(" GMT");
 		list.push(
-			<Row>
+			<Row style={{ paddingTop: 10 }}>
 				<Col>{item.value}</Col>
-				<Col>{item.date}</Col>
+				<Col>{date[0]}</Col>
 			</Row>
 		);
 	});
 	return (
-		<Col style={{ padding: 20 }}>
+		<Col className="card" style={{ padding: 20 }}>
 			<Row>
 				<Col>
 					<b>Value</b>
@@ -21,8 +22,7 @@ export default function RecordingList({ selectedRecording }) {
 					<b>Date</b>
 				</Col>
 			</Row>
-
-			{list}
+			<div style={{ height: 300, overflowY: "auto" }}>{list}</div>
 		</Col>
 	);
 }
