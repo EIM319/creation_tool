@@ -1,7 +1,13 @@
 import { Button, Dropdown, InputGroup } from "react-bootstrap";
 import { useState, useEffect } from "react";
 import LoadingComponent from "../components/LoadingComponent";
-import { deleteDoc, doc, setDoc } from "firebase/firestore/lite";
+import {
+	deleteDoc,
+	doc,
+	setDoc,
+	getDoc,
+	collection,
+} from "firebase/firestore/lite";
 import DropdownMenu from "react-bootstrap/esm/DropdownMenu";
 import { FaSave } from "react-icons/fa";
 
@@ -33,6 +39,7 @@ export default function InPatientScreen({
 			var date = new Date();
 			date.setDate(date.getDate() + 1);
 			newStatus.dischargeDate = date.toDateString();
+			await sendNotification(newStatus, userName, database);
 		} else {
 			newStatus.dischargeDate = null;
 		}
@@ -189,7 +196,12 @@ const defaultStatus = {
 	dischargeDate: null,
 };
 
-async function sendNotification(status, userToken) {
+async function sendNotification(status, userName, database) {
+	const ref = doc(database, "notification", userName);
+	const result = await getDoc(ref);
+	if (!result.exists()) return;
+	const userToken = result.data().notificationKey;
+	if (userToken === undefined || userToken === null) return;
 	const message = {
 		notification: {
 			title: "Care Synopsis Alert",

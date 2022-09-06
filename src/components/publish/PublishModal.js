@@ -81,5 +81,11 @@ async function getUser(database, userName) {
 	const ref = doc(database, "users", userName);
 	const result = await getDoc(ref);
 	const data = result.data();
+	const ref2 = doc(database, "notification", userName);
+	const result2 = await getDoc(ref2);
+	if (result2.exists()) {
+		const data2 = result2.data();
+		data.notificationKey = data2.notificationKey;
+	}
 	return data;
 }
