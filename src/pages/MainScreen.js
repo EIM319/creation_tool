@@ -6,11 +6,14 @@ import { Link, Route, Routes, useLocation } from "react-router-dom";
 import ClearAllModal from "../components/clear/ClearAllModal";
 import PreviewModal from "../components/publish/PreviewModal";
 import PublishModal from "../components/publish/PublishModal";
+import Status from "../components/Status";
 import AdditionalNotesScreen from "./AdditionalNotesScreen";
 import HomeMonitoringScreen from "./HomeMonitoringScreen";
+import InPatientScreen from "./InPatientScreen";
 import LabResultsScreen from "./LabResultsScreen";
 import MedicationScreen from "./MedicationScreen";
 import RecordingsScreen from "./RecordingsScreen";
+import { doc, getDoc } from "firebase/firestore/lite";
 
 export default function MainScreen({
 	database,
@@ -24,6 +27,8 @@ export default function MainScreen({
 	const [showPublishModal, setShowPublishModal] = useState(false);
 	const [showClearAllModal, setShowClearAllModal] = useState(false);
 	const [showPreviewModal, setShowPreviewModal] = useState(false);
+	const [status, setStatus] = useState();
+
 	const location = useLocation();
 
 	useEffect(() => {
@@ -33,6 +38,10 @@ export default function MainScreen({
 		}
 	}, [location]);
 
+	useEffect(() => {
+		getStatus(database, userName, setStatus);
+	}, [userName]);
+
 	return (
 		<div className="mainPage">
 			<SideNavBar
@@ -41,6 +50,8 @@ export default function MainScreen({
 				setUserName={setUserName}
 				name={name}
 				setName={setName}
+				database={database}
+				status={status}
 				setShowPublishModal={setShowPublishModal}
 				setShowClearAllModal={setShowClearAllModal}
 				setShowPreviewModal={setShowPreviewModal}
@@ -93,6 +104,17 @@ export default function MainScreen({
 							/>
 						}
 					/>
+					<Route
+						path="inpatient"
+						element={
+							<InPatientScreen
+								database={database}
+								userName={userName}
+								status={status}
+								setStatus={setStatus}
+							/>
+						}
+					/>
 				</Routes>
 			</div>
 			<ClearAllModal
@@ -142,6 +164,8 @@ function SideNavBar({
 	setUserName,
 	name,
 	setName,
+	database,
+	status,
 	setShowPublishModal,
 	setShowClearAllModal,
 	setShowPreviewModal,
@@ -162,6 +186,25 @@ function SideNavBar({
 			toggles.push(
 				<Link to={screenNames[i].path} className="sideNavText" key={i}>
 					{screenNames[i].name}
+				</Link>
+			);
+		}
+	}
+
+	function InPatientToggle() {
+		if (path == "inpatient") {
+			return (
+				<Link
+					to="inpatient"
+					className="sideNavText sideNavTextSelected"
+				>
+					In Patient
+				</Link>
+			);
+		} else {
+			return (
+				<Link to="inpatient" className="sideNavText">
+					In Patient
 				</Link>
 			);
 		}
@@ -189,6 +232,17 @@ function SideNavBar({
 	return (
 		<div className="sideNav">
 			<div style={{ padding: 20 }}>
+				<p
+					className="toggle"
+					style={{ fontWeight: 500 }}
+					onClick={() => {
+						setUserName(null);
+						setName(null);
+					}}
+				>
+					← Back to Dashboard
+				</p>
+				<br />
 				<a
 					class="toggle"
 					href={"https://eim319.web.app/home/" + userName}
@@ -200,31 +254,17 @@ function SideNavBar({
 						size={120}
 						style={{ width: "100%" }}
 					/>
-					<p
-						style={{
-							marginTop: 10,
-							color: "black",
-							opacity: 0.7,
-						}}
-					>
-						Click to open
-					</p>
 				</a>
-				<p style={{ fontSize: 20, fontWeight: 500, marginTop: 20 }}>
+				<p style={{ fontSize: 25, fontWeight: 500, marginTop: 20 }}>
 					{name}
 				</p>
-				<p
-					className="toggle"
-					onClick={() => {
-						setUserName(null);
-						setName(null);
-					}}
-				>
-					← Back to Dashboard
-				</p>
-				<br />
-				<div className="line" />
+				<Status
+					database={database}
+					userName={userName}
+					status={status}
+				/>
 			</div>
+			<InPatientToggle />
 			<RecordingsToggle />
 			<div style={{ padding: 20 }}>
 				<div className="line" />
@@ -277,4 +317,15 @@ function SideNavBar({
 			</div>
 		</div>
 	);
+}
+
+async function getStatus(database, userName, setStatus) {
+	const ref = doc(database, "hospitalization", userName);
+	const status = await getDoc(ref);
+	if (!status.exists()) {
+		setStatus(null);
+	} else {
+		var data = status.data();
+		setStatus(data);
+	}
 }

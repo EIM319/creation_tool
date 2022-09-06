@@ -1,5 +1,4 @@
-import { useEffect } from "react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import LoadingComponent from "../components/LoadingComponent";
 import { collection, getDocs } from "firebase/firestore/lite";
 import { Row, Col } from "react-bootstrap";
@@ -16,6 +15,23 @@ export default function RecordingsScreen({ database, userName }) {
 	}, []);
 
 	if (recordings === undefined) return <LoadingComponent />;
+
+	if (recordings.size === 0) {
+		return (
+			<div
+				style={{
+					height: "100vh",
+					display: "flex",
+					flexDirection: "column",
+					alignItems: "center",
+					justifyContent: "center",
+				}}
+			>
+				<p>No entries found</p>
+			</div>
+		);
+	}
+
 	return (
 		<div style={{ padding: 40 }}>
 			<RecordingsSelector

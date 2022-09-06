@@ -68,7 +68,6 @@ html {
 	width: 300px;
 	height: 100vh;
 	flex-direction: column;
-	justify-content: center;
 	overflow-y: auto;
 	background-color: var(--nav-background);
 }
