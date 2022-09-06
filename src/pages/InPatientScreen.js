@@ -1,7 +1,9 @@
-import { Button } from "react-bootstrap";
+import { Button, Dropdown, InputGroup } from "react-bootstrap";
 import { useState, useEffect } from "react";
 import LoadingComponent from "../components/LoadingComponent";
-import { deleteDoc, doc, getDoc, setDoc } from "firebase/firestore/lite";
+import { deleteDoc, doc, setDoc } from "firebase/firestore/lite";
+import DropdownMenu from "react-bootstrap/esm/DropdownMenu";
+import { FaSave } from "react-icons/fa";
 
 export default function InPatientScreen({
 	database,
@@ -10,16 +12,30 @@ export default function InPatientScreen({
 	setStatus,
 }) {
 	const [isSaving, setSaving] = useState(false);
+	const [ward, setWard] = useState("");
 
 	useEffect(() => {
 		setSaving(false);
 	}, userName);
+
+	useEffect(() => {
+		if (status !== null && status !== undefined) {
+			setWard(status.ward);
+		}
+	}, [status]);
 
 	async function setHospitalized(isDischarging) {
 		setSaving(true);
 		const ref = doc(database, "hospitalization", userName);
 		const newStatus = Object.assign({}, defaultStatus);
 		newStatus.isDischarging = isDischarging;
+		if (isDischarging) {
+			var date = new Date();
+			date.setDate(date.getDate() + 1);
+			newStatus.dischargeDate = date.toDateString();
+		} else {
+			newStatus.dischargeDate = null;
+		}
 		await setDoc(ref, newStatus);
 		setStatus(newStatus);
 		setSaving(false);
@@ -30,6 +46,16 @@ export default function InPatientScreen({
 		const ref = doc(database, "hospitalization", userName);
 		await deleteDoc(ref);
 		setStatus(null);
+		setSaving(false);
+	}
+
+	async function saveWard() {
+		setSaving(true);
+		const ref = doc(database, "hospitalization", userName);
+		const newStatus = Object.assign({}, status);
+		newStatus.ward = ward;
+		await setDoc(ref, newStatus);
+		setStatus(newStatus);
 		setSaving(false);
 	}
 
@@ -65,7 +91,7 @@ export default function InPatientScreen({
 	if (status.isDischarging) {
 		return (
 			<div style={{ padding: 20 }}>
-				<p>Patient will be discharged tomorrow</p>
+				<p>Patient will be discharged on {status.dischargeDate}.</p>
 				<Button
 					variant="danger"
 					style={{ marginRight: 10 }}
@@ -85,9 +111,68 @@ export default function InPatientScreen({
 		);
 	}
 
+	const wards = [
+		"1",
+		"2",
+		"3",
+		"4",
+		"5",
+		"6",
+		"11",
+		"12",
+		"14",
+		"16",
+		"17",
+		"18",
+	];
+
+	function WardSelector() {
+		const array = [];
+		wards.forEach((name) => {
+			array.push(
+				<Dropdown.Item
+					key={name}
+					active={ward === name}
+					onClick={() => {
+						setWard(name);
+					}}
+				>
+					{name}
+				</Dropdown.Item>
+			);
+		});
+		return array;
+	}
+
 	return (
-		<div style={{ padding: 20 }}>
+		<div style={{ padding: 20, display: "flex", flexDirection: "column" }}>
+			<b style={{ paddingBottom: 10, fontSize: 20 }}>Ward</b>
+			<InputGroup style={{ paddingBottom: 10 }}>
+				<Dropdown>
+					<Dropdown.Toggle id="ward" variant="outline-secondary">
+						{ward}
+					</Dropdown.Toggle>
+					<DropdownMenu>
+						<WardSelector />
+					</DropdownMenu>
+				</Dropdown>
+
+				<Button
+					variant="secondary"
+					style={{ width: "fit-content" }}
+					onClick={() => {
+						saveWard();
+					}}
+				>
+					<FaSave />
+				</Button>
+			</InputGroup>
+
+			<br />
+			<div className="line" />
+			<br />
 			<Button
+				style={{ width: "fit-content" }}
 				onClick={() => {
 					setHospitalized(true);
 				}}
@@ -100,5 +185,25 @@ export default function InPatientScreen({
 
 const defaultStatus = {
 	isDischarging: false,
-	ward: "",
+	ward: "1",
+	dischargeDate: null,
 };
+
+async function sendNotification(status, userToken) {
+	const message = {
+		notification: {
+			title: "Care Synopsis Alert",
+			body: "Patient will be discharged on " + status.dischargeDate + ".",
+		},
+		to: userToken,
+	};
+	await fetch("https://fcm.googleapis.com/fcm/send", {
+		method: "POST",
+		headers: {
+			Authorization:
+				"key=AAAA-fp04k4:APA91bGRXVM73uayUJ7pl85HQpomtql8WFar9pd9cEGopO98pS58BGVbFaV1E5Z47NPd1jz6P26TBzfbJ3P1PRdO7AJx5YPbLzo7Kz9-Kb62duMdckEGXQWmyn1v2pIIAEjhIjgQ0ACE",
+			"Content-Type": "application/json",
+		},
+		body: JSON.stringify(message),
+	});
+}
