@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { Form } from "react-bootstrap";
 import DaySelectorComponent from "./DaySelectorComponent";
+import MonitoringTypeComponent from "./MonitoringTypeComponent";
 import TimeSelectorComponent from "./TimeSelectorComponent";
 
 export default function IsMonitoringComponent({ article }) {
@@ -28,6 +29,8 @@ export default function IsMonitoringComponent({ article }) {
 					<br />
 					<b style={{ paddingBottom: 10, fontSize: 20 }}>Time</b>
 					<TimeSelectorComponent article={article} />
+					<br />
+					<MonitoringTypeComponent article={article} />
 					<br />
 				</>
 			) : null}

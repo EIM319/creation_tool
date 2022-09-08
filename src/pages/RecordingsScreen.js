@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import LoadingComponent from "../components/LoadingComponent";
-import { collection, getDocs } from "firebase/firestore/lite";
+import { doc, getDoc } from "firebase/firestore/lite";
 import { Row, Col } from "react-bootstrap";
 import RecordingsSelector from "../components/recordings/RecordingSelector";
 import RecordingList from "../components/recordings/RecordingList";
@@ -62,20 +62,18 @@ async function getRecordings(
 	setRecordings,
 	setSelectedRecording
 ) {
-	const ref = collection(database, "users", userName, "measurements");
-	const docs = (await getDocs(ref)).docs;
+	const ref = doc(database, "users", userName);
+	const result = await getDoc(ref);
 	const map = new Map();
-	if (docs.length > 0) {
-		const readings = docs[0].data().readings;
-		readings.forEach((reading) => {
-			if (!map.has(reading.item)) {
-				map.set(reading.item, [reading]);
-			} else {
-				map.set(reading.item, [...map.get(reading.item), reading]);
-			}
-		});
-		setSelectedRecording(map.entries().next().value);
-	}
+	const readings = result.data().readings;
+	readings.forEach((reading) => {
+		if (!map.has(reading.item)) {
+			map.set(reading.item, [reading]);
+		} else {
+			map.set(reading.item, [...map.get(reading.item), reading]);
+		}
+	});
+	setSelectedRecording(map.entries().next().value);
 	map.forEach((value, key) => {
 		value.sort((a, b) => {
 			return a.datetime - b.datetime;
