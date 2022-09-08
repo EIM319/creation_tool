@@ -26,10 +26,10 @@ export default function InPatientScreen({
 		}
 	}, [status]);
 
-	async function setHospitalized(isDischarging) {
+	async function setHospitalized(isDischarging, current) {
 		setSaving(true);
 		const ref = doc(database, "hospitalization", userName);
-		const newStatus = Object.assign({}, defaultStatus);
+		const newStatus = Object.assign({}, current);
 		newStatus.isDischarging = isDischarging;
 		if (isDischarging) {
 			var date = new Date();
@@ -83,7 +83,7 @@ export default function InPatientScreen({
 				<Button
 					variant="danger"
 					onClick={() => {
-						setHospitalized(false);
+						setHospitalized(false, defaultStatus);
 					}}
 				>
 					Confirm
@@ -106,7 +106,7 @@ export default function InPatientScreen({
 				<Button
 					variant="secondary"
 					onClick={() => {
-						setHospitalized(false);
+						setHospitalized(false, status);
 					}}
 				>
 					Cancel
@@ -189,7 +189,7 @@ export default function InPatientScreen({
 			<Button
 				style={{ width: "fit-content" }}
 				onClick={() => {
-					setHospitalized(true);
+					setHospitalized(true, status);
 				}}
 			>
 				Schedule Discharge
