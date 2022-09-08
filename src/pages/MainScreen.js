@@ -244,7 +244,7 @@ function SideNavBar({
 				</p>
 				<br />
 				<a
-					class="toggle"
+					className="toggle"
 					href={"https://eim319.web.app/home/" + userName}
 					target="_blank"
 					style={{ textDecoration: "none" }}

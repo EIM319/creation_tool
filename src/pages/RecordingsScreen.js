@@ -66,6 +66,10 @@ async function getRecordings(
 	const result = await getDoc(ref);
 	const map = new Map();
 	const readings = result.data().readings;
+	if (readings === undefined) {
+		setRecordings(map);
+		return;
+	}
 	readings.forEach((reading) => {
 		if (!map.has(reading.item)) {
 			map.set(reading.item, [reading]);

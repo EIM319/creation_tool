@@ -1,13 +1,7 @@
-import { Button, Dropdown, InputGroup } from "react-bootstrap";
+import { Button, Dropdown, InputGroup, Form } from "react-bootstrap";
 import { useState, useEffect } from "react";
 import LoadingComponent from "../components/LoadingComponent";
-import {
-	deleteDoc,
-	doc,
-	setDoc,
-	getDoc,
-	collection,
-} from "firebase/firestore/lite";
+import { deleteDoc, doc, setDoc, getDoc } from "firebase/firestore/lite";
 import DropdownMenu from "react-bootstrap/esm/DropdownMenu";
 import { FaSave } from "react-icons/fa";
 
@@ -19,6 +13,7 @@ export default function InPatientScreen({
 }) {
 	const [isSaving, setSaving] = useState(false);
 	const [ward, setWard] = useState("");
+	const [bed, setBed] = useState(1);
 
 	useEffect(() => {
 		setSaving(false);
@@ -27,6 +22,7 @@ export default function InPatientScreen({
 	useEffect(() => {
 		if (status !== null && status !== undefined) {
 			setWard(status.ward);
+			setBed(status.bed);
 		}
 	}, [status]);
 
@@ -61,6 +57,7 @@ export default function InPatientScreen({
 		const ref = doc(database, "hospitalization", userName);
 		const newStatus = Object.assign({}, status);
 		newStatus.ward = ward;
+		newStatus.bed = bed;
 		await setDoc(ref, newStatus);
 		setStatus(newStatus);
 		setSaving(false);
@@ -153,8 +150,11 @@ export default function InPatientScreen({
 
 	return (
 		<div style={{ padding: 20, display: "flex", flexDirection: "column" }}>
-			<b style={{ paddingBottom: 10, fontSize: 20 }}>Ward</b>
-			<InputGroup style={{ paddingBottom: 10 }}>
+			<b style={{ paddingBottom: 10, fontSize: 20 }}>Location</b>
+			<InputGroup style={{ paddingBottom: 10, width: 270 }}>
+				<InputGroup.Text id="inputGroup-sizing-sm">
+					Ward
+				</InputGroup.Text>
 				<Dropdown>
 					<Dropdown.Toggle id="ward" variant="outline-secondary">
 						{ward}
@@ -163,6 +163,14 @@ export default function InPatientScreen({
 						<WardSelector />
 					</DropdownMenu>
 				</Dropdown>
+				<InputGroup.Text id="inputGroup-sizing-sm">Bed</InputGroup.Text>
+				<Form.Control
+					type="Number"
+					value={bed}
+					onChange={(event) => {
+						setBed(event.target.value);
+					}}
+				/>
 
 				<Button
 					variant="secondary"
@@ -193,6 +201,7 @@ export default function InPatientScreen({
 const defaultStatus = {
 	isDischarging: false,
 	ward: "1",
+	bed: 1,
 	dischargeDate: null,
 };
 
