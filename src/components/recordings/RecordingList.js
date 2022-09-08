@@ -16,7 +16,7 @@ export default function RecordingList({ selectedRecording }) {
 			<Col className="card" style={{ padding: 20 }}>
 				<Row>
 					<Col>
-						<b>Date</b>
+						<b>Date/Time</b>
 					</Col>
 				</Row>
 				<div style={{ height: 300, overflowY: "auto" }}>{list}</div>
@@ -39,7 +39,7 @@ export default function RecordingList({ selectedRecording }) {
 						<b>Value</b>
 					</Col>
 					<Col>
-						<b>Date</b>
+						<b>Date/Time</b>
 					</Col>
 				</Row>
 				<div style={{ height: 300, overflowY: "auto" }}>{list}</div>
