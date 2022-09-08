@@ -28,17 +28,23 @@ export default function RecordingGraph({ selectedRecording }) {
 
 	if (selectedRecording === undefined) return null;
 
-	return (
-		<div className="card" style={{ padding: 20, height: 366 }}>
-			<ResponsiveContainer>
-				<LineChart width="100%" height={300} data={data}>
-					<Line type="monotone" dataKey="value" stroke="#8884d8" />
-					<XAxis dataKey="date" />
-					<YAxis />
-					<CartesianGrid stroke="#ccc" strokeDasharray="3 3" />
-					<Tooltip />
-				</LineChart>
-			</ResponsiveContainer>
-		</div>
-	);
+	if (selectedRecording[1][0].type === "Number") {
+		return (
+			<div className="card" style={{ padding: 20, height: 366 }}>
+				<ResponsiveContainer>
+					<LineChart width="100%" height={300} data={data}>
+						<Line
+							type="monotone"
+							dataKey="value"
+							stroke="#8884d8"
+						/>
+						<XAxis dataKey="date" />
+						<YAxis />
+						<CartesianGrid stroke="#ccc" strokeDasharray="3 3" />
+						<Tooltip />
+					</LineChart>
+				</ResponsiveContainer>
+			</div>
+		);
+	}
 }
