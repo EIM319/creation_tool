@@ -30,7 +30,7 @@ export default function DischargingComponent({
 					key={time}
 					active={dischargeTime === time}
 					onClick={() => {
-						setDischargeTime(time);
+						saveDischargeTime(time);
 					}}
 				>
 					{time}
@@ -48,13 +48,14 @@ export default function DischargingComponent({
 		setSaving(false);
 	}
 
-	async function saveDischargeTime() {
+	async function saveDischargeTime(newTime) {
 		setSaving(true);
 		const ref = doc(database, "hospitalization", userName);
 		const newStatus = Object.assign({}, status);
-		newStatus.dischargeTime = dischargeTime;
+		newStatus.dischargeTime = newTime;
 		await setDoc(ref, newStatus);
 		setStatus(newStatus);
+		setDischargeTime(newTime);
 		setSaving(false);
 	}
 
@@ -70,15 +71,6 @@ export default function DischargingComponent({
 					<DropdownMenu>
 						<TimeSelector />
 					</DropdownMenu>
-					<Button
-						variant="secondary"
-						style={{ width: "fit-content" }}
-						onClick={() => {
-							saveDischargeTime();
-						}}
-					>
-						<FaSave />
-					</Button>
 				</Dropdown>
 			</InputGroup>
 			<br />
