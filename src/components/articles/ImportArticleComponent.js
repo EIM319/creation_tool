@@ -63,7 +63,9 @@ export default function ImportArticleComponent({
 				>
 					<p style={{ fontSize: 13, margin: 0, paddingRight: 10 }}>
 						Unable to find what you need?{" "}
-						<Link to="/tool">Click Here</Link>
+						<Link to="/tool" target="_blank">
+							Click Here
+						</Link>
 					</p>
 				</div>
 				<Button
