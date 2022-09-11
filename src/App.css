@@ -24,6 +24,7 @@ p {
 	--nav-background: rgb(247, 247, 247);
 	--content-background: rgb(230, 230, 230);
 	--accent: rgb(12, 121, 235);
+	--accent-dark: rgb(29, 109, 194);
 }
 
 html {
