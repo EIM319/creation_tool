@@ -27,7 +27,7 @@ export default function EditArticleComponent({
 
 	useEffect(() => {
 		if (article === undefined) return;
-		setModifiedArticle(Object.assign({}, article));
+		setModifiedArticle(JSON.parse(JSON.stringify(article)));
 		setEditing(false);
 	}, [article]);
 

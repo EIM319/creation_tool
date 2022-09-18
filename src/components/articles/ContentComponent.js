@@ -15,9 +15,10 @@ export default function ContentComponent({
 	article,
 	setArticle,
 	index,
+	provided,
 }) {
 	const [type, setType] = useState();
-	const [value, setValue] = useState();
+	const [value, setValue] = useState("");
 
 	useEffect(() => {
 		setType(content[index].type);
@@ -27,6 +28,9 @@ export default function ContentComponent({
 	return (
 		<>
 			<InputGroup style={{ paddingBottom: 10 }}>
+				<InputGroup.Text {...provided.dragHandleProps}>
+					⋮⋮
+				</InputGroup.Text>
 				<Content
 					type={type}
 					value={value}
@@ -134,9 +138,11 @@ function Content({ type, value, setValue, content, index }) {
 		case "instruction": {
 			list.push(
 				<FormControl
+					style={{ resize: "none", height: "inherit" }}
 					as="textarea"
 					value={value}
 					onChange={(event) => {
+						event.target.style.height = `${event.target.scrollHeight}px`;
 						setValue(event.target.value);
 						content[index].content = event.target.value;
 					}}
@@ -147,10 +153,16 @@ function Content({ type, value, setValue, content, index }) {
 		case "note": {
 			list.push(
 				<FormControl
-					style={{ fontStyle: "italic" }}
+					style={{
+						fontStyle: "italic",
+						resize: "none",
+						height: "inherit",
+					}}
 					as="textarea"
 					value={value}
+					id="item"
 					onChange={(event) => {
+						event.target.style.height = `${event.target.scrollHeight}px`;
 						setValue(event.target.value);
 						content[index].content = event.target.value;
 					}}
@@ -164,6 +176,8 @@ function Content({ type, value, setValue, content, index }) {
 					style={{ fontSize: 20, fontWeight: 500 }}
 					value={value}
 					onChange={(event) => {
+						event.target.style.height = "inherit";
+						event.target.style.height = `${event.target.scrollHeight}px`;
 						setValue(event.target.value);
 						content[index].content = event.target.value;
 					}}
@@ -176,6 +190,8 @@ function Content({ type, value, setValue, content, index }) {
 				<FormControl
 					value={value}
 					onChange={(event) => {
+						event.target.style.height = "inherit";
+						event.target.style.height = `${event.target.scrollHeight}px`;
 						setValue(event.target.value);
 						content[index].content = event.target.value;
 					}}
