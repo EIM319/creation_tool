@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { Button } from "react-bootstrap";
 import { FaEye } from "react-icons/fa";
 import QRCode from "react-qr-code";
-import { Link, Route, Routes, useLocation } from "react-router-dom";
+import { Link, Navigate, Route, Routes, useLocation } from "react-router-dom";
 import ClearAllModal from "../components/clear/ClearAllModal";
 import PreviewModal from "../components/publish/PreviewModal";
 import PublishModal from "../components/publish/PublishModal";
@@ -14,6 +14,7 @@ import LabResultsScreen from "./LabResultsScreen";
 import MedicationScreen from "./MedicationScreen";
 import RecordingsScreen from "./RecordingsScreen";
 import { doc, getDoc } from "firebase/firestore/lite";
+import LoadingComponent from "../components/LoadingComponent";
 
 export default function MainScreen({
 	database,
@@ -42,6 +43,8 @@ export default function MainScreen({
 		getStatus(database, userName, setStatus);
 	}, [userName]);
 
+	if (status === undefined) return <LoadingComponent />;
+
 	return (
 		<div className="mainPage">
 			<SideNavBar
@@ -59,7 +62,7 @@ export default function MainScreen({
 			<div className="content">
 				<Routes>
 					<Route
-						path="/"
+						path="medication"
 						element={
 							<MedicationScreen
 								database={database}
@@ -115,6 +118,16 @@ export default function MainScreen({
 							/>
 						}
 					/>
+					<Route
+						path="/"
+						element={
+							status === null ? (
+								<Navigate to="medication" replace />
+							) : (
+								<Navigate to="inpatient" replace />
+							)
+						}
+					/>
 				</Routes>
 			</div>
 			<ClearAllModal
@@ -142,7 +155,7 @@ export default function MainScreen({
 var screenNames = [
 	{
 		name: "Medication",
-		path: "",
+		path: "medication",
 	},
 	{
 		name: "Article",
