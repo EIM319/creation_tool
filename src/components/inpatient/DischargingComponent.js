@@ -1,7 +1,6 @@
 import { Button, Dropdown, InputGroup } from "react-bootstrap";
 import { useState, useEffect } from "react";
 import { deleteDoc, doc, setDoc } from "firebase/firestore/lite";
-import { FaSave } from "react-icons/fa";
 import DropdownMenu from "react-bootstrap/esm/DropdownMenu";
 import DischargeInfoSelector from "./DischargeInfoSelector";
 
@@ -81,6 +80,14 @@ export default function DischargingComponent({
 				userName={userName}
 				database={database}
 			/>
+			<br />
+			{status.acknowledge === true ? (
+				<p style={{ fontWeight: 500 }}>Message has been read.</p>
+			) : (
+				<p style={{ fontWeight: 500 }}>
+					Patient's family has not read the message.
+				</p>
+			)}
 
 			<br />
 			<Button

@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Image, Spinner } from "react-bootstrap";
+import { Image, Spinner, Row, Col, Table } from "react-bootstrap";
 import YouTube from "./Youtube";
 
 export default function PreviewComponent({ article }) {
@@ -10,10 +10,30 @@ export default function PreviewComponent({ article }) {
 	}, [article]);
 
 	if (article === undefined || article.content === undefined) return null;
+	var timing = timingText(article);
+
+	console.log(article);
 
 	if (article.pdf !== undefined && article.pdf !== null) {
 		return (
-			<>
+			<div style={{ padding: "0px 30px 30px 30px", overflowY: "auto" }}>
+				{article.isMonitoring ? (
+					<Col>
+						<p style={{ fontWeight: 700, fontSize: 17 }}>
+							Schedule
+						</p>
+						{timing.length > 0 ? (
+							<p style={{ fontWeight: 500, fontSize: 13 }}>
+								{timing}
+							</p>
+						) : null}
+
+						<DayText article={article} />
+					</Col>
+				) : null}
+				<p style={{ fontSize: 17, fontWeight: 500 }}>
+					Recording Type: {article.recordingType}
+				</p>
 				{isLoading ? (
 					<div
 						style={{
@@ -22,7 +42,7 @@ export default function PreviewComponent({ article }) {
 							alignItems: "center",
 							justifyContent: "center",
 							width: "100%",
-							height: "85vh",
+							layoutWeight: 1,
 						}}
 					>
 						<Spinner animation="border" role="status" />
@@ -35,7 +55,7 @@ export default function PreviewComponent({ article }) {
 						setLoading(false);
 					}}
 				/>
-			</>
+			</div>
 		);
 	}
 
@@ -93,7 +113,89 @@ export default function PreviewComponent({ article }) {
 				overflowY: "auto",
 			}}
 		>
+			{article.isMonitoring ? (
+				<Col>
+					<p style={{ fontWeight: 700, fontSize: 17 }}>Schedule</p>
+					{timing.length > 0 ? (
+						<p style={{ fontWeight: 500, fontSize: 13 }}>
+							{timing}
+						</p>
+					) : null}
+
+					<DayText article={article} />
+				</Col>
+			) : null}
 			<div style={{ maxWidth: 700 }}>{components}</div>
 		</div>
 	);
+}
+
+function DayText({ article }) {
+	return (
+		<div style={{ padding: 10 }}>
+			<Table bordered>
+				<thead>
+					<tr style={{ textAlign: "center" }}>
+						<th style={{ fontSize: 13 }}>SUN</th>
+						<th style={{ fontSize: 13 }}>MON</th>
+						<th style={{ fontSize: 13 }}>TUE</th>
+						<th style={{ fontSize: 13 }}>WED</th>
+						<th style={{ fontSize: 13 }}>THU</th>
+						<th style={{ fontSize: 13 }}>FRI</th>
+						<th style={{ fontSize: 13 }}>SAT</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr style={{ textAlign: "center" }}>
+						<th>{article.days[0] ? "✓" : ""}</th>
+						<th>{article.days[1] ? "✓" : ""}</th>
+						<th>{article.days[2] ? "✓" : ""}</th>
+						<th>{article.days[3] ? "✓" : ""}</th>
+						<th>{article.days[4] ? "✓" : ""}</th>
+						<th>{article.days[5] ? "✓" : ""}</th>
+						<th>{article.days[6] ? "✓" : ""}</th>
+					</tr>
+				</tbody>
+			</Table>
+		</div>
+	);
+}
+
+function timingText(article) {
+	const array = [];
+	if (article.time[0]) {
+		array.push("before breakfast");
+	}
+	if (article.time[1]) {
+		array.push("after breakfast");
+	}
+	if (article.time[2]) {
+		array.push("before lunch");
+	}
+	if (article.time[3]) {
+		array.push("after lunch");
+	}
+	if (article.time[4]) {
+		array.push("before dinner");
+	}
+	if (article.time[5]) {
+		array.push("after dinner");
+	}
+	if (article.time[6]) {
+		array.push("before sleep");
+	}
+	if (array.length === 0) {
+		return "";
+	} else if (array.length === 1) {
+		return array[0];
+	} else {
+		var string = "";
+		var index = 0;
+		while (index < array.length - 2) {
+			string += array[index] + ", ";
+			index++;
+		}
+		string += array[index] + " and " + array[index + 1];
+		return string;
+	}
 }

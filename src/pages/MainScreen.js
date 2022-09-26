@@ -158,7 +158,7 @@ var screenNames = [
 		path: "medication",
 	},
 	{
-		name: "Article",
+		name: "Patient Education",
 		path: "article",
 	},
 	{
