@@ -12,8 +12,6 @@ export default function PreviewComponent({ article }) {
 	if (article === undefined || article.content === undefined) return null;
 	var timing = timingText(article);
 
-	console.log(article);
-
 	if (article.pdf !== undefined && article.pdf !== null) {
 		return (
 			<div style={{ padding: "0px 30px 30px 30px", overflowY: "auto" }}>
