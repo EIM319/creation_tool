@@ -9,9 +9,11 @@ import { toast } from "react-toastify";
 export default function AdditionalNotesScreen({ database, userName }) {
 	const [note, setNote] = useState();
 	const [isSaving, setSaving] = useState(false);
+	const [medication, setMedication] = useState([]);
+	const [monitoring, setMonitoring] = useState([]);
 
 	useEffect(() => {
-		getNote(database, userName, setNote);
+		getNote(database, userName, setNote, setMedication, setMonitoring);
 	}, []);
 
 	if (note === undefined) return <LoadingComponent />;
@@ -24,6 +26,8 @@ export default function AdditionalNotesScreen({ database, userName }) {
 				note={note}
 				setNote={setNote}
 				index={i}
+				medication={medication}
+				monitoring={monitoring}
 			/>
 		);
 	}
@@ -97,9 +101,17 @@ export default function AdditionalNotesScreen({ database, userName }) {
 	);
 }
 
-async function getNote(database, userName, setNote) {
+async function getNote(
+	database,
+	userName,
+	setNote,
+	setMedication,
+	setMonitoring
+) {
 	const ref = doc(database, "users", userName);
 	const result = await getDoc(ref);
 	const data = result.data();
 	setNote(data.additional_notes);
+	setMedication(data.medication);
+	setMonitoring(data.monitoring);
 }
