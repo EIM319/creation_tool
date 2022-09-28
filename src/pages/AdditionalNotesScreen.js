@@ -84,8 +84,11 @@ export default function AdditionalNotesScreen({ database, userName }) {
 					<Col xs={2} style={{ padding: 5 }}>
 						<b>Title</b>
 					</Col>
-					<Col xs={9} style={{ padding: 5 }}>
+					<Col xs={6} style={{ padding: 5 }}>
 						<b>Content</b>
+					</Col>
+					<Col xs={3} style={{ padding: 5 }}>
+						<b>Linked Item</b>
 					</Col>
 				</Row>
 				{noteList}

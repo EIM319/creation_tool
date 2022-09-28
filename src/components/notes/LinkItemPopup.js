@@ -30,6 +30,27 @@ export default function LinkItemPopup({
 		return itemList;
 	}
 
+	function MedicationList() {
+		var itemList = [];
+		medication.forEach((article) => {
+			itemList.push(
+				<p
+					className="toggle"
+					onClick={() => {
+						setAttachedType("monitoring");
+						setAttachedItem(article.name);
+						additionalNotes.attachedType = "monitoring";
+						additionalNotes.attachedItem = article.name;
+						setShow(false);
+					}}
+				>
+					{article.name}
+				</p>
+			);
+		});
+		return itemList;
+	}
+
 	return (
 		<Modal
 			show={show}
@@ -43,6 +64,7 @@ export default function LinkItemPopup({
 			</Modal.Header>
 			<Modal.Body>
 				<MonitoringList />
+				<MedicationList />
 			</Modal.Body>
 			<Modal.Footer>
 				<Button
