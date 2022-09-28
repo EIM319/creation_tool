@@ -37,9 +37,9 @@ export default function LinkItemPopup({
 				<p
 					className="toggle"
 					onClick={() => {
-						setAttachedType("monitoring");
+						setAttachedType("medication");
 						setAttachedItem(article.name);
-						additionalNotes.attachedType = "monitoring";
+						additionalNotes.attachedType = "medication";
 						additionalNotes.attachedItem = article.name;
 						setShow(false);
 					}}
