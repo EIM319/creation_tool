@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { Modal, Button } from "react-bootstrap";
 
 export default function LinkItemPopup({
@@ -9,6 +10,59 @@ export default function LinkItemPopup({
 	setAttachedItem,
 	additionalNotes,
 }) {
+	const [isMonitoring, setMonitoring] = useState(true);
+
+	function Selector() {
+		if (isMonitoring) {
+			return (
+				<div style={{ display: "flex", flexDirection: "row" }}>
+					<p
+						style={{
+							padding: "10px 20px",
+							background: "var(--accent)",
+							color: "white",
+							borderRadius: 10,
+						}}
+					>
+						Patient Education
+					</p>
+					<p
+						className="toggle"
+						style={{ padding: "10px 20px" }}
+						onClick={() => {
+							setMonitoring(false);
+						}}
+					>
+						Medication
+					</p>
+				</div>
+			);
+		}
+		return (
+			<div style={{ display: "flex", flexDirection: "row" }}>
+				<p
+					className="toggle"
+					style={{ padding: "10px 20px" }}
+					onClick={() => {
+						setMonitoring(true);
+					}}
+				>
+					Patient Education
+				</p>
+				<p
+					style={{
+						padding: "10px 20px",
+						background: "var(--accent)",
+						color: "white",
+						borderRadius: 10,
+					}}
+				>
+					Medication
+				</p>
+			</div>
+		);
+	}
+
 	function MonitoringList() {
 		var itemList = [];
 		monitoring.forEach((article) => {
@@ -23,7 +77,7 @@ export default function LinkItemPopup({
 						setShow(false);
 					}}
 				>
-					{article.name}
+					• {article.name}
 				</p>
 			);
 		});
@@ -37,14 +91,14 @@ export default function LinkItemPopup({
 				<p
 					className="toggle"
 					onClick={() => {
-						setAttachedType("monitoring");
+						setAttachedType("medication");
 						setAttachedItem(article.name);
-						additionalNotes.attachedType = "monitoring";
+						additionalNotes.attachedType = "medication";
 						additionalNotes.attachedItem = article.name;
 						setShow(false);
 					}}
 				>
-					{article.name}
+					• {article.name}
 				</p>
 			);
 		});
@@ -62,9 +116,11 @@ export default function LinkItemPopup({
 			<Modal.Header>
 				<Modal.Title>Link Medication / Patient Education</Modal.Title>
 			</Modal.Header>
-			<Modal.Body>
-				<MonitoringList />
-				<MedicationList />
+			<Modal.Body style={{ height: "50vh" }}>
+				<Selector />
+				<div style={{ padding: 10, overflowY: "auto" }}>
+					{isMonitoring ? <MonitoringList /> : <MedicationList />}
+				</div>
 			</Modal.Body>
 			<Modal.Footer>
 				<Button
