@@ -66,6 +66,10 @@ export default function LabResultsScreen({ database, userName }) {
 					<FaSave size={30} onClick={save} className="toggle" />
 				)}
 			</div>
+			<div> 
+				<p style={{ fontSize: 15, marginLeft: 35, marginBottom: 0 }}> Note: Patients will be able to view their full lab results via Health Hub </p>
+				<p style={{ fontSize: 15, marginLeft: 35, marginTop: 0 }}> The below section is only for extra notes from the lab result to highlight to the patients  </p>
+			</div>
 			<div
 				style={{
 					display: "flex",
