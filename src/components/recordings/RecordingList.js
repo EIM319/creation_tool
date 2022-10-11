@@ -5,18 +5,21 @@ export default function RecordingList({ selectedRecording }) {
 	const list = [];
 	if (selectedRecording[1][0].type === "Check-In") {
 		selectedRecording[1].forEach((item) => {
-			const date = item.date.split(" GMT");
 			list.push(
 				<Row style={{ paddingTop: 10 }}>
-					<Col>{date[0]}</Col>
+					<Col xs={4}>{getTimeText(item.timeSegment)}</Col>
+					<Col>{item.date.substring(0, 15)}</Col>
 				</Row>
 			);
 		});
 		return (
 			<Col className="card" style={{ padding: 20 }}>
 				<Row>
+					<Col xs={4}>
+						<b>Time</b>
+					</Col>
 					<Col>
-						<b>Date/Time</b>
+						<b>Date</b>
 					</Col>
 				</Row>
 				<div style={{ height: 300, overflowY: "auto" }}>{list}</div>
@@ -24,11 +27,11 @@ export default function RecordingList({ selectedRecording }) {
 		);
 	} else {
 		selectedRecording[1].forEach((item) => {
-			const date = item.date.split(" GMT");
 			list.push(
 				<Row style={{ paddingTop: 10 }}>
+					<Col>{getTimeText(item.timeSegment)}</Col>
+					<Col>{item.date.substring(0, 15)}</Col>
 					<Col>{item.value}</Col>
-					<Col>{date[0]}</Col>
 				</Row>
 			);
 		});
@@ -36,14 +39,31 @@ export default function RecordingList({ selectedRecording }) {
 			<Col className="card" style={{ padding: 20 }}>
 				<Row>
 					<Col>
-						<b>Value</b>
+						<b>Time</b>
 					</Col>
 					<Col>
-						<b>Date/Time</b>
+						<b>Date</b>
+					</Col>
+					<Col>
+						<b>Value</b>
 					</Col>
 				</Row>
 				<div style={{ height: 300, overflowY: "auto" }}>{list}</div>
 			</Col>
 		);
 	}
+}
+
+const timeText = [
+	"Before Breakfast",
+	"After Breakfast",
+	"Before Lunch",
+	"After Lunch",
+	"Before Dinner",
+	"After Dinner",
+	"Before Sleep",
+];
+function getTimeText(index) {
+	if (index === undefined || index === null) return "Any Time";
+	return timeText[index];
 }
