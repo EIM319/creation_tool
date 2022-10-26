@@ -52,7 +52,7 @@ export default function HomeMonitoringScreen({ database, userName, storage }) {
 								setOpenModal(true);
 							}}
 						>
-							Add From Library
+							Add Patient Education
 						</Button>
 					</div>
 				</Col>
