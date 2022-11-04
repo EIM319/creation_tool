@@ -30,6 +30,9 @@ export default function PreviewComponent({ article }) {
 					</Col>
 				) : null}
 				<p style={{ fontSize: 17, fontWeight: 500 }}>
+					Purpose: {article.purpose}
+				</p>
+				<p style={{ fontSize: 17, fontWeight: 500 }}>
 					Recording Type: {article.recordingType}
 				</p>
 				{isLoading ? (
@@ -123,6 +126,12 @@ export default function PreviewComponent({ article }) {
 					<DayText article={article} />
 				</Col>
 			) : null}
+			<p style={{ fontSize: 17, fontWeight: 500 }}>
+				Purpose: {article.purpose}
+			</p>
+			<p style={{ fontSize: 17, fontWeight: 500 }}>
+				Recording Type: {article.recordingType}
+			</p>
 			<div style={{ maxWidth: 700 }}>{components}</div>
 		</div>
 	);
