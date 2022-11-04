@@ -8,7 +8,7 @@ export default function RecordingList({ selectedRecording }) {
 			list.push(
 				<Row style={{ paddingTop: 10 }}>
 					<Col xs={4}>{getTimeText(item.timeSegment)}</Col>
-					<Col>{item.date.substring(0, 15)}</Col>
+					<Col>{item.date.substring(0, 10)}</Col>
 				</Row>
 			);
 		});
@@ -30,7 +30,7 @@ export default function RecordingList({ selectedRecording }) {
 			list.push(
 				<Row style={{ paddingTop: 10 }}>
 					<Col>{getTimeText(item.timeSegment)}</Col>
-					<Col>{item.date.substring(0, 15)}</Col>
+					<Col>{item.date.substring(0, 10)}</Col>
 					<Col>{item.value}</Col>
 				</Row>
 			);
