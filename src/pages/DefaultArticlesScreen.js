@@ -167,7 +167,7 @@ export default function DefaultArticleScreen({ database, storage }) {
 									setSelectedArticle(monitoring[0]);
 								}}
 							>
-								Article
+								Patient Education
 							</Row>
 							<Row
 								className={
@@ -210,7 +210,7 @@ export default function DefaultArticleScreen({ database, storage }) {
 								onClick={addArticle}
 								style={{ width: "100%" }}
 							>
-								Add Article
+								Add New
 							</Button>
 						</Col>
 						{viewingScreen === 0 ? (
@@ -220,7 +220,7 @@ export default function DefaultArticleScreen({ database, storage }) {
 									onClick={addPdf}
 									style={{ width: "100%" }}
 								>
-									Add PDF
+									Add New PDF
 								</Button>
 							</Col>
 						) : null}

@@ -34,7 +34,7 @@ export default function ImportArticleComponent({
 			}}
 		>
 			<Modal.Header closeButton>
-				<Modal.Title>Get Article</Modal.Title>
+				<Modal.Title>Get Patient Education</Modal.Title>
 			</Modal.Header>
 			<Modal.Body>
 				<Form.Control
